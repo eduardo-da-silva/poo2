@@ -48,3 +48,13 @@ Antes de escrever qualquer linha de código precisamos responder algumas pergunt
 Responder corretamente essas perguntas costuma ser muito mais importante do que escrever rapidamente centenas de linhas de código.
 
 Um projeto bem modelado tende a evoluir naturalmente. Um projeto mal modelado costuma acumular problemas a cada nova funcionalidade. Por esse motivo, nossa primeira atividade será compreender o domínio do problema antes de iniciar a implementação.
+
+---
+
+## Aplicando ao Projeto Financeiro
+
+Ao longo do curso, ao final de cada seção, você encontrará uma pequena reflexão sobre como aplicar o mesmo conceito ao Sistema de Controle Financeiro Pessoal. O objetivo não é copiar o código. É transferir o raciocínio. Fique atento a essas seções — elas são a chave para realmente aprender os princípios, e não apenas repetir exemplos.
+
+---
+
+Antes de começarmos a modelar, precisamos entender os dois projetos que guiarão nosso semestre.

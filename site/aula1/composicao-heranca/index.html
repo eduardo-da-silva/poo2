@@ -304,7 +304,7 @@
   <span class="md-ellipsis">
     
   
-  Aula 1 - Introdução ao Curso
+  Aula 1 — Introdução ao Curso
 
     
   </span>
@@ -325,7 +325,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-  Aula 1 - Introdução ao Curso
+  Aula 1 — Introdução ao Curso
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -588,6 +588,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#aplicando-ao-projeto-financeiro" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Aplicando ao Projeto Financeiro
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -727,6 +738,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#aplicando-ao-projeto-financeiro" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Aplicando ao Projeto Financeiro
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -794,7 +816,7 @@
           
   
   <span class="md-ellipsis">
-    Aula 1 - Introdução ao Curso
+    Aula 1 — Introdução ao Curso
   </span>
 
         </a>
@@ -820,6 +842,7 @@
 
 
 <h1 id="composicao-ou-heranca">Composição ou herança?<a class="headerlink" href="#composicao-ou-heranca" title="Permanent link">&para;</a></h1>
+<p>No arquivo anterior modelamos as primeiras entidades. Observamos que <code>Carrinho</code> contém <code>ItemCarrinho</code>, e que <code>ItemCarrinho</code> referencia <code>Produto</code>. Mas que tipo de relacionamento é cada um desses? É aqui que precisamos diferenciar <strong>composição</strong> de <strong>herança</strong>.</p>
 <p>Observe as classes <code>Carrinho</code> e <code>ItemCarrinho</code>. Seria correto fazer?</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ItemCarrinho</span><span class="p">(</span><span class="n">Carrinho</span><span class="p">):</span>  <span class="c1"># ERRADO!</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="o">...</span>
@@ -1041,6 +1064,10 @@
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Percentual deve estar entre 0 e 100&quot;</span><span class="p">)</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
 </span></code></pre></div>
+<hr />
+<h2 id="aplicando-ao-projeto-financeiro">Aplicando ao Projeto Financeiro<a class="headerlink" href="#aplicando-ao-projeto-financeiro" title="Permanent link">&para;</a></h2>
+<p>No E-Commerce, temos <code>Carrinho *--&gt; ItemCarrinho</code> (composição) e <code>ItemCarrinho --&gt; Produto</code> (associação). Identifique no sistema financeiro quais relacionamentos seriam composição e quais seriam associação. Por exemplo: uma <code>Carteira</code> <strong>contém</strong> <code>Investimentos</code>? Ou apenas <strong>referencia</strong>? Por quê?</p>
+<hr />
 <p>Nas próximas aulas iniciaremos a implementação completa do nosso sistema.</p>
 
 

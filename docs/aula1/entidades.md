@@ -60,6 +60,10 @@ classDiagram
 
     É importante aprender uma lição logo no início: **software evolui**. Não existe obrigação de modelar todo o sistema antes de começar. Modelaremos apenas o suficiente para resolver o problema atual.
 
+!!! tip "Simplificação nesta versão"
+
+    Você notou que `Produto` possui `quantidade_estoque`? Nesta primeira versão mantivemos a quantidade no próprio produto por simplicidade. Futuramente veremos que o estoque merece uma classe própria com regras específicas — mas isso ficará para uma aula mais adiante.
+
 ---
 
 ## Um produto conhece seu carrinho?
@@ -71,13 +75,13 @@ Imagine um produto chamado "Notebook Gamer". Ele precisa saber em quais carrinho
 ```python
 # Correto: Produto não sabe quem o colocou no carrinho
 class Produto:
-    def __init__(self, nome, preco, quantidade_estoque, categoria):
+    def __init__(self, nome: str, preco: float, quantidade_estoque: int, categoria: "Categoria") -> None:
         self.nome = nome
         self.preco = preco
         self.quantidade_estoque = quantidade_estoque
         self.categoria = categoria  # Sabe sua categoria, mas não seus carrinhos
 
-    def esta_disponivel(self):
+    def esta_disponivel(self) -> bool:
         return self.quantidade_estoque > 0
 ```
 
@@ -89,10 +93,10 @@ class Produto:
 
 ```python
 class Carrinho:
-    def __init__(self):
+    def __init__(self) -> None:
         self.itens = []  # O carrinho conhece seus itens
 
-    def adicionar_item(self, produto, quantidade):
+    def adicionar_item(self, produto: "Produto", quantidade: int) -> None:
         ...
 ```
 
@@ -105,7 +109,7 @@ Essa costuma ser uma dúvida muito comum. Por que não armazenar diretamente uma
 ```python
 class Carrinho:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.produtos = []  # Problema: como representar quantidade?
 ```
 
@@ -145,3 +149,31 @@ Antes de prosseguir, tente identificar você mesmo os conceitos envolvidos na se
     - Pagamento (boleto bancário)
 
     Perceba como a mesma estrutura começa a surgir naturalmente, independentemente dos detalhes específicos da história.
+
+---
+
+## Exercícios
+
+### Nível 1 — Fixação
+
+1. No diagrama de classes desta seção, identifique quais relacionamentos são de **composição** e quais são de **associação**. Justifique cada escolha.
+2. Adicione um atributo `descricao: str` à classe `Produto` e explique por que ele pertence a essa classe.
+
+### Nível 2 — Aplicação
+
+3. Modele o relacionamento entre `Cliente` e `Endereco`. Cada cliente pode ter um ou mais endereços (entrega, cobrança). É composição ou associação? Justifique.
+4. Imagine que o carrinho precise registrar a data em que cada item foi adicionado. Onde esse atributo deveria ficar? Por quê?
+
+### Nível 3 — Desafio
+
+5. No sistema financeiro, existe um relacionamento semelhante a `Carrinho *--> ItemCarrinho`? Pense em uma `Carteira` que contém `Investimentos`, ou um `Orçamento` que contém `CategoriasDeGasto`. Modele esse relacionamento e justifique se é composição ou associação.
+
+---
+
+## Aplicando ao Projeto Financeiro
+
+No E-Commerce, `ItemCarrinho` surgiu porque a simples lista de `Produto` não era suficiente para representar quantidade e preço no momento da compra. Existe alguma situação semelhante no sistema financeiro — onde um relacionamento simples entre dois objetos precisaria se tornar uma classe própria?
+
+---
+
+Agora que conhecemos as entidades e seus relacionamentos, vamos aprofundar a diferença entre composição e herança antes de escrever código.

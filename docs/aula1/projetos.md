@@ -26,7 +26,6 @@ mindmap
       Processamento
     Pós-venda
       Pedidos
-      Notas fiscais
       Notificações
     Qualidade
       Persistência
@@ -46,7 +45,6 @@ Entre as funcionalidades previstas estão:
 - Formas de pagamento
 - Processamento de pedidos
 - Controle de estoque
-- Emissão de notas simplificadas
 - Notificações
 - Persistência dos dados
 - Testes automatizados
@@ -128,3 +126,13 @@ Ao aprender a distribuir responsabilidades corretamente entre classes, reduzir a
 !!! info "Foco do curso"
 
     Por esse motivo, durante as aulas discutiremos muito mais **por que determinada solução foi escolhida** do que simplesmente **como escrevê-la em Python**.
+
+---
+
+## Aplicando ao Projeto Financeiro
+
+Antes de prosseguir, pense no sistema financeiro que você desenvolverá individualmente. Se uma classe representa um conceito do domínio, quais seriam as primeiras classes de um sistema de controle financeiro? Que perguntas você faria para descobrir essas classes?
+
+---
+
+Agora que conhecemos os dois projetos que guiarão nosso semestre, vamos revisar rapidamente os conceitos de POO que utilizaremos.

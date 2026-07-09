@@ -19,11 +19,11 @@ Imagine que alguém diga:
 Um desenvolvedor iniciante normalmente abre a IDE e começa a criar classes:
 
 ```python
-class Produto:
+class Produto:  # Exemplo do que NÃO fazer
     pass
 
 
-class Cliente:
+class Cliente:  # Criar classes sem entender o domínio
     pass
 
 
@@ -148,3 +148,13 @@ Agora pense: quais objetos participaram dessa história? Provavelmente você res
 - Pagamento
 
 Perceba que esses objetos surgiram naturalmente da narrativa. Essa é uma excelente técnica para descobrir entidades de um domínio.
+
+---
+
+## Aplicando ao Projeto Financeiro
+
+Crie uma narrativa semelhante para o sistema financeiro. Imagine um usuário chamado "Maria" controlando suas finanças. Ela registra uma receita, categoriza um gasto, define um orçamento mensal. Que objetos surgem naturalmente dessa história? Liste-os antes de prosseguir.
+
+---
+
+Agora que compreendemos o domínio, vamos modelar as primeiras entidades do nosso sistema.

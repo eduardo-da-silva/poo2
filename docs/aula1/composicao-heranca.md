@@ -1,5 +1,7 @@
 # Composição ou herança?
 
+No arquivo anterior modelamos as primeiras entidades. Observamos que `Carrinho` contém `ItemCarrinho`, e que `ItemCarrinho` referencia `Produto`. Mas que tipo de relacionamento é cada um desses? É aqui que precisamos diferenciar **composição** de **herança**.
+
 Observe as classes `Carrinho` e `ItemCarrinho`. Seria correto fazer?
 
 ```python
@@ -179,5 +181,13 @@ class Produto:
             raise ValueError("Percentual deve estar entre 0 e 100")
         self.preco -= self.preco * (percentual / 100)
 ```
+
+---
+
+## Aplicando ao Projeto Financeiro
+
+No E-Commerce, temos `Carrinho *--> ItemCarrinho` (composição) e `ItemCarrinho --> Produto` (associação). Identifique no sistema financeiro quais relacionamentos seriam composição e quais seriam associação. Por exemplo: uma `Carteira` **contém** `Investimentos`? Ou apenas **referencia**? Por quê?
+
+---
 
 Nas próximas aulas iniciaremos a implementação completa do nosso sistema.

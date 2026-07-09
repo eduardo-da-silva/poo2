@@ -6,10 +6,6 @@
 
 Bem-vindo à disciplina de **Programação Orientada a Objetos II**. Este site reúne o material didático utilizado durante o semestre, organizado no formato de livro-texto para acompanhamento das aulas.
 
-## Sobre o curso
-
-Nosso objetivo não é apenas aprender novos recursos da linguagem Python. Nosso objetivo é aprender a **projetar software**. Ao longo do semestre veremos como tomar decisões de projeto, distribuir responsabilidades entre classes, reduzir acoplamento, aumentar coesão e construir sistemas que possam crescer sem se transformar em um conjunto de códigos difíceis de entender e manter.
-
 ## Bem-vindo ao curso
 
 Até este momento da sua formação, você já aprendeu a utilizar Python, funções, módulos, estruturas de dados, tratamento de exceções, orientação a objetos e diversos recursos da linguagem.
@@ -24,9 +20,7 @@ Este curso foi pensado exatamente para preencher essa lacuna.
 
     Nosso objetivo não é apenas aprender novos recursos da linguagem Python. Nosso objetivo é aprender a **projetar software**.
 
-Ao longo do semestre veremos como tomar decisões de projeto, distribuir responsabilidades entre classes, reduzir acoplamento, aumentar coesão e construir sistemas que possam crescer sem se transformar em um conjunto de códigos difíceis de entender e manter.
-
-Em outras palavras, nosso foco será aprender a pensar como um **arquiteto de software**.
+Ao longo do semestre veremos como tomar decisões de projeto, distribuir responsabilidades entre classes, reduzir acoplamento, aumentar coesão e construir sistemas que possam crescer sem se transformar em um conjunto de códigos difíceis de entender e manter. Em outras palavras, nosso foco será aprender a pensar como um **arquiteto de software**.
 
 ---
 
