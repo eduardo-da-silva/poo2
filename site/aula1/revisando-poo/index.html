@@ -1,0 +1,1957 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Eduardo da Silva">
+      
+      
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/aula1/revisando-poo/">
+      
+      
+        <link rel="prev" href="../projetos/">
+      
+      
+        <link rel="next" href="../dominio/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/favicon.svg">
+      <meta name="generator" content="zensical-0.0.48">
+    
+    
+      
+        <title>Revisando Orientação a Objetos - Programação Orientada a Objetos II</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.62c9b9cc.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.dfe2e883.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navegação"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#revisando-orientacao-a-objetos" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Programação Orientada a Objetos II" class="md-header__button md-logo" aria-label="Programação Orientada a Objetos II" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navegação">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programação Orientada a Objetos II
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Revisando Orientação a Objetos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Pesquisar">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Pesquisar">
+  <button type="button" class="md-search__button">
+    Pesquisar
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/eduardo-da-silva/poo2" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/poo2
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Programação Orientada a Objetos II" class="md-nav__button md-logo" aria-label="Programação Orientada a Objetos II" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+
+    </a>
+    Programação Orientada a Objetos II
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/eduardo-da-silva/poo2" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/poo2
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Início
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Aula 1 - Introdução ao Curso
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Aula 1 - Introdução ao Curso
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../projetos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Projetos da disciplina
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Revisando POO
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Revisando POO
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetos-representam-conceitos-do-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Objetos representam conceitos do domínio
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes-existem-para-representar-comportamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Classes existem para representar comportamento
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objetos-ricos-e-objetos-anemicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Objetos ricos e objetos anêmicos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encapsulamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Encapsulamento
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsabilidade-das-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Responsabilidade das classes
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coesao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Coesão
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Coesão">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-baixa-coesao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemplo: baixa coesão
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrica-lcom-lack-of-cohesion-of-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Métrica LCOM — <em>Lack of Cohesion of Methods</em>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refatorando-alta-coesao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Refatorando: alta coesão
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Acoplamento
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Acoplamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metricas-de-acoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Métricas de acoplamento
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métricas de acoplamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-alta-dependencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemplo: alta dependência
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refatorando-baixo-acoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Refatorando: baixo acoplamento
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composicao-e-heranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Composição e Herança
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Composição e Herança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#heranca-e-um" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Herança (é um)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicao-possui-um-e-formado-por" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Composição (possui um / é formado por)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Comparação
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uma-ultima-reflexao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Uma última reflexão
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dominio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Conhecendo o domínio
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entidades/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Primeiras entidades
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../composicao-heranca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Composição ou herança
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetos-representam-conceitos-do-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Objetos representam conceitos do domínio
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes-existem-para-representar-comportamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Classes existem para representar comportamento
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objetos-ricos-e-objetos-anemicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Objetos ricos e objetos anêmicos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encapsulamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Encapsulamento
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#responsabilidade-das-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Responsabilidade das classes
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coesao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Coesão
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Coesão">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-baixa-coesao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemplo: baixa coesão
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrica-lcom-lack-of-cohesion-of-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Métrica LCOM — <em>Lack of Cohesion of Methods</em>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refatorando-alta-coesao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Refatorando: alta coesão
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Acoplamento
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Acoplamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metricas-de-acoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Métricas de acoplamento
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métricas de acoplamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-alta-dependencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemplo: alta dependência
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refatorando-baixo-acoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Refatorando: baixo acoplamento
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composicao-e-heranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Composição e Herança
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Composição e Herança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#heranca-e-um" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Herança (é um)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicao-possui-um-e-formado-por" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Composição (possui um / é formado por)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Comparação
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uma-ultima-reflexao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Uma última reflexão
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegação" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    Aula 1 - Introdução ao Curso
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/aula1/revisando-poo.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="revisando-orientacao-a-objetos">Revisando Orientação a Objetos<a class="headerlink" href="#revisando-orientacao-a-objetos" title="Permanent link">&para;</a></h1>
+<p>Uma definição bastante conhecida diz que Programação Orientada a Objetos é um paradigma baseado em objetos que encapsulam dados e comportamentos. Embora essa definição esteja correta, ela ainda é insuficiente.</p>
+<p>Na prática, desenvolver orientado a objetos significa <strong>dividir um problema complexo em pequenos objetos</strong>, cada um responsável por uma parte do sistema. Cada objeto possui um conjunto limitado de responsabilidades. Esses objetos colaboram entre si para resolver problemas maiores.</p>
+<div class="admonition warning">
+<p class="admonition-title">Sinal de alerta</p>
+<p>Uma consequência importante dessa abordagem é que <strong>nenhum objeto deve tentar resolver tudo sozinho</strong>. Quando encontramos uma classe enorme, com centenas ou milhares de linhas de código e dezenas de responsabilidades diferentes, normalmente estamos diante de um problema de projeto.</p>
+</div>
+<hr />
+<h2 id="objetos-representam-conceitos-do-dominio">Objetos representam conceitos do domínio<a class="headerlink" href="#objetos-representam-conceitos-do-dominio" title="Permanent link">&para;</a></h2>
+<p>Observe as seguintes classes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">pass</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Cliente</span><span class="p">:</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">pass</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Carrinho</span><span class="p">:</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">pass</span>
+</span></code></pre></div>
+<p>Esses nomes não foram escolhidos por acaso. Eles fazem parte da linguagem utilizada pelas pessoas que trabalham em uma loja virtual. Essa ideia é extremamente importante.</p>
+<div class="admonition tip">
+<p class="admonition-title">A linguagem do domínio</p>
+<p>Sempre que possível, nossas classes devem representar conceitos reais do domínio. Quando um especialista da área conversa com um desenvolvedor, ambos deveriam compreender o significado dessas classes.</p>
+<p>Se começarmos a criar classes chamadas <code>Processador123</code>, <code>UtilitarioGlobal</code>, <code>SistemaManager</code> ou <code>ClasseAuxiliar</code>, provavelmente estamos nos afastando da linguagem do domínio.</p>
+</div>
+<hr />
+<h2 id="classes-existem-para-representar-comportamento">Classes existem para representar comportamento<a class="headerlink" href="#classes-existem-para-representar-comportamento" title="Permanent link">&para;</a></h2>
+<p>Um erro bastante comum entre iniciantes é imaginar que uma classe serve apenas para armazenar dados.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="mi">0</span>
+</span></code></pre></div>
+<p>Essa classe praticamente funciona como um dicionário. Ela não possui comportamento. Ela apenas guarda informações.</p>
+<p>Agora imagine um produto que sabe responder perguntas sobre si mesmo:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">produto</span><span class="o">.</span><span class="n">esta_disponivel</span><span class="p">()</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">produto</span><span class="o">.</span><span class="n">aplicar_desconto</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">produto</span><span class="o">.</span><span class="n">alterar_preco</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">produto</span><span class="o">.</span><span class="n">aumentar_preco</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Agora estamos começando a utilizar objetos da maneira como foram concebidos. Objetos possuem <strong>estado</strong>, mas também possuem <strong>comportamento</strong>. Aliás, muitas vezes o comportamento é mais importante que os próprios atributos.</p>
+<hr />
+<h2 id="objetos-ricos-e-objetos-anemicos">Objetos ricos e objetos anêmicos<a class="headerlink" href="#objetos-ricos-e-objetos-anemicos" title="Permanent link">&para;</a></h2>
+<p>Este é um conceito que aparecerá diversas vezes durante o curso.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="objetos-ricos-e-objetos-anemicos-objeto-anêmico" name="__tabbed_1" type="radio" /><input id="objetos-ricos-e-objetos-anemicos-objeto-rico" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="objetos-ricos-e-objetos-anemicos-objeto-anêmico">Objeto anêmico</label><label for="objetos-ricos-e-objetos-anemicos-objeto-rico">Objeto rico</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span></code></pre></div>
+<p>Apenas armazena dados. Sem comportamento relevante.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percentual</span><span class="p">):</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="o">...</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">aumentar_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percentual</span><span class="p">):</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="o">...</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">alterar_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">novo_preco</span><span class="p">):</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="o">...</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">esta_disponivel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p>Armazena dados <strong>e</strong> sabe agir sobre eles.</p>
+</div>
+</div>
+</div>
+<p>Qual delas representa melhor um produto? A segunda. Ela não apenas armazena informações, mas também sabe agir. Chamamos esse tipo de objeto de <strong>objeto rico</strong>. Já objetos que apenas armazenam dados são frequentemente chamados de <strong>objetos anêmicos</strong>.</p>
+<details class="info">
+<summary>Objeto rico vs. Objeto anêmico</summary>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Objeto Anêmico</th>
+<th>Objeto Rico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contém dados</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Contém comportamento</td>
+<td>Não (ou mínimo)</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Protege suas regras</td>
+<td>Não — qualquer um altera os atributos</td>
+<td>Sim — oferece métodos específicos</td>
+</tr>
+<tr>
+<td>Facilidade de teste</td>
+<td>Baixa — lógica espalhada pelo sistema</td>
+<td>Alta — comportamento encapsulado</td>
+</tr>
+<tr>
+<td>Exemplo</td>
+<td><code>produto.preco = -500</code></td>
+<td><code>produto.aplicar_desconto(10)</code></td>
+</tr>
+<tr>
+<td>Manutenibilidade</td>
+<td>Difícil — regras duplicadas</td>
+<td>Fácil — regras em um só lugar</td>
+</tr>
+</tbody>
+</table>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Objeto anêmico — apenas dados</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Uso: regra de desconto fica fora da classe</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">percentual</span><span class="p">):</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Objeto rico — dados + comportamento</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percentual</span><span class="p">):</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">percentual</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Percentual inválido&quot;</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Perceba que no objeto rico a <strong>regra de negócio</strong> (validação do percentual, cálculo do desconto) está dentro da própria classe. No objeto anêmico, essa regra precisaria ser replicada em cada lugar que altera o preço — o que gera duplicação e erros.</p>
+</details>
+<details class="tip">
+<summary>Quando usar cada um?</summary>
+<ul>
+<li><strong>Objetos anêmicos</strong> são aceitáveis em camadas de transferência de dados (DTOs) ou registros de banco de dados, onde o objetivo é apenas transportar informações.</li>
+<li><strong>Objetos ricos</strong> devem ser a regra na camada de domínio, onde as regras de negócio precisam ser protegidas e encapsuladas.</li>
+</ul>
+</details>
+<p>Ao longo do curso, evitaremos transformar nossas classes em simples estruturas de dados.</p>
+<hr />
+<h2 id="encapsulamento">Encapsulamento<a class="headerlink" href="#encapsulamento" title="Permanent link">&para;</a></h2>
+<p>Quando falamos em encapsulamento, muitos alunos imediatamente pensam em atributos privados. Embora isso faça parte do conceito, encapsulamento é <strong>muito mais</strong> do que esconder atributos.</p>
+<p>Encapsular significa <strong>proteger as regras do objeto</strong>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Problema: qualquer parte do sistema pode definir um preço inválido</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="o">-</span><span class="mi">500</span>
+</span></code></pre></div>
+<p>Nosso objeto deveria impedir situações inválidas. Uma alternativa melhor seria oferecer operações específicas:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">produto</span><span class="o">.</span><span class="n">alterar_preco</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">produto</span><span class="o">.</span><span class="n">aplicar_desconto</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Perceba a diferença. Não estamos apenas escondendo atributos. Estamos protegendo as regras do negócio.</p>
+<div class="admonition warning">
+<p class="admonition-title">Getters e setters não são encapsulamento</p>
+<p>Muitos desenvolvedores acreditam que encapsular é criar <code>getters</code> e <code>setters</code> para cada atributo. Isso não passa de uma ilusão — você continua expondo os dados e permitindo que qualquer parte do sistema os altere livremente.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Isto NÃO é encapsulamento de verdade</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preco</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>       <span class="c1"># (1)</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_preco</span> <span class="o">=</span> <span class="n">valor</span>
+</span></code></pre></div>
+<ol>
+<li>Este setter permite qualquer valor, inclusive negativo. É um acesso direto disfarçado.</li>
+</ol>
+<p>O que realmente importa não é se o atributo é público ou privado — é se o objeto oferece <strong>operações que fazem sentido para o domínio</strong>. Um produto não deveria permitir "definir preço" genericamente; ele deveria permitir <code>alterar_preco</code>, <code>aplicar_desconto</code>, <code>aumentar_preco</code>. Cada uma dessas operações pode aplicar validações e regras específicas.</p>
+</div>
+<p>Em geral, quando falamos de regras de negócios de um sistema, surge um conceito importante, chamado <em>invariante</em>.  <strong>Invariante</strong> é uma condição que deve ser sempre verdadeira para um objeto. Por exemplo, um <code>Produto</code> pode ter como invariante que seu preço seja sempre positivo. Um <code>Pedido</code> pode ter como invariante que sua data de criação não seja no futuro. Cabe ao próprio objeto garantir que suas invariantes nunca sejam violadas — e é exatamente isso que o encapsulamento viabiliza.</p>
+<details class="tip">
+<summary>Regra prática</summary>
+<p>Se um <code>setter</code> apenas atribui o valor sem nenhuma validação ou regra, ele não está encapsulando nada. Nesse caso, um atributo público direto teria o mesmo efeito. O encapsulamento só faz sentido quando o método <strong>protege uma invariante do objeto</strong>.</p>
+</details>
+<div class="admonition success">
+<p class="admonition-title">Princípio</p>
+<p>Esse será um princípio importante durante todo o desenvolvimento do sistema: <strong>cada objeto é responsável por manter seu próprio estado válido</strong>.</p>
+</div>
+<hr />
+<h2 id="responsabilidade-das-classes">Responsabilidade das classes<a class="headerlink" href="#responsabilidade-das-classes" title="Permanent link">&para;</a></h2>
+<p>Talvez esta seja a ideia mais importante de toda a disciplina. Sempre que criarmos uma classe faremos a seguinte pergunta:</p>
+<blockquote>
+<p><strong>De quem é esta responsabilidade?</strong></p>
+</blockquote>
+<pre class="mermaid"><code>flowchart TD
+    P[Quem calcula o total do carrinho?]
+    P --&gt; A[Cliente?]
+    P --&gt; B[Produto?]
+    P --&gt; C[Carrinho?]
+    P --&gt; D[Função solta?]
+    C --&gt; E[O carrinho. Mas por quê?]
+    style C stroke:#4caf50,stroke-width:4px
+    style E fill:#4caf50,color:#fff</code></pre>
+<p>Quem conhece todos os itens adicionados? O carrinho. Logo, ele é quem possui as informações necessárias para realizar esse cálculo.</p>
+<p>Esse tipo de raciocínio será repetido dezenas de vezes durante o semestre.</p>
+<hr />
+<h2 id="coesao">Coesão<a class="headerlink" href="#coesao" title="Permanent link">&para;</a></h2>
+<p>Uma classe <strong>coesa</strong> possui um objetivo claro. Quanto mais responsabilidades diferentes uma classe acumula, menor tende a ser sua coesão — e mais difícil o sistema se torna de entender, testar e manter.</p>
+<h3 id="exemplo-baixa-coesao">Exemplo: baixa coesão<a class="headerlink" href="#exemplo-baixa-coesao" title="Permanent link">&para;</a></h3>
+<p>A classe abaixo mistura responsabilidades de domínios completamente diferentes. Note, nos comentários, que <strong>cada método utiliza um atributo diferente</strong> — eles raramente compartilham dados:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">GestorLoja</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">valor_pedido</span> <span class="o">=</span> <span class="mi">0</span>        <span class="c1"># usado por: calcular_desconto</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">servidor_smtp</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1"># usado por: enviar_email</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dados_fiscais</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1"># usado por: gerar_nota_fiscal</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">usuario_logado</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># usado por: autenticar_usuario</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">codigo_boleto</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1"># usado por: imprimir_boleto</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">produtos_estoque</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># usado por: controlar_estoque</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calcular_desconto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">,</span> <span class="n">percentual</span><span class="p">):</span>    <span class="c1"># acessa: valor_pedido</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        <span class="o">...</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">enviar_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destinatario</span><span class="p">,</span> <span class="n">mensagem</span><span class="p">):</span>    <span class="c1"># acessa: servidor_smtp</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>        <span class="o">...</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">gerar_nota_fiscal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">):</span>                <span class="c1"># acessa: dados_fiscais</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>        <span class="o">...</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">autenticar_usuario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">):</span>       <span class="c1"># acessa: usuario_logado</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>        <span class="o">...</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">imprimir_boleto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">):</span>                  <span class="c1"># acessa: codigo_boleto</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>        <span class="o">...</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">controlar_estoque</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">):</span>   <span class="c1"># acessa: produtos_estoque</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p><strong>Matriz método vs. atributo</strong> (X = método acessa o atributo):</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th style="text-align: center;"><code>valor_pedido</code></th>
+<th style="text-align: center;"><code>servidor_smtp</code></th>
+<th style="text-align: center;"><code>dados_fiscais</code></th>
+<th style="text-align: center;"><code>usuario_logado</code></th>
+<th style="text-align: center;"><code>codigo_boleto</code></th>
+<th style="text-align: center;"><code>produtos_estoque</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>calcular_desconto</code></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><code>enviar_email</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><code>gerar_nota_fiscal</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><code>autenticar_usuario</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><code>imprimir_boleto</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><code>controlar_estoque</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+</tbody>
+</table>
+<p>Cada método acessa um atributo <strong>exclusivo</strong>. Nenhum par de métodos compartilha dados.</p>
+<h3 id="metrica-lcom-lack-of-cohesion-of-methods">Métrica LCOM — <em>Lack of Cohesion of Methods</em><a class="headerlink" href="#metrica-lcom-lack-of-cohesion-of-methods" title="Permanent link">&para;</a></h3>
+<p>A métrica <strong>LCOM</strong> (Chidamber &amp; Kemerer, 1994) quantifica a falta de coesão comparando pares de métodos:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>LCOM = (pares que NÃO compartilham atributos) - (pares que compartilham)
+</span></code></pre></div>
+<p>Se o resultado for negativo, considera-se LCOM = 0.</p>
+<p><strong>Cálculo para <code>GestorLoja</code>:</strong></p>
+<p>A notação C(<em>n</em>, <em>k</em>) representa <strong>combinações</strong>: de <em>n</em> elementos, quantos grupos de <em>k</em> podemos formar? A fórmula é:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>C(n, k) = n! / (k! * (n - k)!)
+</span></code></pre></div>
+<p>No nosso caso, queremos saber quantos pares de métodos existem em uma classe com 6 métodos:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>C(6,2) = 6! / (2! * 4!) = (6 * 5) / 2 = 15 pares
+</span></code></pre></div>
+<p>Como cada método acessa um atributo diferente, <strong>nenhum</strong> par compartilha dados:</p>
+<ul>
+<li>Total de pares de métodos: C(6,2) = 15</li>
+<li>Pares que compartilham ao menos um atributo: <strong>0</strong></li>
+<li>Pares que NÃO compartilham: <strong>15</strong></li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>LCOM = 15 - 0 = 15
+</span></code></pre></div>
+<p>Um LCOM alto indica que a classe faz várias coisas ao mesmo tempo — um forte sinal de que deveria ser dividida.</p>
+<hr />
+<h3 id="refatorando-alta-coesao">Refatorando: alta coesão<a class="headerlink" href="#refatorando-alta-coesao" title="Permanent link">&para;</a></h3>
+<p>Cada grupo de responsabilidades ganha sua própria classe. Agora cada método compartilha atributos com os demais métodos da mesma classe:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">CalculoDesconto</span><span class="p">:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">valor_pedido</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c1"># compartilhado entre métodos da classe</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calcular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">,</span> <span class="n">percentual</span><span class="p">):</span>          <span class="c1"># acessa: valor_pedido</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>        <span class="o">...</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">NotificacaoEmail</span><span class="p">:</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">servidor_smtp</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">enviar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destinatario</span><span class="p">,</span> <span class="n">mensagem</span><span class="p">):</span>        <span class="c1"># acessa: servidor_smtp</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>        <span class="o">...</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="k">class</span><span class="w"> </span><span class="nc">NotaFiscal</span><span class="p">:</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dados_fiscais</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">gerar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">):</span>                        <span class="c1"># acessa: dados_fiscais</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>        <span class="o">...</span>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="k">class</span><span class="w"> </span><span class="nc">Autenticacao</span><span class="p">:</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">usuario_logado</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">autenticar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">):</span>           <span class="c1"># acessa: usuario_logado</span>
+</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a>        <span class="o">...</span>
+</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a>
+</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a>
+</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a><span class="k">class</span><span class="w"> </span><span class="nc">Boleto</span><span class="p">:</span>
+</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a>
+</span><span id="__span-15-39"><a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-15-40"><a id="__codelineno-15-40" name="__codelineno-15-40" href="#__codelineno-15-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">codigo_boleto</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-15-41"><a id="__codelineno-15-41" name="__codelineno-15-41" href="#__codelineno-15-41"></a>
+</span><span id="__span-15-42"><a id="__codelineno-15-42" name="__codelineno-15-42" href="#__codelineno-15-42"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">imprimir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">):</span>                     <span class="c1"># acessa: codigo_boleto</span>
+</span><span id="__span-15-43"><a id="__codelineno-15-43" name="__codelineno-15-43" href="#__codelineno-15-43"></a>        <span class="o">...</span>
+</span><span id="__span-15-44"><a id="__codelineno-15-44" name="__codelineno-15-44" href="#__codelineno-15-44"></a>
+</span><span id="__span-15-45"><a id="__codelineno-15-45" name="__codelineno-15-45" href="#__codelineno-15-45"></a>
+</span><span id="__span-15-46"><a id="__codelineno-15-46" name="__codelineno-15-46" href="#__codelineno-15-46"></a><span class="k">class</span><span class="w"> </span><span class="nc">Estoque</span><span class="p">:</span>
+</span><span id="__span-15-47"><a id="__codelineno-15-47" name="__codelineno-15-47" href="#__codelineno-15-47"></a>
+</span><span id="__span-15-48"><a id="__codelineno-15-48" name="__codelineno-15-48" href="#__codelineno-15-48"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-15-49"><a id="__codelineno-15-49" name="__codelineno-15-49" href="#__codelineno-15-49"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">produtos_estoque</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-15-50"><a id="__codelineno-15-50" name="__codelineno-15-50" href="#__codelineno-15-50"></a>
+</span><span id="__span-15-51"><a id="__codelineno-15-51" name="__codelineno-15-51" href="#__codelineno-15-51"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">controlar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">):</span>       <span class="c1"># acessa: produtos_estoque</span>
+</span><span id="__span-15-52"><a id="__codelineno-15-52" name="__codelineno-15-52" href="#__codelineno-15-52"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p><strong>Cálculo do LCOM para cada classe</strong> (exemplo com <code>CalculoDesconto</code>):</p>
+<p>A classe <code>CalculoDesconto</code> tem apenas <strong>1 método</strong>. Para formar um par, precisamos de 2 métodos — o que é impossível:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>C(1,2) = 1! / (2! * (-1)!) = 0 pares
+</span></code></pre></div>
+<p>Quando <em>k</em> &gt; <em>n</em>, não há combinações possíveis, então C(<em>n</em>, <em>k</em>) = 0.</p>
+<ul>
+<li>Total de pares de métodos: C(1,2) = 0</li>
+<li>Pares que compartilham ao menos um atributo: <strong>0</strong></li>
+<li>Pares que NÃO compartilham: <strong>0</strong></li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>LCOM = 0 - 0 = 0
+</span></code></pre></div>
+<p>LCOM = 0 significa coesão máxima — cada classe tem um propósito único e todos os seus métodos colaboram em torno dos mesmos dados.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Antes
+        A[GestorLoja&lt;br&gt;LCOM = 15&lt;br&gt;6 responsabilidades]
+    end
+    subgraph Depois
+        B[CalculoDesconto&lt;br&gt;LCOM = 0]
+        C[NotificacaoEmail&lt;br&gt;LCOM = 0]
+        D[NotaFiscal&lt;br&gt;LCOM = 0]
+        E[Autenticacao&lt;br&gt;LCOM = 0]
+        F[Boleto&lt;br&gt;LCOM = 0]
+        G[Estoque&lt;br&gt;LCOM = 0]
+    end
+    A --&gt;|refatoração| B
+    A --&gt; C
+    A --&gt; D
+    A --&gt; E
+    A --&gt; F
+    A --&gt; G
+    style A fill:#e74c3c,color:#fff
+    style B fill:#2ecc71,color:#fff
+    style C fill:#2ecc71,color:#fff
+    style D fill:#2ecc71,color:#fff
+    style E fill:#2ecc71,color:#fff
+    style F fill:#2ecc71,color:#fff
+    style G fill:#2ecc71,color:#fff</code></pre>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th style="text-align: center;">Antes (<code>GestorLoja</code>)</th>
+<th style="text-align: center;">Depois (cada classe)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LCOM</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td>Responsabilidades por classe</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td>Facilidade de teste</td>
+<td style="text-align: center;">Difícil (mockar tudo)</td>
+<td style="text-align: center;">Fácil (testes isolados)</td>
+</tr>
+<tr>
+<td>Manutenibilidade</td>
+<td style="text-align: center;">Baixa</td>
+<td style="text-align: center;">Alta</td>
+</tr>
+</tbody>
+</table>
+<details class="tip">
+<summary>Ferramentas que medem coesão</summary>
+<p>Ferramentas de análise estática como <strong>SonarQube</strong>, <strong>CodeClimate</strong> e <strong>Python Radon</strong> calculam métricas de coesão (inclusive LCOM) automaticamente. Durante o curso veremos como interpretar esses números para guiar decisões de refatoração.</p>
+</details>
+<hr />
+<h2 id="acoplamento">Acoplamento<a class="headerlink" href="#acoplamento" title="Permanent link">&para;</a></h2>
+<p>Agora imagine que, para calcular o valor total da compra, o <code>Carrinho</code> precise conhecer:</p>
+<pre class="mermaid"><code>flowchart LR
+    Carrinho --&gt; Produto --&gt; Categoria --&gt; Fornecedor
+    Fornecedor --&gt; Transportadora --&gt; NotaFiscal --&gt; GatewayPagamento --&gt; SistemaERP</code></pre>
+<p>Perceba como isso dificulta qualquer alteração. Se modificarmos a classe <code>Transportadora</code>, será que quebraremos o <code>Carrinho</code>? Talvez.</p>
+<p>Esse tipo de dependência excessiva recebe o nome de <strong>alto acoplamento</strong>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Alto acoplamento é um problema</p>
+<p>Quanto mais dependências uma classe possui, mais frágil o sistema se torna. Ao longo do curso procuraremos reduzir essas dependências sempre que possível.</p>
+</div>
+<h3 id="metricas-de-acoplamento">Métricas de acoplamento<a class="headerlink" href="#metricas-de-acoplamento" title="Permanent link">&para;</a></h3>
+<p>Para medir o acoplamento, existem três métricas clássicas:</p>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Mede</th>
+<th>O que significa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CBO</strong> (<em>Coupling Between Objects</em>)</td>
+<td>Quantidade total de classes que uma classe depende <strong>somadas</strong> às que dependem dela</td>
+<td>Quanto maior, pior — a classe está fortemente acoplada</td>
+</tr>
+<tr>
+<td><strong>Fan-in</strong></td>
+<td>Quantas outras classes <strong>usam</strong> a classe analisada</td>
+<td>Número de dependentes — alto pode indicar um ponto central</td>
+</tr>
+<tr>
+<td><strong>Fan-out</strong></td>
+<td>Quantas classes a classe analisada <strong>usa</strong></td>
+<td>Número de dependências — alto indica que a classe sabe demais sobre o sistema</td>
+</tr>
+</tbody>
+</table>
+<h4 id="exemplo-alta-dependencia">Exemplo: alta dependência<a class="headerlink" href="#exemplo-alta-dependencia" title="Permanent link">&para;</a></h4>
+<p>Considere a classe <code>LojaController</code>, que centraliza todas as operações do sistema:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">LojaController</span><span class="p">:</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">finalizar_compra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">):</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">enviar_email</span><span class="p">(</span><span class="n">pedido</span><span class="p">)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">gerar_nota_fiscal</span><span class="p">(</span><span class="n">pedido</span><span class="p">)</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">atualizar_estoque</span><span class="p">(</span><span class="n">pedido</span><span class="p">)</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">processar_pagamento</span><span class="p">(</span><span class="n">pedido</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Para executar sua tarefa, <code>LojaController</code> depende diretamente de 4 classes diferentes:</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph " "
+        E[EmailService]
+        N[NotaFiscalService]
+        S[EstoqueService]
+        P[PagamentoService]
+    end
+    L[LojaController] --&gt; E
+    L --&gt; N
+    L --&gt; S
+    L --&gt; P
+    style L fill:#e74c3c,color:#fff</code></pre>
+<p><strong>Métricas para <code>LojaController</code>:</strong></p>
+<ul>
+<li><strong>Fan-out:</strong> 4 (depende de 4 classes externas)</li>
+<li><strong>Fan-in:</strong> 0 (nenhuma classe depende dela — é um ponto de entrada)</li>
+<li><strong>CBO:</strong> 4 (Fan-out + Fan-in = 4 + 0)</li>
+</ul>
+<p>Quem mais depende de <code>EmailService</code>? Se várias classes o usam, o Fan-in de <code>EmailService</code> será alto, tornando-o um ponto crítico — qualquer alteração nele pode quebrar toda a aplicação.</p>
+<h4 id="refatorando-baixo-acoplamento">Refatorando: baixo acoplamento<a class="headerlink" href="#refatorando-baixo-acoplamento" title="Permanent link">&para;</a></h4>
+<p>Aplicamos a inversão de dependências: <code>LojaController</code> não instancia os serviços diretamente; eles são injetados e coordenados por uma fachada:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">LojaController</span><span class="p">:</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">facade</span><span class="p">):</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">facade</span> <span class="o">=</span> <span class="n">facade</span>   <span class="c1"># único acoplamento direto</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">finalizar_compra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">):</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">facade</span><span class="o">.</span><span class="n">finalizar</span><span class="p">(</span><span class="n">pedido</span><span class="p">)</span>
+</span></code></pre></div>
+<p>A classe <code>LojaFacade</code> centraliza a coordenação, mas cada serviço permanece independente:</p>
+<pre class="mermaid"><code>flowchart TD
+    L[LojaController] --&gt; F[LojaFacade]
+    F --&gt; E[EmailService]
+    F --&gt; N[NotaFiscalService]
+    F --&gt; S[EstoqueService]
+    F --&gt; P[PagamentoService]
+    style L fill:#2ecc71,color:#fff
+    style F fill:#f0ad4e,color:#000</code></pre>
+<p><strong>Métricas para <code>LojaController</code>:</strong></p>
+<ul>
+<li><strong>Fan-out:</strong> 1 (depende apenas de <code>LojaFacade</code>)</li>
+<li><strong>Fan-in:</strong> 0</li>
+<li><strong>CBO:</strong> 1 (Fan-out + Fan-in = 1 + 0)</li>
+</ul>
+<p><strong>Métricas para <code>LojaFacade</code>:</strong></p>
+<ul>
+<li><strong>Fan-out:</strong> 4 (usa os 4 serviços)</li>
+<li><strong>Fan-in:</strong> 1 (<code>LojaController</code> a usa)</li>
+<li><strong>CBO:</strong> 5</li>
+</ul>
+<p>O acoplamento foi <strong>redistribuído</strong>: <code>LojaController</code> foi de CBO = 4 para CBO = 1. A <code>Facade</code> agora é o único ponto com CBO alto, mas isso é intencional — ela existe justamente para isolar o resto do sistema.</p>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th style="text-align: center;">Antes (CBO)</th>
+<th style="text-align: center;">Depois (CBO)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LojaController</code></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><strong>1</strong></td>
+</tr>
+<tr>
+<td>Demais serviços</td>
+<td style="text-align: center;">1 cada</td>
+<td style="text-align: center;">1 cada</td>
+</tr>
+</tbody>
+</table>
+<details class="tip">
+<summary>Ferramentas que medem acoplamento</summary>
+<p><strong>SonarQube</strong>, <strong>PyCharm</strong> (inspeções de dependência) e <strong>Radon</strong> calculam CBO, Fan-in e Fan-out automaticamente. Valores altos são alertas para revisão de projeto.</p>
+</details>
+<hr />
+<h2 id="composicao-e-heranca">Composição e Herança<a class="headerlink" href="#composicao-e-heranca" title="Permanent link">&para;</a></h2>
+<p>Outro erro bastante comum é utilizar herança apenas para reaproveitar código.</p>
+<p>Herança deve representar uma relação do tipo <strong>é um</strong>. Composição representa <strong>possui um</strong> ou <strong>é formado por</strong>.</p>
+<h3 id="heranca-e-um">Herança (é um)<a class="headerlink" href="#heranca-e-um" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class Produto {
+        +nome: str
+        +preco: float
+        +exibir_detalhes()
+    }
+    class ProdutoFisico {
+        +peso: float
+        +calcular_frete() float
+    }
+    class ProdutoDigital {
+        +tamanho_arquivo: float
+        +link_download: str
+    }
+    Produto &lt;|-- ProdutoFisico
+    Produto &lt;|-- ProdutoDigital</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">exibir_detalhes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nome</span><span class="si">}</span><span class="s2"> — R$ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">preco</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProdutoFisico</span><span class="p">(</span><span class="n">Produto</span><span class="p">):</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">,</span> <span class="n">peso</span><span class="p">):</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">)</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">peso</span> <span class="o">=</span> <span class="n">peso</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calcular_frete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">peso</span> <span class="o">*</span> <span class="mf">1.5</span>
+</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>
+</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>
+</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProdutoDigital</span><span class="p">(</span><span class="n">Produto</span><span class="p">):</span>
+</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">,</span> <span class="n">tamanho_arquivo</span><span class="p">):</span>
+</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="n">preco</span><span class="p">)</span>
+</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tamanho_arquivo</span> <span class="o">=</span> <span class="n">tamanho_arquivo</span>
+</span><span id="__span-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">link_download</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span></code></pre></div>
+<p>Um <code>ProdutoFisico</code> <strong>é um</strong> <code>Produto</code>. Ele herda <code>nome</code>, <code>preco</code> e <code>exibir_detalhes()</code>, mas também possui o atributo específico <code>peso</code> e o método <code>calcular_frete()</code>. O mesmo vale para <code>ProdutoDigital</code>. Ambos compartilham a essência de "ser produto", cada um com suas particularidades.</p>
+<h3 id="composicao-possui-um-e-formado-por">Composição (possui um / é formado por)<a class="headerlink" href="#composicao-possui-um-e-formado-por" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class Pedido {
+        +data: str
+        +total: float
+        +calcular_total()
+    }
+    class ItemPedido {
+        +quantidade: int
+        +preco_unitario: float
+        +subtotal() float
+    }
+    class Produto {
+        +nome: str
+        +preco: float
+    }
+    Pedido *--&gt; "1..*" ItemPedido
+    ItemPedido --&gt; Produto</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ItemPedido</span><span class="p">:</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">,</span> <span class="n">preco_unitario</span><span class="p">):</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">produto</span> <span class="o">=</span> <span class="n">produto</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">quantidade</span> <span class="o">=</span> <span class="n">quantidade</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco_unitario</span> <span class="o">=</span> <span class="n">preco_unitario</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subtotal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantidade</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">preco_unitario</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pedido</span><span class="p">:</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">itens</span> <span class="o">=</span> <span class="p">[]</span>          <span class="c1"># Pedido é composto por itens</span>
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">,</span> <span class="n">preco</span><span class="p">):</span>
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>        <span class="n">item</span> <span class="o">=</span> <span class="n">ItemPedido</span><span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">,</span> <span class="n">preco</span><span class="p">)</span>
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">itens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="__span-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>
+</span><span id="__span-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calcular_total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-21-21"><a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">subtotal</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">itens</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Um <code>Pedido</code> <strong>é composto por</strong> um ou mais <code>ItemPedido</code>. Se o pedido for cancelado, aqueles itens deixam de existir como parte daquele pedido. Cada <code>ItemPedido</code>, por sua vez, <strong>referencia</strong> um <code>Produto</code> — mas o produto existe independentemente. Essa distinção é importante: composição (losango preenchido) indica que a parte não existe sem o todo; associação simples (seta) indica apenas uma referência.</p>
+<h3 id="comparacao">Comparação<a class="headerlink" href="#comparacao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Situação</th>
+<th>Pergunta</th>
+<th>Relação</th>
+<th>Exemplo UML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ProdutoFisico</code> e <code>Produto</code></td>
+<td>ProdutoFisico <strong>é um</strong> Produto?</td>
+<td>Herança</td>
+<td>Triângulo vazio na superclasse</td>
+</tr>
+<tr>
+<td><code>ProdutoDigital</code> e <code>Produto</code></td>
+<td>ProdutoDigital <strong>é um</strong> Produto?</td>
+<td>Herança</td>
+<td>Triângulo vazio na superclasse</td>
+</tr>
+<tr>
+<td><code>Pedido</code> e <code>ItemPedido</code></td>
+<td>ItemPedido <strong>é um</strong> Pedido?</td>
+<td>Composição</td>
+<td>Losango preenchido no todo</td>
+</tr>
+<tr>
+<td><code>ItemPedido</code> e <code>Produto</code></td>
+<td>Item <strong>é um</strong> Produto?</td>
+<td>Associação</td>
+<td>Seta simples (referência)</td>
+</tr>
+</tbody>
+</table>
+<p>Sempre que houver dúvida, faça a seguinte pergunta:</p>
+<blockquote>
+<p><strong>Posso substituir a frase por "é um"?</strong></p>
+</blockquote>
+<p>Se a resposta for <strong>não</strong>, provavelmente herança não é a melhor solução.</p>
+<p>Durante este curso, veremos que <strong>composição será utilizada muito mais frequentemente do que herança</strong>, refletindo uma prática comum em projetos modernos.</p>
+<hr />
+<h2 id="uma-ultima-reflexao">Uma última reflexão<a class="headerlink" href="#uma-ultima-reflexao" title="Permanent link">&para;</a></h2>
+<p>Ao terminar esta revisão, talvez você tenha percebido algo interessante: nós ainda não escrevemos uma única linha do sistema. Mesmo assim, já discutimos decisões que influenciarão todo o projeto.</p>
+<p>Isso acontece porque bons sistemas <strong>não começam pelo código</strong>. Eles começam pelas ideias. E somente quando entendemos bem o problema é que faz sentido escolher como implementá-lo.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../projetos/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Projetos da disciplina">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Projetos da disciplina
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../dominio/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Conhecendo o domínio">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Conhecendo o domínio
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Eduardo da Silva
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/eduardo-da-silva" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["announce.dismiss","content.action.edit","content.code.annotate","content.code.copy","content.code.select","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../../assets/javascripts/workers/search.b6b7e04f.min.js","tags":null,"translations":{"clipboard.copied":"Copiado para área de transferência","clipboard.copy":"Copiar para área de transferência","search.result.more.one":"mais 1 nesta página","search.result.more.other":"# mais nesta página","search.result.none":"Nenhum documento encontrado","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Digite para iniciar a busca","search.result.term.missing":"Ausente","select.version":"Selecione a versão"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3809e150.min.js"></script>
+      
+    
+  </body>
+</html>

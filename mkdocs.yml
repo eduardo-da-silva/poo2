@@ -1,0 +1,113 @@
+site_name: Programação Orientada a Objetos II
+site_author: Eduardo da Silva
+site_url: https://eduardo-da-silva.github.io/poo2
+repo_url: https://github.com/eduardo-da-silva/poo2
+repo_name: eduardo-da-silva/poo2
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 Eduardo da Silva
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/eduardo-da-silva
+
+theme:
+  name: material
+  favicon: images/favicon.svg
+  icon:
+    logo: fontawesome/solid/code
+  language: pt-BR
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tooltips
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: lucide/sun
+        name: Ativar modo escuro
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: lucide/moon
+        name: Ativar modo claro
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: eduardo-da-silva
+      repo: poo2
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Início: index.md
+  - Aula 1 - Introdução ao Curso:
+    - Boas-vindas e objetivos: aula1/index.md
+    - Projetos da disciplina: aula1/projetos.md
+    - Revisando POO: aula1/revisando-poo.md
+    - Conhecendo o domínio: aula1/dominio.md
+    - Primeiras entidades: aula1/entidades.md
+    - Composição ou herança: aula1/composicao-heranca.md
