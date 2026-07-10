@@ -10,36 +10,36 @@
         <meta name="author" content="Eduardo da Silva">
       
       
-        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/aula1/dominio/">
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/modulo1/">
       
       
-        <link rel="prev" href="../revisando-poo/">
+        <link rel="prev" href="./..">
       
       
-        <link rel="next" href="../entidades/">
+        <link rel="next" href="./capitulo1/">
       
       
         
       
       
-      <link rel="icon" href="../../images/favicon.svg">
+      <link rel="icon" href="../images/favicon.svg">
       <meta name="generator" content="zensical-0.0.48">
     
     
       
-        <title>Conhecendo o domínio do problema - Programação Orientada a Objetos II</title>
+        <title>Módulo 1 — Construindo o domínio - Programação Orientada a Objetos II</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.62c9b9cc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.62c9b9cc.min.css">
       
         
           
         
-        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.dfe2e883.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.dfe2e883.min.css">
       
       
 
@@ -58,7 +58,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    <script>__md_scope=new URL("..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
     
       
 
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#conhecendo-o-dominio-do-problema" class="md-skip">
+        <a href="#modulo-1-construindo-o-dominio" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -99,7 +99,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
-    <a href="../.." title="Programação Orientada a Objetos II" class="md-header__button md-logo" aria-label="Programação Orientada a Objetos II" data-md-component="logo">
+    <a href="./.." title="Programação Orientada a Objetos II" class="md-header__button md-logo" aria-label="Programação Orientada a Objetos II" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Conhecendo o domínio do problema
+              Módulo 1 — Construindo o domínio
             
           </span>
         </div>
@@ -208,7 +208,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Programação Orientada a Objetos II" class="md-nav__button md-logo" aria-label="Programação Orientada a Objetos II" data-md-component="logo">
+    <a href="./.." title="Programação Orientada a Objetos II" class="md-nav__button md-logo" aria-label="Programação Orientada a Objetos II" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l73.3-73.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
@@ -238,7 +238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="./.." class="md-nav__link">
         
   
   
@@ -280,8 +280,6 @@
       
         
       
-        
-      
     
     
     
@@ -299,14 +297,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="././" class="md-nav__link md-nav__link--active">
               
   
   
   <span class="md-ellipsis">
     
   
-  Aula 1 — Introdução ao Curso
+  Módulo 1 — Construindo o Domínio
 
     
   </span>
@@ -316,7 +314,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link md-nav__link--active" for="__nav_2" id="__nav_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -327,7 +325,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-  Aula 1 — Introdução ao Curso
+  Módulo 1 — Construindo o Domínio
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -341,14 +339,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../projetos/" class="md-nav__link">
+      <a href="./capitulo1/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Projetos da disciplina
+  Capítulo 1 — O que significa projetar software
 
     
   </span>
@@ -368,181 +366,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../revisando-poo/" class="md-nav__link">
+      <a href="./capitulo2/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Revisando POO
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Conhecendo o domínio
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="././" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Conhecendo o domínio
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-
-<nav class="md-nav md-nav--secondary" aria-label="Índice">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Índice
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#um-erro-muito-comum" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Um erro muito comum
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#o-que-e-um-dominio" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        O que é um domínio?
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nossa-primeira-pergunta" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Nossa primeira pergunta
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#uma-observacao-importante" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Uma observação importante
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vamos-imaginar-uma-compra" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Vamos imaginar uma compra
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#aplicando-ao-projeto-financeiro" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Aplicando ao Projeto Financeiro
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../entidades/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Primeiras entidades
+  Capítulo 2 — Conhecendo o domínio
 
     
   </span>
@@ -562,14 +393,41 @@
   
   
     <li class="md-nav__item">
-      <a href="../composicao-heranca/" class="md-nav__link">
+      <a href="./capitulo3/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Composição ou herança
+  Capítulo 3 — Primeiras entidades e relacionamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./capitulo4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Capítulo 4 — Mão na massa: implementando as classes
 
     
   </span>
@@ -630,10 +488,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#um-erro-muito-comum" class="md-nav__link">
+  <a href="#visao-geral" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Um erro muito comum
+        Visão geral
       </span>
     </span>
   </a>
@@ -641,10 +499,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#o-que-e-um-dominio" class="md-nav__link">
+  <a href="#o-que-voce-aprendera" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        O que é um domínio?
+        O que você aprenderá
       </span>
     </span>
   </a>
@@ -652,10 +510,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#nossa-primeira-pergunta" class="md-nav__link">
+  <a href="#o-que-construiremos" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Nossa primeira pergunta
+        O que construiremos
       </span>
     </span>
   </a>
@@ -663,32 +521,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#uma-observacao-importante" class="md-nav__link">
+  <a href="#estrutura-do-modulo" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Uma observação importante
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vamos-imaginar-uma-compra" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Vamos imaginar uma compra
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#aplicando-ao-projeto-financeiro" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Aplicando ao Projeto Financeiro
+        Estrutura do módulo
       </span>
     </span>
   </a>
@@ -720,7 +556,7 @@
   
   
     <li class="md-path__item">
-      <a href="../.." class="md-path__link">
+      <a href="./.." class="md-path__link">
         
   
   <span class="md-ellipsis">
@@ -751,18 +587,16 @@
       
         
       
-        
-      
     
     
     
     
       <li class="md-path__item">
-        <a href="../" class="md-path__link">
+        <a href="././" class="md-path__link">
           
   
   <span class="md-ellipsis">
-    Aula 1 — Introdução ao Curso
+    Módulo 1 — Construindo o Domínio
   </span>
 
         </a>
@@ -779,7 +613,7 @@
                 
                   
   
-    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/aula1/dominio.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/modulo1/index.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
     </a>
@@ -787,131 +621,55 @@
   
 
 
-<h1 id="conhecendo-o-dominio-do-problema">Conhecendo o domínio do problema<a class="headerlink" href="#conhecendo-o-dominio-do-problema" title="Permanent link">&para;</a></h1>
-<p>Até este momento discutimos como o curso será conduzido e por que aprender a projetar software é mais importante do que simplesmente aprender uma linguagem de programação. Agora chegou o momento de iniciar o desenvolvimento do nosso sistema.</p>
-<p>Entretanto, <strong>ainda não escreveremos código</strong>. Nossa primeira tarefa será compreender o problema que estamos tentando resolver.</p>
-<div class="admonition info">
-<p class="admonition-title">Análise de domínio</p>
-<p>Essa etapa recebe diversos nomes na Engenharia de Software: levantamento de requisitos, análise de domínio ou modelagem do domínio. Independentemente do nome utilizado, a ideia é a mesma: <strong>entender o problema antes de propor uma solução</strong>.</p>
-</div>
-<hr />
-<h2 id="um-erro-muito-comum">Um erro muito comum<a class="headerlink" href="#um-erro-muito-comum" title="Permanent link">&para;</a></h2>
-<p>Imagine que alguém diga:</p>
+<h1 id="modulo-1-construindo-o-dominio">Módulo 1 — Construindo o domínio<a class="headerlink" href="#modulo-1-construindo-o-dominio" title="Permanent link">&para;</a></h1>
+<h2 id="visao-geral">Visão geral<a class="headerlink" href="#visao-geral" title="Permanent link">&para;</a></h2>
+<p>Bem-vindo ao primeiro módulo do curso. Aqui começaremos do zero a construção de um sistema de E-Commerce. Mas não se preocupe — ainda não escreveremos código. Antes disso, precisamos aprender a <strong>pensar sobre o projeto</strong>.</p>
+<p>Este módulo responde a uma pergunta fundamental:</p>
 <blockquote>
-<p>"Precisamos desenvolver um sistema para uma loja virtual."</p>
+<p>O que significa projetar software orientado a objetos?</p>
 </blockquote>
-<p>Um desenvolvedor iniciante normalmente abre a IDE e começa a criar classes:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>  <span class="c1"># Exemplo do que NÃO fazer</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">pass</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Cliente</span><span class="p">:</span>  <span class="c1"># Criar classes sem entender o domínio</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">pass</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pedido</span><span class="p">:</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">pass</span>
-</span></code></pre></div>
-<p>Algumas horas depois existem dezenas de classes, centenas de linhas de código e... nenhuma certeza de que o sistema está indo na direção correta. O problema é que <strong>criar classes não significa compreender o domínio</strong>.</p>
-<div class="admonition warning">
-<p class="admonition-title">A pergunta certa</p>
-<p>Antes de perguntar <strong>"como implementar?"</strong>, devemos perguntar: <strong>"como esse negócio funciona?"</strong> Essa mudança de perspectiva é um dos grandes diferenciais entre um programador e um engenheiro de software.</p>
-</div>
-<hr />
-<h2 id="o-que-e-um-dominio">O que é um domínio?<a class="headerlink" href="#o-que-e-um-dominio" title="Permanent link">&para;</a></h2>
-<p>Chamamos de <strong>domínio</strong> o conjunto de regras, conceitos e processos relacionados ao problema que estamos tentando resolver.</p>
-<p>No nosso caso, o domínio é o funcionamento de um comércio eletrônico.</p>
-<pre class="mermaid"><code>flowchart LR
-    subgraph Domínio do E-Commerce
-        A[Produtos] --&gt; B[Carrinho]
-        C[Clientes] --&gt; B
-        B --&gt; D[Pedidos]
-        D --&gt; E[Pagamentos]
-        F[Cupons] --&gt; B
-        G[Estoque] --&gt; A
-    end</code></pre>
-<p>Um E-Commerce possui diversas regras. Por exemplo:</p>
+<p>A resposta envolve muito mais do que criar classes e instanciar objetos. Envolve compreender o problema, identificar os conceitos do domínio, distribuir responsabilidades e modelar relacionamentos entre entidades.</p>
+<h2 id="o-que-voce-aprendera">O que você aprenderá<a class="headerlink" href="#o-que-voce-aprendera" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Produtos possuem preço</li>
-<li>Produtos pertencem a categorias</li>
-<li>Clientes realizam compras</li>
-<li>Clientes adicionam produtos ao carrinho</li>
-<li>Pedidos são pagos</li>
-<li>Pedidos podem ser cancelados</li>
-<li>Alguns produtos podem estar sem estoque</li>
-<li>Cupons concedem descontos</li>
-<li>Formas de pagamento possuem regras diferentes</li>
+<li>Por que modelar o domínio é mais importante que escrever código</li>
+<li>Como objetos representam conceitos reais do negócio</li>
+<li>A diferença entre objetos ricos e anêmicos</li>
+<li>O que é encapsulamento (e o que <strong>não</strong> é)</li>
+<li>A pergunta mais importante do curso: <strong>quem é responsável por isso?</strong></li>
+<li>Como descobrir entidades através de narrativas</li>
+<li>Como modelar relacionamentos com composição e associação</li>
+<li>Por que evitamos herança neste módulo</li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-title">Regras de negócio vs. tecnologia</p>
-<p>Perceba que nenhuma dessas afirmações fala sobre Python. Nenhuma delas fala sobre classes. Nenhuma delas fala sobre banco de dados. <strong>São regras do negócio.</strong> Essas regras continuarão existindo mesmo que o sistema seja reescrito em outra linguagem daqui a dez anos. Esse é justamente o motivo pelo qual dizemos que <strong>o domínio deve guiar o software</strong>, e não o contrário.</p>
-</div>
+<h2 id="o-que-construiremos">O que construiremos<a class="headerlink" href="#o-que-construiremos" title="Permanent link">&para;</a></h2>
+<p>Neste módulo iniciaremos duas jornadas paralelas:</p>
+<table>
+<thead>
+<tr>
+<th>Projeto</th>
+<th>O que faremos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E-Commerce</strong></td>
+<td>Catálogo de produtos, categorias, clientes, carrinho e itens do carrinho</td>
+</tr>
+<tr>
+<td><strong>Financeiro Pessoal</strong></td>
+<td>Cadastro de contas, categorias, lançamentos e movimentações</td>
+</tr>
+</tbody>
+</table>
+<p>Ambos os projetos evoluirão juntos ao longo do curso. Sempre que um novo conceito surgir no E-Commerce, você deverá aplicá-lo ao sistema financeiro.</p>
+<h2 id="estrutura-do-modulo">Estrutura do módulo<a class="headerlink" href="#estrutura-do-modulo" title="Permanent link">&para;</a></h2>
+<p>Este módulo está organizado em três capítulos:</p>
+<ol>
+<li><strong>O que significa projetar software</strong> — fundamentos, projetos da disciplina e princípios de orientação a objetos</li>
+<li><strong>Conhecendo o domínio</strong> — análise do problema, narrativa de compra e descoberta de entidades</li>
+<li><strong>Primeiras entidades e relacionamentos</strong> — modelagem das classes, composição vs. associação e decisões de projeto</li>
+</ol>
 <hr />
-<h2 id="nossa-primeira-pergunta">Nossa primeira pergunta<a class="headerlink" href="#nossa-primeira-pergunta" title="Permanent link">&para;</a></h2>
-<p>Sempre que iniciamos um novo sistema, uma boa pergunta é:</p>
-<blockquote>
-<p><strong>Quais são os objetos que existem nesse domínio?</strong></p>
-</blockquote>
-<p>Pensando rapidamente, podemos listar:</p>
-<ul>
-<li>Produto</li>
-<li>Categoria</li>
-<li>Cliente</li>
-<li>Carrinho</li>
-<li>Item do Carrinho</li>
-<li>Pedido</li>
-<li>Item do Pedido</li>
-<li>Cupom</li>
-<li>Pagamento</li>
-<li>Estoque</li>
-</ul>
-<p>Essa lista não está pronta. Provavelmente ela mudará durante o desenvolvimento. Isso é esperado. Projetar software é um processo <strong>iterativo</strong>.</p>
-<hr />
-<h2 id="uma-observacao-importante">Uma observação importante<a class="headerlink" href="#uma-observacao-importante" title="Permanent link">&para;</a></h2>
-<p>Muitos alunos imaginam que basta transformar cada substantivo em uma classe. Infelizmente isso não funciona.</p>
-<p>Considere a frase:</p>
-<blockquote>
-<p>"O cliente compra um produto utilizando um cartão de crédito."</p>
-</blockquote>
-<p>Temos os substantivos: <strong>Cliente</strong>, <strong>Produto</strong>, <strong>Cartão</strong>, <strong>Crédito</strong>. Será que todos devem virar classes? Talvez. Talvez não. Depende do domínio.</p>
-<p>Às vezes um conceito importante pode ser representado apenas por um atributo. Em outros casos um simples atributo evolui para uma classe inteira.</p>
-<details class="question">
-<summary>Cartão de crédito é classe ou atributo?</summary>
-<p>Em um sistema financeiro, <code>CartaoDeCredito</code> provavelmente seria uma classe com diversos atributos e comportamentos (limite, fatura, juros). Em um sistema simples de E-Commerce, talvez seja apenas um atributo do pagamento. <strong>Modelagem envolve decisões, e não regras rígidas.</strong></p>
-</details>
-<hr />
-<h2 id="vamos-imaginar-uma-compra">Vamos imaginar uma compra<a class="headerlink" href="#vamos-imaginar-uma-compra" title="Permanent link">&para;</a></h2>
-<p>João entra em uma loja virtual. Ele procura um notebook. Encontra um produto. Adiciona duas unidades ao carrinho. Depois adiciona um mouse. Aplica um cupom de desconto. Escolhe pagar com cartão de crédito. Finaliza a compra. Dias depois recebe os produtos.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    actor J as João
-    participant L as Loja
-    participant Carrinho
-    participant Estoque
-
-    J-&gt;&gt;L: Buscar notebook
-    L-&gt;&gt;J: Resultados
-    J-&gt;&gt;Carrinho: Adicionar 2x Notebook
-    J-&gt;&gt;Carrinho: Adicionar Mouse
-    J-&gt;&gt;Carrinho: Aplicar cupom DESCONTO10
-    J-&gt;&gt;L: Finalizar compra
-    L-&gt;&gt;Estoque: Reservar itens
-    L-&gt;&gt;J: Pedido confirmado</code></pre>
-<p>Agora pense: quais objetos participaram dessa história? Provavelmente você respondeu algo semelhante a:</p>
-<ul>
-<li>Cliente</li>
-<li>Produto</li>
-<li>Carrinho</li>
-<li>ItemCarrinho</li>
-<li>Cupom</li>
-<li>Pedido</li>
-<li>Pagamento</li>
-</ul>
-<p>Perceba que esses objetos surgiram naturalmente da narrativa. Essa é uma excelente técnica para descobrir entidades de um domínio.</p>
-<hr />
-<h2 id="aplicando-ao-projeto-financeiro">Aplicando ao Projeto Financeiro<a class="headerlink" href="#aplicando-ao-projeto-financeiro" title="Permanent link">&para;</a></h2>
-<p>Crie uma narrativa semelhante para o sistema financeiro. Imagine um usuário chamado "Maria" controlando suas finanças. Ela registra uma receita, categoriza um gasto, define um orçamento mensal. Que objetos surgem naturalmente dessa história? Liste-os antes de prosseguir.</p>
-<hr />
-<p>Agora que compreendemos o domínio, vamos modelar as primeiras entidades do nosso sistema.</p>
+<p>Prepare-se para pensar menos em sintaxe e mais em design. Vamos começar.</p>
 
 
 
@@ -949,7 +707,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
         
           
-          <a href="../revisando-poo/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Revisando POO">
+          <a href="./.." class="md-footer__link md-footer__link--prev" aria-label="Anterior: Início">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
@@ -959,20 +717,20 @@
                 Anterior
               </span>
               <div class="md-ellipsis">
-                Revisando POO
+                Início
               </div>
             </div>
           </a>
         
         
           
-          <a href="../entidades/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Primeiras entidades">
+          <a href="./capitulo1/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Capítulo 1 — O que significa projetar software">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Próximo
               </span>
               <div class="md-ellipsis">
-                Primeiras entidades
+                Capítulo 1 — O que significa projetar software
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1031,10 +789,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["announce.dismiss","content.action.edit","content.code.annotate","content.code.copy","content.code.select","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../../assets/javascripts/workers/search.b6b7e04f.min.js","tags":null,"translations":{"clipboard.copied":"Copiado para área de transferência","clipboard.copy":"Copiar para área de transferência","search.result.more.one":"mais 1 nesta página","search.result.more.other":"# mais nesta página","search.result.none":"Nenhum documento encontrado","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Digite para iniciar a busca","search.result.term.missing":"Ausente","select.version":"Selecione a versão"},"version":null}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.action.edit","content.code.annotate","content.code.copy","content.code.select","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../assets/javascripts/workers/search.b6b7e04f.min.js","tags":null,"translations":{"clipboard.copied":"Copiado para área de transferência","clipboard.copy":"Copiar para área de transferência","search.result.more.one":"mais 1 nesta página","search.result.more.other":"# mais nesta página","search.result.none":"Nenhum documento encontrado","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Digite para iniciar a busca","search.result.term.missing":"Ausente","select.version":"Selecione a versão"},"version":null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.3809e150.min.js"></script>
+      <script src="../assets/javascripts/bundle.3809e150.min.js"></script>
       
     
   </body>

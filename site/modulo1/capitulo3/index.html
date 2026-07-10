@@ -10,11 +10,13 @@
         <meta name="author" content="Eduardo da Silva">
       
       
-        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/aula1/composicao-heranca/">
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/modulo1/capitulo3/">
       
       
-        <link rel="prev" href="../entidades/">
+        <link rel="prev" href="../capitulo2/">
       
+      
+        <link rel="next" href="../capitulo4/">
       
       
         
@@ -25,7 +27,7 @@
     
     
       
-        <title>Composição ou herança? - Programação Orientada a Objetos II</title>
+        <title>Capítulo 3 — Primeiras entidades e relacionamentos - Programação Orientada a Objetos II</title>
       
     
     
@@ -81,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#composicao-ou-heranca" class="md-skip">
+        <a href="#capitulo-3-primeiras-entidades-e-relacionamentos" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -117,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Composição ou herança?
+              Capítulo 3 — Primeiras entidades e relacionamentos
             
           </span>
         </div>
@@ -278,8 +280,6 @@
       
         
       
-        
-      
     
     
     
@@ -304,7 +304,7 @@
   <span class="md-ellipsis">
     
   
-  Aula 1 — Introdução ao Curso
+  Módulo 1 — Construindo o Domínio
 
     
   </span>
@@ -325,7 +325,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-  Aula 1 — Introdução ao Curso
+  Módulo 1 — Construindo o Domínio
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -339,14 +339,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../projetos/" class="md-nav__link">
+      <a href="../capitulo1/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Projetos da disciplina
+  Capítulo 1 — O que significa projetar software
 
     
   </span>
@@ -366,68 +366,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../revisando-poo/" class="md-nav__link">
+      <a href="../capitulo2/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Revisando POO
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../dominio/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Conhecendo o domínio
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../entidades/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Primeiras entidades
+  Capítulo 2 — Conhecendo o domínio
 
     
   </span>
@@ -463,7 +409,7 @@
   <span class="md-ellipsis">
     
   
-  Composição ou herança
+  Capítulo 3 — Primeiras entidades e relacionamentos
 
     
   </span>
@@ -480,7 +426,7 @@
   <span class="md-ellipsis">
     
   
-  Composição ou herança
+  Capítulo 3 — Primeiras entidades e relacionamentos
 
     
   </span>
@@ -506,44 +452,66 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#heranca-vs-composicao" class="md-nav__link">
+  <a href="#primeira-versao-do-nosso-modelo" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Herança vs. Composição
-      </span>
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Herança vs. Composição">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#os-4-tipos-de-relacionamento-em-uml" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Os 4 tipos de relacionamento em UML
+        Primeira versão do nosso modelo
       </span>
     </span>
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#um-produto-conhece-seu-carrinho" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Um produto conhece seu carrinho?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#um-carrinho-conhece-seus-produtos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Um carrinho conhece seus produtos?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#produto-ou-item-do-carrinho" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Produto ou Item do Carrinho?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-que-tipo-e-cada-relacionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        De que tipo é cada relacionamento?
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De que tipo é cada relacionamento?">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#exemplos-praticos-no-e-commerce" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
         Exemplos práticos no E-Commerce
-      </span>
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#identificando-na-pratica" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Identificando na prática
       </span>
     </span>
   </a>
@@ -578,13 +546,52 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#o-que-faremos-a-seguir" class="md-nav__link">
+  <a href="#exercicios" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        O que faremos a seguir
+        Exercícios
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Exercícios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nivel-1-fixacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nível 1 — Fixação
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nivel-2-aplicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nível 2 — Aplicação
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nivel-3-desafio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nível 3 — Desafio
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -599,10 +606,48 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#o-que-vem-a-seguir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        O que vem a seguir
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../capitulo4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Capítulo 4 — Mão na massa: implementando as classes
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -656,44 +701,66 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#heranca-vs-composicao" class="md-nav__link">
+  <a href="#primeira-versao-do-nosso-modelo" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Herança vs. Composição
-      </span>
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Herança vs. Composição">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#os-4-tipos-de-relacionamento-em-uml" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Os 4 tipos de relacionamento em UML
+        Primeira versão do nosso modelo
       </span>
     </span>
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#um-produto-conhece-seu-carrinho" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Um produto conhece seu carrinho?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#um-carrinho-conhece-seus-produtos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Um carrinho conhece seus produtos?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#produto-ou-item-do-carrinho" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Produto ou Item do Carrinho?
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-que-tipo-e-cada-relacionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        De que tipo é cada relacionamento?
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De que tipo é cada relacionamento?">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#exemplos-praticos-no-e-commerce" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
         Exemplos práticos no E-Commerce
-      </span>
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#identificando-na-pratica" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Identificando na prática
       </span>
     </span>
   </a>
@@ -728,13 +795,52 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#o-que-faremos-a-seguir" class="md-nav__link">
+  <a href="#exercicios" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        O que faremos a seguir
+        Exercícios
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Exercícios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nivel-1-fixacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nível 1 — Fixação
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nivel-2-aplicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nível 2 — Aplicação
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nivel-3-desafio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nível 3 — Desafio
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -743,6 +849,17 @@
     <span class="md-ellipsis">
       <span class="md-typeset">
         Aplicando ao Projeto Financeiro
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-vem-a-seguir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        O que vem a seguir
       </span>
     </span>
   </a>
@@ -805,8 +922,6 @@
       
         
       
-        
-      
     
     
     
@@ -816,7 +931,7 @@
           
   
   <span class="md-ellipsis">
-    Aula 1 — Introdução ao Curso
+    Módulo 1 — Construindo o Domínio
   </span>
 
         </a>
@@ -833,7 +948,7 @@
                 
                   
   
-    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/aula1/composicao-heranca.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/modulo1/capitulo3.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
     </a>
@@ -841,39 +956,51 @@
   
 
 
-<h1 id="composicao-ou-heranca">Composição ou herança?<a class="headerlink" href="#composicao-ou-heranca" title="Permanent link">&para;</a></h1>
-<p>No arquivo anterior modelamos as primeiras entidades. Observamos que <code>Carrinho</code> contém <code>ItemCarrinho</code>, e que <code>ItemCarrinho</code> referencia <code>Produto</code>. Mas que tipo de relacionamento é cada um desses? É aqui que precisamos diferenciar <strong>composição</strong> de <strong>herança</strong>.</p>
-<p>Observe as classes <code>Carrinho</code> e <code>ItemCarrinho</code>. Seria correto fazer?</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ItemCarrinho</span><span class="p">(</span><span class="n">Carrinho</span><span class="p">):</span>  <span class="c1"># ERRADO!</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="o">...</span>
-</span></code></pre></div>
-<p><strong>Não.</strong> Um item do carrinho <strong>não é um carrinho</strong>. Ele <strong>faz parte</strong> de um carrinho. Temos uma relação de <strong>composição</strong>, e não de herança.</p>
-<details class="danger">
-<summary>Erro comum entre iniciantes</summary>
-<p>Este é um erro muito comum entre iniciantes. Uma regra prática bastante utilizada é perguntar:</p>
-<blockquote>
-<p>Podemos dizer que "ItemCarrinho <strong>é um</strong> Carrinho"?</p>
-</blockquote>
-<p><strong>Não.</strong> Então herança não faz sentido.</p>
-<p>Agora pergunte:</p>
-<blockquote>
-<p>Um Carrinho <strong>possui vários</strong> ItemCarrinho?</p>
-</blockquote>
-<p><strong>Sim.</strong> Logo, composição representa melhor essa relação.</p>
-</details>
-<hr />
-<h2 id="heranca-vs-composicao">Herança vs. Composição<a class="headerlink" href="#heranca-vs-composicao" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>flowchart TD
-    A["ItemCarrinho é um Carrinho?"]
-    A --&gt;|Sim| B[Herança]
-    A --&gt;|Não| C[Composição]
-    C --&gt; D["Carrinho possui ItemCarrinho"]
-    B --&gt; E["Notebook é um Produto&lt;br&gt;Herança ✓"]
+<h1 id="capitulo-3-primeiras-entidades-e-relacionamentos">Capítulo 3 — Primeiras entidades e relacionamentos<a class="headerlink" href="#capitulo-3-primeiras-entidades-e-relacionamentos" title="Permanent link">&para;</a></h1>
+<p>Já compreendemos por que o domínio importa e conhecemos os conceitos do nosso E-Commerce através da história do João. Agora é hora de modelar as primeiras entidades.</p>
+<h2 id="primeira-versao-do-nosso-modelo">Primeira versão do nosso modelo<a class="headerlink" href="#primeira-versao-do-nosso-modelo" title="Permanent link">&para;</a></h2>
+<p>Nossa primeira versão será propositalmente simples. Teremos apenas cinco classes. Ainda não teremos pedidos, estoque, pagamentos, cupons ou notas fiscais. Essas funcionalidades serão adicionadas nos próximos módulos.</p>
+<pre class="mermaid"><code>classDiagram
+    class Categoria {
+        +nome: str
+    }
 
-    style A fill:#f0ad4e,color:#000
-    style B fill:#4caf50,color:#fff
-    style C fill:#4caf50,color:#fff</code></pre>
-<h3 id="os-4-tipos-de-relacionamento-em-uml">Os 4 tipos de relacionamento em UML<a class="headerlink" href="#os-4-tipos-de-relacionamento-em-uml" title="Permanent link">&para;</a></h3>
+    class Produto {
+        +nome: str
+        +preco: float
+        +quantidade_estoque: int
+        +categoria: Categoria
+        +esta_disponivel() bool
+        +aplicar_desconto(percentual)
+        +alterar_preco(novo_preco)
+    }
+
+    class Cliente {
+        +nome: str
+        +email: str
+        +carrinho: Carrinho
+    }
+
+    class Carrinho {
+        +itens: list~ItemCarrinho~
+        +adicionar_item(produto, quantidade)
+        +remover_item(produto)
+        +calcular_total() float
+    }
+
+    class ItemCarrinho {
+        +produto: Produto
+        +quantidade: int
+        +preco_no_momento: float
+        +calcular_subtotal() float
+    }
+
+    Categoria "1" --&gt; "*" Produto          : pertence a
+    Produto "1" --&gt; "*" ItemCarrinho       : referenciado em
+    Carrinho "1" *--&gt; "*" ItemCarrinho     : contém
+    Cliente "1" *--&gt; "1" Carrinho          : possui</code></pre>
+<div class="admonition info">
+<p class="admonition-title">Os símbolos do diagrama (guia de consulta rápida)</p>
 <table>
 <thead>
 <tr>
@@ -886,7 +1013,7 @@
 <tr>
 <td><code>--&gt;</code></td>
 <td><strong>Associação</strong></td>
-<td>A classe <strong>conhece/referencia</strong> a outra, mas ambas existem independentemente</td>
+<td>A classe <strong>conhece</strong> a outra, mas ambas existem independentemente</td>
 </tr>
 <tr>
 <td><code>o--&gt;</code></td>
@@ -896,7 +1023,7 @@
 <tr>
 <td><code>*--&gt;</code></td>
 <td><strong>Composição</strong></td>
-<td>A classe <strong>é composta por</strong> / <strong>contém</strong> a outra. A parte <strong>não existe sem o todo</strong></td>
+<td>A classe <strong>contém</strong> a outra; a parte <strong>não existe sem o todo</strong></td>
 </tr>
 <tr>
 <td><code>&lt;|--</code></td>
@@ -905,6 +1032,105 @@
 </tr>
 </tbody>
 </table>
+<p>Identifique no diagrama: <code>Categoria --&gt; Produto</code> é associação (produto existe sem categoria? Sim, ele poderia ficar sem categoria). <code>Carrinho *--&gt; ItemCarrinho</code> é composição (item existe sem carrinho? Não). Essa distinção será importante mais adiante.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Lições importantes</p>
+<p>É importante aprender uma lição logo no início: <strong>software evolui</strong>. Não existe obrigação de modelar todo o sistema antes de começar. Modelaremos apenas o suficiente para resolver o problema atual.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Simplificação nesta versão</p>
+<p>Você notou que <code>Produto</code> possui <code>quantidade_estoque</code>? Nesta primeira versão mantivemos a quantidade no próprio produto por simplicidade. Futuramente veremos que o estoque merece uma classe própria com regras específicas — mas isso ficará para um módulo mais adiante.</p>
+</div>
+<hr />
+<h2 id="um-produto-conhece-seu-carrinho">Um produto conhece seu carrinho?<a class="headerlink" href="#um-produto-conhece-seu-carrinho" title="Permanent link">&para;</a></h2>
+<p>Imagine um produto chamado "Notebook Gamer". Ele precisa saber em quais carrinhos ele foi colocado?</p>
+<p><strong>Não.</strong> O produto existe independentemente dos clientes. Logo, ele não deve armazenar uma lista de carrinhos. Essa decisão reduz o <strong>acoplamento</strong> entre as classes.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Correto: Produto não sabe quem o colocou no carrinho</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">preco</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">quantidade_estoque</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">categoria</span><span class="p">:</span> <span class="s2">&quot;Categoria&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">quantidade_estoque</span> <span class="o">=</span> <span class="n">quantidade_estoque</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">categoria</span> <span class="o">=</span> <span class="n">categoria</span>  <span class="c1"># Sabe sua categoria, mas não seus carrinhos</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">esta_disponivel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantidade_estoque</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></code></pre></div>
+<hr />
+<h2 id="um-carrinho-conhece-seus-produtos">Um carrinho conhece seus produtos?<a class="headerlink" href="#um-carrinho-conhece-seus-produtos" title="Permanent link">&para;</a></h2>
+<p><strong>Sim.</strong> O carrinho precisa saber quais itens foram adicionados. Portanto, faz sentido que ele possua uma coleção de itens. Essa é uma relação natural do domínio.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Carrinho</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">itens</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># O carrinho conhece seus itens</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">:</span> <span class="s2">&quot;Produto&quot;</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<hr />
+<h2 id="produto-ou-item-do-carrinho">Produto ou Item do Carrinho?<a class="headerlink" href="#produto-ou-item-do-carrinho" title="Permanent link">&para;</a></h2>
+<p>Essa costuma ser uma dúvida muito comum. Por que não armazenar diretamente uma lista de produtos dentro do carrinho?</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Carrinho</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">produtos</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Problema: como representar quantidade?</span>
+</span></code></pre></div>
+<p>Parece funcionar, mas imagine que o cliente adicione <strong>três unidades do mesmo produto</strong>. Como representaríamos a quantidade? Talvez repetindo o produto três vezes. Isso gera diversos problemas.</p>
+<p>Além disso, imagine que seja necessário registrar o preço do produto <strong>no momento da compra</strong>. E se o preço mudar amanhã?</p>
+<p>Percebemos então que existe um <strong>novo conceito</strong> no domínio. Não é apenas um produto. É um <strong>produto dentro do carrinho</strong>. Esse conceito possui informações próprias:</p>
+<ul>
+<li>Produto</li>
+<li>Quantidade</li>
+<li>Preço no momento da inclusão</li>
+<li>Subtotal</li>
+</ul>
+<p>Portanto, ele merece uma classe própria: <strong>ItemCarrinho</strong>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Princípio importante</p>
+<p>Quando um relacionamento começa a possuir informações próprias, ele normalmente merece se transformar em um <strong>objeto</strong>.</p>
+</div>
+<hr />
+<p>Vamos testar esse raciocínio com outra história:</p>
+<blockquote>
+<p>Maria entrou em uma loja virtual, adicionou dois livros ao carrinho, depois removeu um deles, aplicou um cupom de 10% e finalizou a compra pagando com boleto bancário.</p>
+</blockquote>
+<p>As entidades que surgem são as mesmas: Cliente, Produto, Carrinho, ItemCarrinho, Cupom, Pedido, Pagamento. A estrutura do modelo não mudou — apenas os valores específicos da narrativa.</p>
+<hr />
+<h2 id="de-que-tipo-e-cada-relacionamento">De que tipo é cada relacionamento?<a class="headerlink" href="#de-que-tipo-e-cada-relacionamento" title="Permanent link">&para;</a></h2>
+<p>Agora que modelamos as entidades, precisamos decidir que tipo de relação existe entre elas. Observe as classes <code>Carrinho</code> e <code>ItemCarrinho</code>. Seria correto fazer?</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ItemCarrinho</span><span class="p">(</span><span class="n">Carrinho</span><span class="p">):</span>  <span class="c1"># ERRADO!</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p><strong>Não.</strong> Um item do carrinho <strong>não é um carrinho</strong>. Ele <strong>faz parte</strong> de um carrinho. Temos uma relação de <strong>composição</strong>, e não de herança.</p>
+<details class="danger">
+<summary>Erro comum entre iniciantes</summary>
+<p>Este é um erro muito comum. Uma regra prática bastante utilizada é perguntar:</p>
+<blockquote>
+<p>Podemos dizer que "ItemCarrinho <strong>é um</strong> Carrinho"?</p>
+</blockquote>
+<p><strong>Não.</strong> Então herança não faz sentido.</p>
+<p>Agora pergunte:</p>
+<blockquote>
+<p>Um Carrinho <strong>possui vários</strong> ItemCarrinho?</p>
+</blockquote>
+<p><strong>Sim.</strong> Logo, composição representa melhor essa relação.</p>
+</details>
+<p>O fluxograma abaixo ajuda a decidir qual tipo de relação usar em cada caso:</p>
+<pre class="mermaid"><code>flowchart TD
+    A["ItemCarrinho é um Carrinho?"]
+    A --&gt;|Sim| B[Herança]
+    A --&gt;|Não| C[Composição ou Associação?]
+    C --&gt; D["Carrinho possui ItemCarrinho&lt;br&gt;e Item some se Carrinho for removido?"]
+    D --&gt;|Sim| E[Composição *--&gt;]
+    D --&gt;|Não| F[Associação --&gt;]
+
+    style A fill:#f0ad4e,color:#000
+    style B fill:#4caf50,color:#fff
+    style C fill:#f0ad4e,color:#000
+    style E fill:#4caf50,color:#fff
+    style F fill:#2196f3,color:#fff</code></pre>
 <h3 id="exemplos-praticos-no-e-commerce">Exemplos práticos no E-Commerce<a class="headerlink" href="#exemplos-praticos-no-e-commerce" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -961,46 +1187,14 @@
 </tr>
 </tbody>
 </table>
-<h3 id="identificando-na-pratica">Identificando na prática<a class="headerlink" href="#identificando-na-pratica" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart TD
-    A["ItemCarrinho é um Carrinho?"]
-    A --&gt;|Sim| B[Herança]
-    A --&gt;|Não| C[Composição ou Associação?]
-    C --&gt; D["Carrinho possui ItemCarrinho&lt;br&gt;e Item some se Carrinho for removido?"]
-    D --&gt;|Sim| E[Composição *--&gt;]
-    D --&gt;|Não| F[Associação --&gt;]
-
-    style A fill:#f0ad4e,color:#000
-    style B fill:#4caf50,color:#fff
-    style C fill:#f0ad4e,color:#000
-    style E fill:#4caf50,color:#fff
-    style F fill:#2196f3,color:#fff</code></pre>
 <hr />
 <h2 id="composicao-no-nosso-modelo">Composição no nosso modelo<a class="headerlink" href="#composicao-no-nosso-modelo" title="Permanent link">&para;</a></h2>
-<p>Nosso modelo atual utiliza composição em diversos pontos:</p>
-<pre class="mermaid"><code>classDiagram
-    class Cliente {
-        +carrinho: Carrinho
-    }
-
-    class Carrinho {
-        +itens: list~ItemCarrinho~
-    }
-
-    class ItemCarrinho {
-        +produto: Produto
-        +quantidade: int
-    }
-
-    class Produto {
-        +categoria: Categoria
-    }
-
-    Cliente *--&gt; Carrinho : possui
-    Carrinho *--&gt; ItemCarrinho : contém
-    ItemCarrinho --&gt; Produto : referencia
-    Produto --&gt; Categoria : pertence a</code></pre>
-<p>Note que usamos composição (losango preenchido) onde a relação é <strong>todo-parte</strong> (Carrinho contém Itens, Cliente possui Carrinho), e associação simples onde é apenas <strong>referência</strong> (ItemCarrinho referencia Produto, mas não o contém).</p>
+<p>Volte ao diagrama de classes do início deste capítulo. Observe os relacionamentos com losango preenchido (<code>*--&gt;</code>):</p>
+<ul>
+<li><code>Cliente *--&gt; Carrinho</code> — o carrinho não existe sem o cliente</li>
+<li><code>Carrinho *--&gt; ItemCarrinho</code> — o item não existe sem o carrinho</li>
+</ul>
+<p>Esses são relacionamentos de <strong>composição</strong> (todo-parte). As demais setas no diagrama são <strong>associação</strong> simples (referência).</p>
 <div class="admonition tip">
 <p class="admonition-title">Regra prática para o curso</p>
 <p>Durante este curso, <strong>composição será utilizada muito mais frequentemente do que herança</strong>, refletindo uma prática comum em projetos modernos. A herança será reservada para casos onde realmente existe uma relação "é um" clara e benéfica para o projeto.</p>
@@ -1048,27 +1242,44 @@
 <p><strong>Reflexão:</strong> Nossa modelagem atual prevê <strong>um</strong> carrinho por cliente. Mas será que isso será suficiente? Será que nossa modelagem precisará evoluir futuramente? Essa é exatamente a natureza iterativa do design de software.</p>
 </details>
 <hr />
-<h2 id="o-que-faremos-a-seguir">O que faremos a seguir<a class="headerlink" href="#o-que-faremos-a-seguir" title="Permanent link">&para;</a></h2>
-<p>Agora que entendemos melhor o domínio e revisamos os conceitos fundamentais, começaremos finalmente a escrever código. Mas faremos isso com uma preocupação constante: <strong>cada classe deverá possuir uma responsabilidade clara</strong>.</p>
-<p>Não criaremos classes apenas porque "parece necessário". Cada atributo, método e relacionamento será justificado com base no domínio do problema e nos princípios da Programação Orientada a Objetos.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># O que está por vir...</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">preco</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">categoria</span><span class="p">:</span> <span class="s2">&quot;Categoria&quot;</span><span class="p">):</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">categoria</span> <span class="o">=</span> <span class="n">categoria</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">disponivel</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percentual</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">percentual</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Percentual deve estar entre 0 e 100&quot;</span><span class="p">)</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
-</span></code></pre></div>
+<h2 id="exercicios">Exercícios<a class="headerlink" href="#exercicios" title="Permanent link">&para;</a></h2>
+<h3 id="nivel-1-fixacao">Nível 1 — Fixação<a class="headerlink" href="#nivel-1-fixacao" title="Permanent link">&para;</a></h3>
+<ol>
+<li>No diagrama de classes do início deste capítulo, identifique quais relacionamentos são de <strong>composição</strong> e quais são de <strong>associação</strong>. Justifique cada escolha.</li>
+<li>Adicione um atributo <code>descricao: str</code> à classe <code>Produto</code> e explique por que ele pertence a essa classe.</li>
+</ol>
+<h3 id="nivel-2-aplicacao">Nível 2 — Aplicação<a class="headerlink" href="#nivel-2-aplicacao" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Modele o relacionamento entre <code>Cliente</code> e <code>Endereco</code>. Cada cliente pode ter um ou mais endereços (entrega, cobrança). É composição ou associação? Justifique.</li>
+<li>Imagine que o carrinho precise registrar a data em que cada item foi adicionado. Onde esse atributo deveria ficar? Por quê?</li>
+</ol>
+<h3 id="nivel-3-desafio">Nível 3 — Desafio<a class="headerlink" href="#nivel-3-desafio" title="Permanent link">&para;</a></h3>
+<ol>
+<li>No sistema financeiro, identifique um relacionamento que poderia ser modelado como composição. Pense em uma <code>Carteira</code> que contém <code>Investimentos</code>, ou um <code>Orçamento</code> que contém <code>CategoriasDeGasto</code>. Modele esse relacionamento e justifique sua escolha.</li>
+</ol>
 <hr />
 <h2 id="aplicando-ao-projeto-financeiro">Aplicando ao Projeto Financeiro<a class="headerlink" href="#aplicando-ao-projeto-financeiro" title="Permanent link">&para;</a></h2>
-<p>No E-Commerce, temos <code>Carrinho *--&gt; ItemCarrinho</code> (composição) e <code>ItemCarrinho --&gt; Produto</code> (associação). Identifique no sistema financeiro quais relacionamentos seriam composição e quais seriam associação. Por exemplo: uma <code>Carteira</code> <strong>contém</strong> <code>Investimentos</code>? Ou apenas <strong>referencia</strong>? Por quê?</p>
+<p>No E-Commerce, uma classe própria (<code>ItemCarrinho</code>) surgiu porque a simples lista de <code>Produto</code> não era suficiente — precisávamos de quantidade e preço no momento da compra. Existe alguma situação semelhante no sistema financeiro, onde um relacionamento simples entre dois objetos precisaria se tornar uma classe própria?</p>
+<p>Analise também os relacionamentos do sistema financeiro: uma <code>Carteira</code> <strong>contém</strong> <code>Investimentos</code> ou apenas os <strong>referencia</strong>? Um <code>Orçamento</code> <strong>possui</strong> <code>CategoriasDeGasto</code> ou apenas as <strong>lista</strong>? Justifique cada decisão com base no que aprendeu sobre composição e associação.</p>
 <hr />
-<p>Nas próximas aulas iniciaremos a implementação completa do nosso sistema.</p>
+<h2 id="o-que-vem-a-seguir">O que vem a seguir<a class="headerlink" href="#o-que-vem-a-seguir" title="Permanent link">&para;</a></h2>
+<p>Agora que entendemos melhor o domínio, modelamos as primeiras entidades e aprendemos a diferenciar composição de herança, começaremos finalmente a escrever código. Mas faremos isso com uma preocupação constante: <strong>cada classe deverá possuir uma responsabilidade clara</strong>.</p>
+<p>Não criaremos classes apenas porque "parece necessário". Cada atributo, método e relacionamento será justificado com base no domínio do problema e nos princípios da Programação Orientada a Objetos.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># O que está por vir...</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">preco</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">categoria</span><span class="p">:</span> <span class="s2">&quot;Categoria&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">categoria</span> <span class="o">=</span> <span class="n">categoria</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">disponivel</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percentual</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">percentual</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Percentual deve estar entre 0 e 100&quot;</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+</span></code></pre></div>
+<p>No próximo módulo iniciaremos a implementação completa do nosso sistema.</p>
 
 
 
@@ -1106,7 +1317,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
         
           
-          <a href="../entidades/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Primeiras entidades">
+          <a href="../capitulo2/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Capítulo 2 — Conhecendo o domínio">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
@@ -1116,11 +1327,27 @@
                 Anterior
               </span>
               <div class="md-ellipsis">
-                Primeiras entidades
+                Capítulo 2 — Conhecendo o domínio
               </div>
             </div>
           </a>
         
+        
+          
+          <a href="../capitulo4/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Capítulo 4 — Mão na massa: implementando as classes">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Capítulo 4 — Mão na massa: implementando as classes
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
         
       </nav>
     

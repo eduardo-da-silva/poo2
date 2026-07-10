@@ -10,13 +10,13 @@
         <meta name="author" content="Eduardo da Silva">
       
       
-        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/aula1/revisando-poo/">
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/poo2/modulo1/capitulo1/">
       
       
-        <link rel="prev" href="../projetos/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../dominio/">
+        <link rel="next" href="../capitulo2/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Revisando Orientação a Objetos - Programação Orientada a Objetos II</title>
+        <title>Capítulo 1 — O que significa projetar software - Programação Orientada a Objetos II</title>
       
     
     
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#revisando-orientacao-a-objetos" class="md-skip">
+        <a href="#capitulo-1-o-que-significa-projetar-software" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Revisando Orientação a Objetos
+              Capítulo 1 — O que significa projetar software
             
           </span>
         </div>
@@ -280,8 +280,6 @@
       
         
       
-        
-      
     
     
     
@@ -306,7 +304,7 @@
   <span class="md-ellipsis">
     
   
-  Aula 1 — Introdução ao Curso
+  Módulo 1 — Construindo o Domínio
 
     
   </span>
@@ -327,38 +325,11 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-  Aula 1 — Introdução ao Curso
+  Módulo 1 — Construindo o Domínio
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../projetos/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Projetos da disciplina
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -384,7 +355,7 @@
   <span class="md-ellipsis">
     
   
-  Revisando POO
+  Capítulo 1 — O que significa projetar software
 
     
   </span>
@@ -401,7 +372,7 @@
   <span class="md-ellipsis">
     
   
-  Revisando POO
+  Capítulo 1 — O que significa projetar software
 
     
   </span>
@@ -427,6 +398,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#nossa-primeira-preocupacao-modelar-o-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nossa primeira preocupação: modelar o domínio
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-projeto-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        O projeto principal
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-projeto-individual" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        O projeto individual
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#antes-de-comecar-o-que-faz-uma-boa-orientacao-a-objetos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Antes de começar: o que faz uma boa orientação a objetos?
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Antes de começar: o que faz uma boa orientação a objetos?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#objetos-representam-conceitos-do-dominio" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -436,8 +452,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#classes-existem-para-representar-comportamento" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -447,8 +463,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#objetos-ricos-e-objetos-anemicos" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -458,8 +474,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#encapsulamento" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -469,12 +485,28 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#responsabilidade-das-classes" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#responsabilidade-a-pergunta-mais-importante" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Responsabilidade das classes
+        Responsabilidade: a pergunta mais importante
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uma-ultima-reflexao-antes-de-prosseguir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Uma última reflexão antes de prosseguir
       </span>
     </span>
   </a>
@@ -482,10 +514,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#uma-ultima-reflexao" class="md-nav__link">
+  <a href="#muito-alem-do-python" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Uma última reflexão
+        Muito além do Python
       </span>
     </span>
   </a>
@@ -519,14 +551,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../dominio/" class="md-nav__link">
+      <a href="../capitulo2/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Conhecendo o domínio
+  Capítulo 2 — Conhecendo o domínio
 
     
   </span>
@@ -546,14 +578,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../entidades/" class="md-nav__link">
+      <a href="../capitulo3/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Primeiras entidades
+  Capítulo 3 — Primeiras entidades e relacionamentos
 
     
   </span>
@@ -573,14 +605,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../composicao-heranca/" class="md-nav__link">
+      <a href="../capitulo4/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-  Composição ou herança
+  Capítulo 4 — Mão na massa: implementando as classes
 
     
   </span>
@@ -641,6 +673,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#nossa-primeira-preocupacao-modelar-o-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nossa primeira preocupação: modelar o domínio
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-projeto-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        O projeto principal
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-projeto-individual" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        O projeto individual
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#antes-de-comecar-o-que-faz-uma-boa-orientacao-a-objetos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Antes de começar: o que faz uma boa orientação a objetos?
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Antes de começar: o que faz uma boa orientação a objetos?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#objetos-representam-conceitos-do-dominio" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -650,8 +727,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#classes-existem-para-representar-comportamento" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -661,8 +738,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#objetos-ricos-e-objetos-anemicos" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -672,8 +749,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#encapsulamento" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -683,12 +760,28 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#responsabilidade-das-classes" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#responsabilidade-a-pergunta-mais-importante" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Responsabilidade das classes
+        Responsabilidade: a pergunta mais importante
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uma-ultima-reflexao-antes-de-prosseguir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Uma última reflexão antes de prosseguir
       </span>
     </span>
   </a>
@@ -696,10 +789,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#uma-ultima-reflexao" class="md-nav__link">
+  <a href="#muito-alem-do-python" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Uma última reflexão
+        Muito além do Python
       </span>
     </span>
   </a>
@@ -773,8 +866,6 @@
       
         
       
-        
-      
     
     
     
@@ -784,7 +875,7 @@
           
   
   <span class="md-ellipsis">
-    Aula 1 — Introdução ao Curso
+    Módulo 1 — Construindo o Domínio
   </span>
 
         </a>
@@ -801,7 +892,7 @@
                 
                   
   
-    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/aula1/revisando-poo.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/eduardo-da-silva/poo2/edit/main/docs/modulo1/capitulo1.md" title="Editar esta página" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
     </a>
@@ -809,52 +900,140 @@
   
 
 
-<h1 id="revisando-orientacao-a-objetos">Revisando Orientação a Objetos<a class="headerlink" href="#revisando-orientacao-a-objetos" title="Permanent link">&para;</a></h1>
-<p>Uma definição bastante conhecida diz que Programação Orientada a Objetos é um paradigma baseado em objetos que encapsulam dados e comportamentos. Embora essa definição esteja correta, ela ainda é insuficiente.</p>
-<p>Na prática, desenvolver orientado a objetos significa <strong>dividir um problema complexo em pequenos objetos</strong>, cada um responsável por uma parte do sistema. Cada objeto possui um conjunto limitado de responsabilidades. Esses objetos colaboram entre si para resolver problemas maiores.</p>
+<h1 id="capitulo-1-o-que-significa-projetar-software">Capítulo 1 — O que significa projetar software<a class="headerlink" href="#capitulo-1-o-que-significa-projetar-software" title="Permanent link">&para;</a></h1>
+<p>Imagine que uma loja virtual precise calcular o valor total do carrinho de compras. Onde esse cálculo deveria acontecer?</p>
+<ul>
+<li>Na classe <code>Produto</code>?</li>
+<li>Na classe <code>Cliente</code>?</li>
+<li>Na classe <code>Pedido</code>?</li>
+<li>Na classe <code>Carrinho</code>?</li>
+<li>Em uma função separada?</li>
+<li>Em um serviço?</li>
+</ul>
+<p>Todas essas alternativas são tecnicamente possíveis. Entretanto, apenas algumas delas conduzem a um projeto organizado e de fácil manutenção.</p>
 <div class="admonition warning">
-<p class="admonition-title">Sinal de alerta</p>
-<p>Uma consequência importante dessa abordagem é que <strong>nenhum objeto deve tentar resolver tudo sozinho</strong>. Quando encontramos uma classe enorme, com centenas ou milhares de linhas de código e dezenas de responsabilidades diferentes, normalmente estamos diante de um problema de projeto.</p>
+<p class="admonition-title">Reflexão importante</p>
+<p><strong>As primeiras linhas de código de um projeto são as mais caras.</strong> Quando escolhemos mal as responsabilidades das classes, criamos dependências desnecessárias ou utilizamos abstrações inadequadas, esses problemas tendem a acompanhar o projeto durante meses ou até anos.</p>
 </div>
+<p>Durante este livro aprenderemos a tomar esse tipo de decisão utilizando princípios consolidados da Engenharia de Software.</p>
+<h2 id="nossa-primeira-preocupacao-modelar-o-dominio">Nossa primeira preocupação: modelar o domínio<a class="headerlink" href="#nossa-primeira-preocupacao-modelar-o-dominio" title="Permanent link">&para;</a></h2>
+<p>Antes de escrever qualquer linha de código precisamos responder algumas perguntas:</p>
+<ul>
+<li>O que existe dentro de um E-Commerce?</li>
+<li>Quais objetos fazem parte desse sistema?</li>
+<li>Quais deles possuem comportamento próprio?</li>
+<li>Quais apenas armazenam informações?</li>
+<li>Quais dependem uns dos outros?</li>
+<li>Quais podem existir sozinhos?</li>
+</ul>
+<p>Responder corretamente essas perguntas costuma ser muito mais importante do que escrever rapidamente centenas de linhas de código. Um projeto bem modelado tende a evoluir naturalmente. Um projeto mal modelado costuma acumular problemas a cada nova funcionalidade.</p>
 <hr />
-<h2 id="objetos-representam-conceitos-do-dominio">Objetos representam conceitos do domínio<a class="headerlink" href="#objetos-representam-conceitos-do-dominio" title="Permanent link">&para;</a></h2>
-<p>Observe as seguintes classes:</p>
+<h2 id="o-projeto-principal">O projeto principal<a class="headerlink" href="#o-projeto-principal" title="Permanent link">&para;</a></h2>
+<p>Vamos começar com uma história.</p>
+<blockquote>
+<p>A universidade decidiu criar uma loja virtual para vender produtos institucionais. Camisetas, canecas, moletons com o logo da instituição. Inicialmente o sistema será simples: os alunos poderão navegar pelos produtos, adicionar itens a um carrinho e finalizar a compra. Mas sabemos que esse sistema crescerá. No futuro precisará de categorias, descontos, formas de pagamento, controle de estoque, notificações.</p>
+</blockquote>
+<p>É justamente essa história que guiará todo o curso. Não construiremos um sistema genérico. Construiremos um sistema que <strong>evolui</strong> exatamente como um software real. A cada módulo, uma nova necessidade surge — e com ela, um novo conceito de projeto.</p>
+<p>Nosso sistema de E-Commerce será desenvolvido gradualmente. Não começaremos implementando dezenas de funcionalidades.</p>
+<pre class="mermaid"><code>mindmap
+  root((E-Commerce))
+    Gerenciamento
+      Produtos
+      Categorias
+      Clientes
+      Estoque
+    Compras
+      Carrinho
+      Cupons
+      Descontos
+    Pagamento
+      Formas de pagamento
+      Processamento
+    Pós-venda
+      Pedidos
+      Notificações
+    Qualidade
+      Persistência
+      Testes automatizados</code></pre>
+<p>Cada recurso será implementado aos poucos, servindo como contexto para introduzir novos conceitos.</p>
+<hr />
+<h2 id="o-projeto-individual">O projeto individual<a class="headerlink" href="#o-projeto-individual" title="Permanent link">&para;</a></h2>
+<p>Enquanto desenvolvemos o E-Commerce, cada estudante desenvolverá <strong>outro sistema</strong>: um <strong>Sistema de Controle Financeiro Pessoal</strong>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Objetivo do projeto individual</p>
+<p>O objetivo não é copiar o projeto do professor. Pelo contrário. O objetivo é aplicar os mesmos princípios aprendidos em um domínio completamente diferente.</p>
+</div>
+<p>Essa estratégia possui três vantagens:</p>
+<ol>
+<li><strong>Evita a reprodução mecânica</strong> — você não apenas reproduz o código apresentado</li>
+<li><strong>Exige análise própria</strong> — cada estudante precisa analisar um novo problema antes de decidir como implementar sua solução</li>
+<li><strong>Verifica o aprendizado</strong> — permite verificar se os conceitos realmente foram compreendidos</li>
+</ol>
+<p>Sempre que um novo conceito for apresentado no E-Commerce, você deverá identificar como aquele mesmo conceito pode ser aplicado ao sistema financeiro. Ao final do livro, teremos <strong>dois sistemas diferentes</strong>, mas desenvolvidos utilizando os <strong>mesmos princípios de projeto</strong>.</p>
+<details class="question">
+<summary>Possíveis funcionalidades do sistema financeiro</summary>
+<ul>
+<li>Controle de receitas e despesas</li>
+<li>Categorias de gastos</li>
+<li>Orçamento mensal</li>
+<li>Metas de economia</li>
+<li>Relatórios por período</li>
+<li>Cartões de crédito e faturas</li>
+<li>Investimentos</li>
+</ul>
+</details>
+<p>Nossa abordagem segue esta sequência:</p>
+<div style="text-align: center;">
+
+<pre class="mermaid"><code>flowchart LR
+    subgraph Nossa abordagem
+        B1[Problema real] --&gt; B2[Domínio] --&gt; B3[Responsabilidades] --&gt; B4[Código]
+    end
+    style B4 fill:#4caf50,color:#fff</code></pre>
+
+</div>
+
+<p>Sempre partiremos de um <strong>problema do mundo real</strong>. Primeiro entenderemos o domínio. Depois identificaremos responsabilidades. Somente então escreveremos código.</p>
+<blockquote>
+<p><strong>Quem deveria ser responsável por executar esta regra de negócio?</strong></p>
+</blockquote>
+<p>Essa pergunta parece simples. Entretanto, ela está presente em praticamente todas as decisões de projeto.</p>
+<hr />
+<h2 id="antes-de-comecar-o-que-faz-uma-boa-orientacao-a-objetos">Antes de começar: o que faz uma boa orientação a objetos?<a class="headerlink" href="#antes-de-comecar-o-que-faz-uma-boa-orientacao-a-objetos" title="Permanent link">&para;</a></h2>
+<p>Antes de modelarmos nosso E-Commerce, precisamos alinhar alguns fundamentos. Você provavelmente já viu esses conceitos antes. A diferença é que, neste livro, não vamos tratá-los como definições a decorar — vamos usá-los como <strong>ferramentas de decisão</strong>.</p>
+<h3 id="objetos-representam-conceitos-do-dominio">Objetos representam conceitos do domínio<a class="headerlink" href="#objetos-representam-conceitos-do-dominio" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">pass</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Cliente</span><span class="p">:</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">pass</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Carrinho</span><span class="p">:</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">pass</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Cliente</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">pass</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">Carrinho</span><span class="p">:</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">pass</span>
 </span></code></pre></div>
-<p>Esses nomes não foram escolhidos por acaso. Eles fazem parte da linguagem utilizada pelas pessoas que trabalham em uma loja virtual. Essa ideia é extremamente importante.</p>
+<p>Esses nomes não foram escolhidos por acaso. Eles fazem parte da linguagem utilizada pelas pessoas que trabalham em uma loja virtual.</p>
 <div class="admonition tip">
 <p class="admonition-title">A linguagem do domínio</p>
 <p>Sempre que possível, nossas classes devem representar conceitos reais do domínio. Quando um especialista da área conversa com um desenvolvedor, ambos deveriam compreender o significado dessas classes.</p>
-<p>Se começarmos a criar classes chamadas <code>Processador123</code>, <code>UtilitarioGlobal</code>, <code>SistemaManager</code> ou <code>ClasseAuxiliar</code>, provavelmente estamos nos afastando da linguagem do domínio.</p>
+<p>Se começarmos a criar classes chamadas <code>Processador123</code>, <code>UtilitarioGlobal</code> ou <code>SistemaManager</code>, provavelmente estamos nos afastando da linguagem do domínio.</p>
 </div>
-<hr />
-<h2 id="classes-existem-para-representar-comportamento">Classes existem para representar comportamento<a class="headerlink" href="#classes-existem-para-representar-comportamento" title="Permanent link">&para;</a></h2>
-<p>Um erro bastante comum entre iniciantes é imaginar que uma classe serve apenas para armazenar dados.</p>
+<h3 id="classes-existem-para-representar-comportamento">Classes existem para representar comportamento<a class="headerlink" href="#classes-existem-para-representar-comportamento" title="Permanent link">&para;</a></h3>
+<p>Um erro comum é imaginar que uma classe serve apenas para armazenar dados:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="mi">0</span>
 </span></code></pre></div>
-<p>Essa classe praticamente funciona como um dicionário. Ela não possui comportamento. Ela apenas guarda informações.</p>
+<p>Essa classe funciona como um dicionário. Ela não possui comportamento.</p>
 <p>Agora imagine um produto que sabe responder perguntas sobre si mesmo:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">produto</span><span class="o">.</span><span class="n">esta_disponivel</span><span class="p">()</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">produto</span><span class="o">.</span><span class="n">aplicar_desconto</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">produto</span><span class="o">.</span><span class="n">alterar_preco</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">produto</span><span class="o">.</span><span class="n">aumentar_preco</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Agora estamos começando a utilizar objetos da maneira como foram concebidos. Objetos possuem <strong>estado</strong>, mas também possuem <strong>comportamento</strong>. Aliás, muitas vezes o comportamento é mais importante que os próprios atributos.</p>
-<hr />
-<h2 id="objetos-ricos-e-objetos-anemicos">Objetos ricos e objetos anêmicos<a class="headerlink" href="#objetos-ricos-e-objetos-anemicos" title="Permanent link">&para;</a></h2>
+<p>Agora estamos começando a utilizar objetos da maneira como foram concebidos. Objetos possuem <strong>estado</strong>, mas também possuem <strong>comportamento</strong>. Muitas vezes o comportamento é mais importante que os próprios atributos.</p>
+<h3 id="objetos-ricos-e-objetos-anemicos">Objetos ricos e objetos anêmicos<a class="headerlink" href="#objetos-ricos-e-objetos-anemicos" title="Permanent link">&para;</a></h3>
 <p>Este é um conceito que aparecerá diversas vezes durante o curso.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="objetos-ricos-e-objetos-anemicos-objeto-anêmico" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="objetos-ricos-e-objetos-anemicos-objeto-anêmico">Objeto anêmico</label></div>
 <div class="tabbed-content">
@@ -893,7 +1072,6 @@
 </div>
 </div>
 </div>
-<p>Qual delas representa melhor um produto? A segunda. Ela não apenas armazena informações, mas também sabe agir. Chamamos esse tipo de objeto de <strong>objeto rico</strong>. Já objetos que apenas armazenam dados são frequentemente chamados de <strong>objetos anêmicos</strong>.</p>
 <details class="info">
 <summary>Objeto rico vs. Objeto anêmico</summary>
 <table>
@@ -925,29 +1103,18 @@
 <td>Baixa — lógica espalhada pelo sistema</td>
 <td>Alta — comportamento encapsulado</td>
 </tr>
-<tr>
-<td>Exemplo</td>
-<td><code>produto.preco = -500</code></td>
-<td><code>produto.aplicar_desconto(10)</code></td>
-</tr>
-<tr>
-<td>Manutenibilidade</td>
-<td>Difícil — regras duplicadas</td>
-<td>Fácil — regras em um só lugar</td>
-</tr>
 </tbody>
 </table>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Objeto anêmico — apenas dados</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Objeto anêmico — regra de desconto fica fora da classe</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">preco</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="n">preco</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Uso: regra de desconto fica fora da classe</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="n">produto</span><span class="p">:</span> <span class="n">Produto</span><span class="p">,</span> <span class="n">percentual</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">aplicar_desconto</span><span class="p">(</span><span class="n">produto</span><span class="p">:</span> <span class="n">Produto</span><span class="p">,</span> <span class="n">percentual</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Objeto rico — dados + comportamento</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Objeto rico — regra dentro da própria classe</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">preco</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
@@ -958,19 +1125,18 @@
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Percentual inválido&quot;</span><span class="p">)</span>
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preco</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentual</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Perceba que no objeto rico a <strong>regra de negócio</strong> (validação do percentual, cálculo do desconto) está dentro da própria classe. No objeto anêmico, essa regra precisaria ser replicada em cada lugar que altera o preço — o que gera duplicação e erros.</p>
+<p>Perceba que no objeto rico a <strong>regra de negócio</strong> está dentro da própria classe. No anêmico, ela precisaria ser replicada em cada lugar que altera o preço.</p>
 </details>
 <details class="tip">
 <summary>Quando usar cada um?</summary>
 <ul>
-<li><strong>Objetos anêmicos</strong> são aceitáveis em camadas de transferência de dados (DTOs) ou registros de banco de dados, onde o objetivo é apenas transportar informações.</li>
-<li><strong>Objetos ricos</strong> devem ser a regra na camada de domínio, onde as regras de negócio precisam ser protegidas e encapsuladas.</li>
+<li><strong>Objetos anêmicos</strong> são aceitáveis em camadas de transferência de dados (DTOs)</li>
+<li><strong>Objetos ricos</strong> devem ser a regra na camada de domínio</li>
 </ul>
 </details>
-<p>Ao longo do curso, evitaremos transformar nossas classes em simples estruturas de dados.</p>
-<hr />
-<h2 id="encapsulamento">Encapsulamento<a class="headerlink" href="#encapsulamento" title="Permanent link">&para;</a></h2>
-<p>Quando falamos em encapsulamento, muitos alunos imediatamente pensam em atributos privados. Embora isso faça parte do conceito, encapsulamento é <strong>muito mais</strong> do que esconder atributos.</p>
+<p>Ao longo do livro, evitaremos transformar nossas classes em simples estruturas de dados.</p>
+<h3 id="encapsulamento">Encapsulamento<a class="headerlink" href="#encapsulamento" title="Permanent link">&para;</a></h3>
+<p>Quando falamos em encapsulamento, muitos alunos pensam em atributos privados. Encapsulamento é <strong>muito mais</strong> do que esconder atributos.</p>
 <p>Encapsular significa <strong>proteger as regras do objeto</strong>.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Problema: qualquer parte do sistema pode definir um preço inválido</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">produto</span><span class="o">.</span><span class="n">preco</span> <span class="o">=</span> <span class="o">-</span><span class="mi">500</span>
@@ -982,7 +1148,7 @@
 <p>Perceba a diferença. Não estamos apenas escondendo atributos. Estamos protegendo as regras do negócio.</p>
 <div class="admonition warning">
 <p class="admonition-title">Getters e setters não são encapsulamento</p>
-<p>Muitos desenvolvedores acreditam que encapsular é criar <code>getters</code> e <code>setters</code> para cada atributo. Isso não passa de uma ilusão — você continua expondo os dados e permitindo que qualquer parte do sistema os altere livremente.</p>
+<p>Muitos desenvolvedores acreditam que encapsular é criar <code>getters</code> e <code>setters</code> para cada atributo.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Isto NÃO é encapsulamento de verdade</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Produto</span><span class="p">:</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
@@ -992,26 +1158,23 @@
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preco</span>
 </span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_preco</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_preco</span> <span class="o">=</span> <span class="n">valor</span>
 </span></code></pre></div>
-<ol>
-<li>Este setter permite qualquer valor, inclusive negativo. É um acesso direto disfarçado.</li>
-</ol>
-<p>O que realmente importa não é se o atributo é público ou privado — é se o objeto oferece <strong>operações que fazem sentido para o domínio</strong>. Um produto não deveria permitir "definir preço" genericamente; ele deveria permitir <code>alterar_preco</code>, <code>aplicar_desconto</code>, <code>aumentar_preco</code>. Cada uma dessas operações pode aplicar validações e regras específicas.</p>
+<p>Este setter permite qualquer valor, inclusive negativo. É um acesso direto disfarçado.</p>
 </div>
-<p>Em geral, quando falamos de regras de negócios de um sistema, surge um conceito importante, chamado <em>invariante</em>.  <strong>Invariante</strong> é uma condição que deve ser sempre verdadeira para um objeto. Por exemplo, um <code>Produto</code> pode ter como invariante que seu preço seja sempre positivo. Um <code>Pedido</code> pode ter como invariante que sua data de criação não seja no futuro. Cabe ao próprio objeto garantir que suas invariantes nunca sejam violadas — e é exatamente isso que o encapsulamento viabiliza.</p>
+<p>O que realmente importa não é se o atributo é público ou privado — é se o objeto oferece <strong>operações que fazem sentido para o domínio</strong>. Um produto não deveria permitir "definir preço" genericamente; ele deveria permitir <code>alterar_preco</code>, <code>aplicar_desconto</code>, <code>aumentar_preco</code>.</p>
+<p>Aqui surge um conceito importante: <strong>invariante</strong>. Invariante é uma condição que deve ser sempre verdadeira para um objeto. Um <code>Produto</code> pode ter como invariante que seu preço seja sempre positivo. Cabe ao próprio objeto garantir que suas invariantes nunca sejam violadas.</p>
 <details class="tip">
 <summary>Regra prática</summary>
-<p>Se um <code>setter</code> apenas atribui o valor sem nenhuma validação ou regra, ele não está encapsulando nada. Nesse caso, um atributo público direto teria o mesmo efeito. O encapsulamento só faz sentido quando o método <strong>protege uma invariante do objeto</strong>.</p>
+<p>Se um <code>setter</code> apenas atribui o valor sem nenhuma validação ou regra, ele não está encapsulando nada. Um atributo público direto teria o mesmo efeito.</p>
 </details>
 <div class="admonition success">
 <p class="admonition-title">Princípio</p>
-<p>Esse será um princípio importante durante todo o desenvolvimento do sistema: <strong>cada objeto é responsável por manter seu próprio estado válido</strong>.</p>
+<p><strong>Cada objeto é responsável por manter seu próprio estado válido.</strong></p>
 </div>
-<hr />
-<h2 id="responsabilidade-das-classes">Responsabilidade das classes<a class="headerlink" href="#responsabilidade-das-classes" title="Permanent link">&para;</a></h2>
-<p>Talvez esta seja a ideia mais importante de toda a disciplina. Sempre que criarmos uma classe faremos a seguinte pergunta:</p>
+<h3 id="responsabilidade-a-pergunta-mais-importante">Responsabilidade: a pergunta mais importante<a class="headerlink" href="#responsabilidade-a-pergunta-mais-importante" title="Permanent link">&para;</a></h3>
+<p>Talvez esta seja a ideia mais importante de todo o livro.</p>
 <blockquote>
 <p><strong>De quem é esta responsabilidade?</strong></p>
 </blockquote>
@@ -1025,16 +1188,46 @@
     style C stroke:#4caf50,stroke-width:4px
     style E fill:#4caf50,color:#fff</code></pre>
 <p>Quem conhece todos os itens adicionados? O carrinho. Logo, ele é quem possui as informações necessárias para realizar esse cálculo.</p>
-<p>Esse tipo de raciocínio será repetido dezenas de vezes durante o semestre.</p>
+<p>Esse tipo de raciocínio será repetido dezenas de vezes durante o livro.</p>
 <hr />
-<h2 id="uma-ultima-reflexao">Uma última reflexão<a class="headerlink" href="#uma-ultima-reflexao" title="Permanent link">&para;</a></h2>
-<p>Ao terminar esta revisão, talvez você tenha percebido algo interessante: nós ainda não escrevemos uma única linha do sistema. Mesmo assim, já discutimos decisões que influenciarão todo o projeto.</p>
-<p>Isso acontece porque bons sistemas <strong>não começam pelo código</strong>. Eles começam pelas ideias. E somente quando entendemos bem o problema é que faz sentido escolher como implementá-lo.</p>
+<h2 id="uma-ultima-reflexao-antes-de-prosseguir">Uma última reflexão antes de prosseguir<a class="headerlink" href="#uma-ultima-reflexao-antes-de-prosseguir" title="Permanent link">&para;</a></h2>
+<p>Talvez você tenha percebido algo interessante: nós ainda não escrevemos uma única linha do sistema. Mesmo assim, já discutimos decisões que influenciarão todo o projeto.</p>
+<p>Bons sistemas <strong>não começam pelo código</strong>. Eles começam pelas ideias. Somente quando entendemos bem o problema é que faz sentido escolher como implementá-lo.</p>
+<hr />
+<h2 id="muito-alem-do-python">Muito além do Python<a class="headerlink" href="#muito-alem-do-python" title="Permanent link">&para;</a></h2>
+<p>Embora toda a implementação seja em Python, <strong>este não é um livro sobre Python</strong>. Python será apenas a ferramenta utilizada para implementar as soluções.</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Python] --&gt; B[Conceitos de POO]
+    B --&gt; C[Java]
+    B --&gt; D[C#]
+    B --&gt; E[Kotlin]
+    B --&gt; F[TypeScript]
+    B --&gt; G[Go]
+    B --&gt; H[...]
+    style A fill:#2b5b84,color:#fff
+    style B fill:#f0ad4e,color:#000</code></pre>
+<p>Ao aprender a distribuir responsabilidades corretamente entre classes, reduzir acoplamento ou aplicar padrões de projeto, você estará adquirindo conhecimentos que poderão ser utilizados em <strong>Java, C#, Kotlin, TypeScript, Go</strong> e diversas outras linguagens.</p>
+<div class="admonition info">
+<p class="admonition-title">Foco do livro</p>
+<p>Discutiremos muito mais <strong>por que determinada solução foi escolhida</strong> do que simplesmente <strong>como escrevê-la em Python</strong>.</p>
+</div>
 <hr />
 <h2 id="aplicando-ao-projeto-financeiro">Aplicando ao Projeto Financeiro<a class="headerlink" href="#aplicando-ao-projeto-financeiro" title="Permanent link">&para;</a></h2>
-<p>Volte ao sistema financeiro que você desenvolverá. Um <code>Cliente</code> no E-Commerce possui nome e email. Uma <code>Conta</code> no sistema financeiro possui... o quê? Que atributos e comportamentos ela teria? Pense nisso antes de começar a modelagem.</p>
+<p>Antes de prosseguir, pense no sistema que você desenvolverá individualmente.</p>
+<blockquote>
+<p>Maria recebeu seu salário e precisa organizar as finanças deste mês. Ela quer registrar o salário como receita, categorizar gastos como alimentação, transporte e lazer, definir um limite de gastos para cada categoria, e no fim do mês saber se conseguiu economizar.</p>
+</blockquote>
+<p>Assim como no E-Commerce, essa narrativa nos ajuda a descobrir os objetos do domínio. Algumas perguntas para começar:</p>
+<ul>
+<li>A partir da história da Maria, que objetos você identifica?</li>
+<li>Uma <code>Conta</code> representa uma categoria ou uma instituição financeira?</li>
+<li>Um <code>Lançamento</code> é uma receita ou uma despesa — ou ambos?</li>
+<li>Quem deveria ser responsável por calcular o total gasto em uma categoria?</li>
+<li>O que uma <code>Conta</code> deveria saber fazer? Ela apenas armazena dados ou possui comportamento?</li>
+</ul>
+<p>Experimente listar as primeiras classes do sistema financeiro antes de prosseguir para o próximo capítulo. No Capítulo 2 faremos o mesmo exercício com o E-Commerce.</p>
 <hr />
-<p>Agora que revisamos os fundamentos, vamos explorar o domínio do nosso E-Commerce para entender como ele realmente funciona.</p>
+<p>No próximo capítulo vamos explorar o domínio do nosso E-Commerce — entender como uma loja virtual realmente funciona antes de modelar qualquer classe.</p>
 
 
 
@@ -1072,7 +1265,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
         
           
-          <a href="../projetos/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Projetos da disciplina">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Visão geral do módulo">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
@@ -1082,20 +1275,20 @@
                 Anterior
               </span>
               <div class="md-ellipsis">
-                Projetos da disciplina
+                Visão geral do módulo
               </div>
             </div>
           </a>
         
         
           
-          <a href="../dominio/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Conhecendo o domínio">
+          <a href="../capitulo2/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Capítulo 2 — Conhecendo o domínio">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Próximo
               </span>
               <div class="md-ellipsis">
-                Conhecendo o domínio
+                Capítulo 2 — Conhecendo o domínio
               </div>
             </div>
             <div class="md-footer__button md-icon">

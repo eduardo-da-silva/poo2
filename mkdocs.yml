@@ -104,10 +104,9 @@ markdown_extensions:
 
 nav:
   - Início: index.md
-  - Aula 1 — Introdução ao Curso:
-    - Boas-vindas e objetivos: aula1/index.md
-    - Projetos da disciplina: aula1/projetos.md
-    - Revisando POO: aula1/revisando-poo.md
-    - Conhecendo o domínio: aula1/dominio.md
-    - Primeiras entidades: aula1/entidades.md
-    - Composição ou herança: aula1/composicao-heranca.md
+  - Módulo 1 — Construindo o Domínio:
+    - Visão geral do módulo: modulo1/index.md
+    - Capítulo 1 — O que significa projetar software: modulo1/capitulo1.md
+    - Capítulo 2 — Conhecendo o domínio: modulo1/capitulo2.md
+    - Capítulo 3 — Primeiras entidades e relacionamentos: modulo1/capitulo3.md
+    - "Capítulo 4 — Mão na massa: implementando as classes": modulo1/capitulo4.md

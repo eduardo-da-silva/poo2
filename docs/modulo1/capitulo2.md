@@ -1,6 +1,6 @@
-# Conhecendo o domínio do problema
+# Capítulo 2 — Conhecendo o domínio
 
-Até este momento discutimos como o curso será conduzido e por que aprender a projetar software é mais importante do que simplesmente aprender uma linguagem de programação. Agora chegou o momento de iniciar o desenvolvimento do nosso sistema.
+No capítulo anterior discutimos o que significa projetar software orientado a objetos e por que modelar o domínio é mais importante que escrever código. Agora chegou o momento de conhecer o domínio do nosso sistema.
 
 Entretanto, **ainda não escreveremos código**. Nossa primeira tarefa será compreender o problema que estamos tentando resolver.
 
@@ -157,4 +157,4 @@ Crie uma narrativa semelhante para o sistema financeiro. Imagine um usuário cha
 
 ---
 
-Agora que compreendemos o domínio, vamos modelar as primeiras entidades do nosso sistema.
+Agora que compreendemos o domínio, vamos modelar as primeiras entidades do nosso sistema e entender como elas se relacionam.
