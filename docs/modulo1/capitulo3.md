@@ -1,5 +1,11 @@
 # Capítulo 3 — Primeiras entidades e relacionamentos
 
+!!! info "Situação da Empresa"
+
+    Já conhecemos o domínio do nosso E-Commerce: identificamos as entidades, entendemos o fluxo de uma compra e discutimos como uma loja virtual funciona. Agora é hora de organizar esse conhecimento em um modelo.
+
+    A empresa precisa de um projeto claro antes de começar a implementação. Nosso objetivo neste capítulo é definir as classes, seus atributos, métodos e — principalmente — como elas se relacionam.
+
 Já compreendemos por que o domínio importa e conhecemos os conceitos do nosso E-Commerce através da história do João. Agora é hora de modelar as primeiras entidades.
 
 ## Primeira versão do nosso modelo
@@ -48,7 +54,7 @@ classDiagram
     Cliente "1" *--> "1" Carrinho          : possui
 ```
 
-!!! info "Os símbolos do diagrama (guia de consulta rápida)"
+??? info "Os símbolos do diagrama (guia de consulta rápida)"
 
     | Símbolo | Nome | Significado |
     |---------|------|-------------|
@@ -109,6 +115,8 @@ class Carrinho:
 
 ## Produto ou Item do Carrinho?
 
+🧠 **Pense:** se você precisasse representar a quantidade de cada produto dentro do carrinho, como faria? Uma lista simples de `Produto` seria suficiente?
+
 Essa costuma ser uma dúvida muito comum. Por que não armazenar diretamente uma lista de produtos dentro do carrinho?
 
 ```python
@@ -146,6 +154,8 @@ As entidades que surgem são as mesmas: Cliente, Produto, Carrinho, ItemCarrinho
 ---
 
 ## De que tipo é cada relacionamento?
+
+🧠 **Pense:** qual tipo de relação existe entre `Carrinho` e `ItemCarrinho`? Herança? Composição? Associação? Use o que aprendeu sobre "é um" vs. "faz parte de".
 
 Agora que modelamos as entidades, precisamos decidir que tipo de relação existe entre elas. Observe as classes `Carrinho` e `ItemCarrinho`. Seria correto fazer?
 
@@ -283,6 +293,14 @@ No E-Commerce, uma classe própria (`ItemCarrinho`) surgiu porque a simples list
 Analise também os relacionamentos do sistema financeiro: uma `Carteira` **contém** `Investimentos` ou apenas os **referencia**? Um `Orçamento` **possui** `CategoriasDeGasto` ou apenas as **lista**? Justifique cada decisão com base no que aprendeu sobre composição e associação.
 
 ---
+
+## 📌 Resumo
+
+- **Composição** (`*-->`) representa relação todo-parte: a parte não existe sem o todo
+- **Associação** (`-->`) representa conhecimento: os objetos existem independentemente
+- **Herança** só deve ser usada quando existe uma relação "é um" clara
+- Quando um relacionamento começa a possuir informações próprias, ele merece virar uma classe
+- As principais decisões de projeto são sobre **responsabilidade**: cada classe deve fazer apenas o que lhe compete
 
 ## O que vem a seguir
 

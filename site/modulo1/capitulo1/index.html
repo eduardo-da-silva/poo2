@@ -535,6 +535,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        📌 Resumo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -810,6 +821,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        📌 Resumo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -901,6 +923,11 @@
 
 
 <h1 id="capitulo-1-o-que-significa-projetar-software">Capítulo 1 — O que significa projetar software<a class="headerlink" href="#capitulo-1-o-que-significa-projetar-software" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Situação da Empresa</p>
+<p>Nossa empresa começou há pouco tempo. Até hoje, tudo era controlado por planilhas — produtos em uma, clientes em outra, pedidos registrados manualmente. Não existe sistema informatizado. Esta é nossa primeira missão: projetar o software que dará suporte a todo o negócio.</p>
+<p>Antes de escrever qualquer linha de código, precisamos responder a perguntas fundamentais: o que significa projetar software orientado a objetos? Como tomar boas decisões de projeto? É isso que exploraremos neste capítulo.</p>
+</div>
 <p>Imagine que uma loja virtual precise calcular o valor total do carrinho de compras. Onde esse cálculo deveria acontecer?</p>
 <ul>
 <li>Na classe <code>Produto</code>?</li>
@@ -910,6 +937,9 @@
 <li>Em uma função separada?</li>
 <li>Em um serviço?</li>
 </ul>
+<details class="question">
+<summary>Qual dessas alternativas parece mais adequada? Antes de continuar, tente justificar sua escolha.</summary>
+</details>
 <p>Todas essas alternativas são tecnicamente possíveis. Entretanto, apenas algumas delas conduzem a um projeto organizado e de fácil manutenção.</p>
 <div class="admonition warning">
 <p class="admonition-title">Reflexão importante</p>
@@ -931,7 +961,7 @@
 <h2 id="o-projeto-principal">O projeto principal<a class="headerlink" href="#o-projeto-principal" title="Permanent link">&para;</a></h2>
 <p>Vamos começar com uma história.</p>
 <blockquote>
-<p>A universidade decidiu criar uma loja virtual para vender produtos institucionais. Camisetas, canecas, moletons com o logo da instituição. Inicialmente o sistema será simples: os alunos poderão navegar pelos produtos, adicionar itens a um carrinho e finalizar a compra. Mas sabemos que esse sistema crescerá. No futuro precisará de categorias, descontos, formas de pagamento, controle de estoque, notificações.</p>
+<p>Uma pequena empresa decidiu criar sua loja virtual. Camisetas, canecas, moletons personalizados. Inicialmente o sistema será simples: os clientes poderão navegar pelos produtos, adicionar itens a um carrinho e finalizar a compra. Mas sabemos que esse sistema crescerá. No futuro precisará de categorias, descontos, formas de pagamento, controle de estoque, notificações.</p>
 </blockquote>
 <p>É justamente essa história que guiará todo o curso. Não construiremos um sistema genérico. Construiremos um sistema que <strong>evolui</strong> exatamente como um software real. A cada módulo, uma nova necessidade surge — e com ela, um novo conceito de projeto.</p>
 <p>Nosso sistema de E-Commerce será desenvolvido gradualmente. Não começaremos implementando dezenas de funcionalidades.</p>
@@ -999,6 +1029,7 @@
 </blockquote>
 <p>Essa pergunta parece simples. Entretanto, ela está presente em praticamente todas as decisões de projeto.</p>
 <hr />
+<p>🧠 <strong>Antes de continuar:</strong> se você fosse começar a modelar esse E-Commerce agora, que classes criaria? Que comportamentos cada uma deveria ter? Anote suas ideias antes de prosseguir.</p>
 <h2 id="antes-de-comecar-o-que-faz-uma-boa-orientacao-a-objetos">Antes de começar: o que faz uma boa orientação a objetos?<a class="headerlink" href="#antes-de-comecar-o-que-faz-uma-boa-orientacao-a-objetos" title="Permanent link">&para;</a></h2>
 <p>Antes de modelarmos nosso E-Commerce, precisamos alinhar alguns fundamentos. Você provavelmente já viu esses conceitos antes. A diferença é que, neste livro, não vamos tratá-los como definições a decorar — vamos usá-los como <strong>ferramentas de decisão</strong>.</p>
 <h3 id="objetos-representam-conceitos-do-dominio">Objetos representam conceitos do domínio<a class="headerlink" href="#objetos-representam-conceitos-do-dominio" title="Permanent link">&para;</a></h3>
@@ -1165,6 +1196,7 @@
 </div>
 <p>O que realmente importa não é se o atributo é público ou privado — é se o objeto oferece <strong>operações que fazem sentido para o domínio</strong>. Um produto não deveria permitir "definir preço" genericamente; ele deveria permitir <code>alterar_preco</code>, <code>aplicar_desconto</code>, <code>aumentar_preco</code>.</p>
 <p>Aqui surge um conceito importante: <strong>invariante</strong>. Invariante é uma condição que deve ser sempre verdadeira para um objeto. Um <code>Produto</code> pode ter como invariante que seu preço seja sempre positivo. Cabe ao próprio objeto garantir que suas invariantes nunca sejam violadas.</p>
+<p>🧠 <strong>Pense:</strong> além de "preço positivo", que outras invariantes um <code>Produto</code> poderia ter? E um <code>Carrinho</code>?</p>
 <details class="tip">
 <summary>Regra prática</summary>
 <p>Se um <code>setter</code> apenas atribui o valor sem nenhuma validação ou regra, ele não está encapsulando nada. Um atributo público direto teria o mesmo efeito.</p>
@@ -1227,6 +1259,15 @@
 </ul>
 <p>Experimente listar as primeiras classes do sistema financeiro antes de prosseguir para o próximo capítulo. No Capítulo 2 faremos o mesmo exercício com o E-Commerce.</p>
 <hr />
+<h2 id="resumo">📌 Resumo<a class="headerlink" href="#resumo" title="Permanent link">&para;</a></h2>
+<p>Neste capítulo estabelecemos os fundamentos que guiarão todo o curso:</p>
+<ul>
+<li><strong>Projetar software é diferente de programar</strong> — envolve decisões de modelagem, não apenas escrita de código</li>
+<li><strong>Modelagem de domínio</strong> — compreender o problema antes de implementar a solução</li>
+<li><strong>Objetos ricos vs. anêmicos</strong> — classes devem conter comportamento, não apenas dados</li>
+<li><strong>Encapsulamento real</strong> — proteger regras de negócio, não apenas esconder atributos</li>
+<li><strong>Responsabilidade</strong> — a pergunta mais importante: <em>quem é responsável por isso?</em></li>
+</ul>
 <p>No próximo capítulo vamos explorar o domínio do nosso E-Commerce — entender como uma loja virtual realmente funciona antes de modelar qualquer classe.</p>
 
 

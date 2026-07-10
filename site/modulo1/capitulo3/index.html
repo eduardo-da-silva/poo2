@@ -607,6 +607,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        📌 Resumo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#o-que-vem-a-seguir" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -856,6 +867,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        📌 Resumo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#o-que-vem-a-seguir" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -957,6 +979,11 @@
 
 
 <h1 id="capitulo-3-primeiras-entidades-e-relacionamentos">Capítulo 3 — Primeiras entidades e relacionamentos<a class="headerlink" href="#capitulo-3-primeiras-entidades-e-relacionamentos" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Situação da Empresa</p>
+<p>Já conhecemos o domínio do nosso E-Commerce: identificamos as entidades, entendemos o fluxo de uma compra e discutimos como uma loja virtual funciona. Agora é hora de organizar esse conhecimento em um modelo.</p>
+<p>A empresa precisa de um projeto claro antes de começar a implementação. Nosso objetivo neste capítulo é definir as classes, seus atributos, métodos e — principalmente — como elas se relacionam.</p>
+</div>
 <p>Já compreendemos por que o domínio importa e conhecemos os conceitos do nosso E-Commerce através da história do João. Agora é hora de modelar as primeiras entidades.</p>
 <h2 id="primeira-versao-do-nosso-modelo">Primeira versão do nosso modelo<a class="headerlink" href="#primeira-versao-do-nosso-modelo" title="Permanent link">&para;</a></h2>
 <p>Nossa primeira versão será propositalmente simples. Teremos apenas cinco classes. Ainda não teremos pedidos, estoque, pagamentos, cupons ou notas fiscais. Essas funcionalidades serão adicionadas nos próximos módulos.</p>
@@ -999,8 +1026,8 @@
     Produto "1" --&gt; "*" ItemCarrinho       : referenciado em
     Carrinho "1" *--&gt; "*" ItemCarrinho     : contém
     Cliente "1" *--&gt; "1" Carrinho          : possui</code></pre>
-<div class="admonition info">
-<p class="admonition-title">Os símbolos do diagrama (guia de consulta rápida)</p>
+<details class="info">
+<summary>Os símbolos do diagrama (guia de consulta rápida)</summary>
 <table>
 <thead>
 <tr>
@@ -1033,7 +1060,7 @@
 </tbody>
 </table>
 <p>Identifique no diagrama: <code>Categoria --&gt; Produto</code> é associação (produto existe sem categoria? Sim, ele poderia ficar sem categoria). <code>Carrinho *--&gt; ItemCarrinho</code> é composição (item existe sem carrinho? Não). Essa distinção será importante mais adiante.</p>
-</div>
+</details>
 <div class="admonition info">
 <p class="admonition-title">Lições importantes</p>
 <p>É importante aprender uma lição logo no início: <strong>software evolui</strong>. Não existe obrigação de modelar todo o sistema antes de começar. Modelaremos apenas o suficiente para resolver o problema atual.</p>
@@ -1071,6 +1098,7 @@
 </span></code></pre></div>
 <hr />
 <h2 id="produto-ou-item-do-carrinho">Produto ou Item do Carrinho?<a class="headerlink" href="#produto-ou-item-do-carrinho" title="Permanent link">&para;</a></h2>
+<p>🧠 <strong>Pense:</strong> se você precisasse representar a quantidade de cada produto dentro do carrinho, como faria? Uma lista simples de <code>Produto</code> seria suficiente?</p>
 <p>Essa costuma ser uma dúvida muito comum. Por que não armazenar diretamente uma lista de produtos dentro do carrinho?</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Carrinho</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
@@ -1099,6 +1127,7 @@
 <p>As entidades que surgem são as mesmas: Cliente, Produto, Carrinho, ItemCarrinho, Cupom, Pedido, Pagamento. A estrutura do modelo não mudou — apenas os valores específicos da narrativa.</p>
 <hr />
 <h2 id="de-que-tipo-e-cada-relacionamento">De que tipo é cada relacionamento?<a class="headerlink" href="#de-que-tipo-e-cada-relacionamento" title="Permanent link">&para;</a></h2>
+<p>🧠 <strong>Pense:</strong> qual tipo de relação existe entre <code>Carrinho</code> e <code>ItemCarrinho</code>? Herança? Composição? Associação? Use o que aprendeu sobre "é um" vs. "faz parte de".</p>
 <p>Agora que modelamos as entidades, precisamos decidir que tipo de relação existe entre elas. Observe as classes <code>Carrinho</code> e <code>ItemCarrinho</code>. Seria correto fazer?</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ItemCarrinho</span><span class="p">(</span><span class="n">Carrinho</span><span class="p">):</span>  <span class="c1"># ERRADO!</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="o">...</span>
@@ -1262,6 +1291,14 @@
 <p>No E-Commerce, uma classe própria (<code>ItemCarrinho</code>) surgiu porque a simples lista de <code>Produto</code> não era suficiente — precisávamos de quantidade e preço no momento da compra. Existe alguma situação semelhante no sistema financeiro, onde um relacionamento simples entre dois objetos precisaria se tornar uma classe própria?</p>
 <p>Analise também os relacionamentos do sistema financeiro: uma <code>Carteira</code> <strong>contém</strong> <code>Investimentos</code> ou apenas os <strong>referencia</strong>? Um <code>Orçamento</code> <strong>possui</strong> <code>CategoriasDeGasto</code> ou apenas as <strong>lista</strong>? Justifique cada decisão com base no que aprendeu sobre composição e associação.</p>
 <hr />
+<h2 id="resumo">📌 Resumo<a class="headerlink" href="#resumo" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Composição</strong> (<code>*--&gt;</code>) representa relação todo-parte: a parte não existe sem o todo</li>
+<li><strong>Associação</strong> (<code>--&gt;</code>) representa conhecimento: os objetos existem independentemente</li>
+<li><strong>Herança</strong> só deve ser usada quando existe uma relação "é um" clara</li>
+<li>Quando um relacionamento começa a possuir informações próprias, ele merece virar uma classe</li>
+<li>As principais decisões de projeto são sobre <strong>responsabilidade</strong>: cada classe deve fazer apenas o que lhe compete</li>
+</ul>
 <h2 id="o-que-vem-a-seguir">O que vem a seguir<a class="headerlink" href="#o-que-vem-a-seguir" title="Permanent link">&para;</a></h2>
 <p>Agora que entendemos melhor o domínio, modelamos as primeiras entidades e aprendemos a diferenciar composição de herança, começaremos finalmente a escrever código. Mas faremos isso com uma preocupação constante: <strong>cada classe deverá possuir uma responsabilidade clara</strong>.</p>
 <p>Não criaremos classes apenas porque "parece necessário". Cada atributo, método e relacionamento será justificado com base no domínio do problema e nos princípios da Programação Orientada a Objetos.</p>

@@ -1,5 +1,11 @@
 # Capítulo 1 — O que significa projetar software
 
+!!! info "Situação da Empresa"
+
+    Nossa empresa começou há pouco tempo. Até hoje, tudo era controlado por planilhas — produtos em uma, clientes em outra, pedidos registrados manualmente. Não existe sistema informatizado. Esta é nossa primeira missão: projetar o software que dará suporte a todo o negócio.
+
+    Antes de escrever qualquer linha de código, precisamos responder a perguntas fundamentais: o que significa projetar software orientado a objetos? Como tomar boas decisões de projeto? É isso que exploraremos neste capítulo.
+
 Imagine que uma loja virtual precise calcular o valor total do carrinho de compras. Onde esse cálculo deveria acontecer?
 
 - Na classe `Produto`?
@@ -8,6 +14,8 @@ Imagine que uma loja virtual precise calcular o valor total do carrinho de compr
 - Na classe `Carrinho`?
 - Em uma função separada?
 - Em um serviço?
+
+??? question "Qual dessas alternativas parece mais adequada? Antes de continuar, tente justificar sua escolha."
 
 Todas essas alternativas são tecnicamente possíveis. Entretanto, apenas algumas delas conduzem a um projeto organizado e de fácil manutenção.
 
@@ -36,7 +44,7 @@ Responder corretamente essas perguntas costuma ser muito mais importante do que 
 
 Vamos começar com uma história.
 
-> A universidade decidiu criar uma loja virtual para vender produtos institucionais. Camisetas, canecas, moletons com o logo da instituição. Inicialmente o sistema será simples: os alunos poderão navegar pelos produtos, adicionar itens a um carrinho e finalizar a compra. Mas sabemos que esse sistema crescerá. No futuro precisará de categorias, descontos, formas de pagamento, controle de estoque, notificações.
+> Uma pequena empresa decidiu criar sua loja virtual. Camisetas, canecas, moletons personalizados. Inicialmente o sistema será simples: os clientes poderão navegar pelos produtos, adicionar itens a um carrinho e finalizar a compra. Mas sabemos que esse sistema crescerá. No futuro precisará de categorias, descontos, formas de pagamento, controle de estoque, notificações.
 
 É justamente essa história que guiará todo o curso. Não construiremos um sistema genérico. Construiremos um sistema que **evolui** exatamente como um software real. A cada módulo, uma nova necessidade surge — e com ela, um novo conceito de projeto.
 
@@ -116,6 +124,8 @@ Sempre partiremos de um **problema do mundo real**. Primeiro entenderemos o dom�
 Essa pergunta parece simples. Entretanto, ela está presente em praticamente todas as decisões de projeto.
 
 ---
+
+🧠 **Antes de continuar:** se você fosse começar a modelar esse E-Commerce agora, que classes criaria? Que comportamentos cada uma deveria ter? Anote suas ideias antes de prosseguir.
 
 ## Antes de começar: o que faz uma boa orientação a objetos?
 
@@ -293,6 +303,8 @@ O que realmente importa não é se o atributo é público ou privado — é se o
 
 Aqui surge um conceito importante: **invariante**. Invariante é uma condição que deve ser sempre verdadeira para um objeto. Um `Produto` pode ter como invariante que seu preço seja sempre positivo. Cabe ao próprio objeto garantir que suas invariantes nunca sejam violadas.
 
+🧠 **Pense:** além de "preço positivo", que outras invariantes um `Produto` poderia ter? E um `Carrinho`?
+
 ??? tip "Regra prática"
 
     Se um `setter` apenas atribui o valor sem nenhuma validação ou regra, ele não está encapsulando nada. Um atributo público direto teria o mesmo efeito.
@@ -375,5 +387,15 @@ Assim como no E-Commerce, essa narrativa nos ajuda a descobrir os objetos do dom
 Experimente listar as primeiras classes do sistema financeiro antes de prosseguir para o próximo capítulo. No Capítulo 2 faremos o mesmo exercício com o E-Commerce.
 
 ---
+
+## 📌 Resumo
+
+Neste capítulo estabelecemos os fundamentos que guiarão todo o curso:
+
+- **Projetar software é diferente de programar** — envolve decisões de modelagem, não apenas escrita de código
+- **Modelagem de domínio** — compreender o problema antes de implementar a solução
+- **Objetos ricos vs. anêmicos** — classes devem conter comportamento, não apenas dados
+- **Encapsulamento real** — proteger regras de negócio, não apenas esconder atributos
+- **Responsabilidade** — a pergunta mais importante: *quem é responsável por isso?*
 
 No próximo capítulo vamos explorar o domínio do nosso E-Commerce — entender como uma loja virtual realmente funciona antes de modelar qualquer classe.

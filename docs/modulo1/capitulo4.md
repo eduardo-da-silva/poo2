@@ -1,5 +1,11 @@
 # Capítulo 4 — Mão na massa: implementando as classes
 
+!!! info "Situação da Empresa"
+
+    Chegou o momento que a empresa esperava. O domínio foi modelado, as entidades foram identificadas e os relacionamentos foram definidos. Agora vamos transformar todo esse planejamento em código Python funcional.
+
+    Neste capítulo implementaremos as classes, os relacionamentos e, de quebra, aprenderemos a escrever testes automatizados para garantir que tudo funciona como esperado.
+
 Nos capítulos anteriores modelamos o domínio do E-Commerce. Descobrimos entidades, definimos relacionamentos e discutimos responsabilidades. Agora chegou a hora de transformar esse modelo em código.
 
 Neste tutorial você criará todo o projeto do zero — desde o ambiente virtual até os testes automatizados.
@@ -25,13 +31,24 @@ Instale o pytest:
 pip install pytest
 ```
 
-Crie o arquivo de dependências:
+Gere o arquivo de dependências com as versões exatas instaladas:
+
+```bash
+pip freeze > requirements.txt
+```
 
 ### `requirements.txt`
 
-```text linenums="1"
-pytest==8.*
+O comando `pip freeze` criará um arquivo semelhante a este:
+
+```text
+iniconfig==2.1.0
+packaging==24.2
+pluggy==1.5.0
+pytest==8.3.4
 ```
+
+As versões exatas podem variar — o importante é ter o `pytest` listado. Esse arquivo permite recriar o mesmo ambiente em qualquer máquina com `pip install -r requirements.txt`.
 
 Crie o arquivo para ignorar arquivos temporários:
 
@@ -74,13 +91,19 @@ class Categoria:
 
 Não há segredos aqui. Uma categoria possui apenas um nome. Futuramente ela poderá ganhar novos atributos (descrição, departamento), mas por enquanto isso é suficiente.
 
-Teste manual:
+Teste manual no shell interativo:
+
+```bash
+python -c "from ecommerce.categoria import Categoria; cat = Categoria('Informática'); print(cat.nome)"
+```
+
+Ou, se preferir, abra o interpretador Python e digite linha por linha:
 
 ```python
-from ecommerce.categoria import Categoria
-
-cat = Categoria("Informática")
-print(cat.nome)  # Informática
+>>> from ecommerce.categoria import Categoria
+>>> cat = Categoria("Informática")
+>>> print(cat.nome)
+Informática
 ```
 
 ---
@@ -123,6 +146,8 @@ Você deverá ver uma saída indicando que **1 teste passou**.
 
 Agora uma classe com mais comportamento.
 
+🧠 **Pense:** antes de ver o código, que validações um `Produto` deveria ter? O que impediria um preço negativo? Um desconto de 200%?
+
 ### `ecommerce/produto.py`
 
 ```python linenums="1"
@@ -153,7 +178,7 @@ class Produto:
         self.preco = novo_preco
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # (1)
     from ecommerce.categoria import Categoria
 
     cat = Categoria("Informática")
@@ -167,12 +192,31 @@ if __name__ == "__main__":
     print(f"Preco reajustado: {p.preco}")
 ```
 
+1.  O bloco `if __name__ == "__main__"` é uma forma rápida de testar a classe executando o arquivo diretamente (`python -m ecommerce.produto`). Em projetos reais, esses testes manuais são substituídos por testes automatizados como os que criaremos adiante. Mantemos este bloco aqui apenas para verificação durante o desenvolvimento.
+
 Observe algumas decisões de projeto:
 
 - **Preço é float**, não inteiro em centavos. Decisão proposital para simplificar. Em um sistema real discutiríamos `Decimal`.
 - **`quantidade_estoque` está no Produto** por enquanto. Já discutimos que futuramente o estoque merecerá uma classe própria.
 - **`aplicar_desconto` valida o percentual**. Um desconto de 150% não faz sentido.
 - **`alterar_preco` impede preços negativos**. Essa é uma invariante do domínio.
+
+!!! tip "Objeto rico vs. anêmico"
+
+    Esta classe `Produto` é um exemplo de **objeto rico**: ela não apenas armazena dados, mas também contém comportamento e validações. Observe que os métodos `aplicar_desconto` e `alterar_preco` protegem as regras de negócio — nenhum código externo consegue definir um preço negativo ou um desconto inválido.
+
+    Uma versão **anêmica** da mesma classe seria:
+
+    ```python
+    class ProdutoAnemico:          # (1) Abordagem anêmica — NÃO use assim
+        def __init__(self, nome: str, preco: float) -> None:
+            self.nome = nome
+            self.preco = preco
+    ```
+
+    1.  Nesta versão, qualquer parte do sistema poderia fazer `produto.preco = -500`. Não há proteção alguma. A lógica de validação precisaria ser replicada em cada lugar que altera o preço.
+
+    A diferença fundamental: no objeto rico, a **regra de negócio vive dentro da classe**. No anêmico, ela fica espalhada pelo sistema. Sempre que possível, prefira objetos ricos.
 
 Teste manual:
 
@@ -274,6 +318,8 @@ Agora você deve ver **11 testes passando** (1 da Categoria + 10 do Produto).
 
 Uma classe simples para representar quem compra.
 
+🧠 **Pense:** o que a classe `Cliente` deveria conhecer? Ela deveria saber o preço dos produtos? Controlar o estoque? Ou apenas seus próprios dados e carrinho?
+
 ### `ecommerce/cliente.py`
 
 ```python linenums="1"
@@ -288,11 +334,13 @@ class Cliente:
         return self.carrinho is not None
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # (1)
     c = Cliente("João", "joao@email.com")
     print(f"Cliente: {c.nome}, Email: {c.email}")
     print(f"Possui carrinho: {c.possui_carrinho()}")
 ```
+
+1.  Bloco de teste manual, como visto no Produto. Execute com `python -m ecommerce.cliente`.
 
 O atributo `carrinho` usa uma **string como type hint** (`"Carrinho | None"`) porque a classe `Carrinho` ainda não foi definida. O Python entende essa sintaxe como uma referência futura.
 
@@ -326,6 +374,12 @@ pytest
 
 ## Passo 8 — ItemCarrinho
 
+!!! tip "🧠 Pense antes de continuar"
+
+    O Carrinho poderia armazenar apenas uma lista de `Produto`. Afinal, o cliente adiciona produtos ao carrinho. Mas e a quantidade? E se o cliente quiser três unidades do mesmo produto? E o preço — se o produto for reajustado amanhã, o valor no carrinho deve mudar?
+
+    Esse tipo de questionamento nos leva a perceber que não estamos lidando apenas com produtos, mas com a **participação de um produto dentro do carrinho**. Isso é um novo conceito no domínio.
+
 Aqui aplicamos um princípio importante: quando um relacionamento começa a ter informações próprias, ele merece virar uma classe.
 
 ### `ecommerce/item_carrinho.py`
@@ -342,7 +396,7 @@ class ItemCarrinho:
         return self.preco_no_momento * self.quantidade
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # (1)
     from ecommerce.categoria import Categoria
     from ecommerce.produto import Produto
 
@@ -352,7 +406,19 @@ if __name__ == "__main__":
     print(f"Subtotal: R$ {item.calcular_subtotal():.2f}")
 ```
 
-A linha `self.preco_no_momento = produto.preco` é uma decisão importante de projeto. O `ItemCarrinho` guarda uma **cópia do preço no momento em que foi criado**. Se o preço do produto mudar depois, o item do carrinho mantém o valor original. Isso evita surpresas na finalização da compra.
+1.  Bloco de teste manual, como visto no Produto. Execute com `python -m ecommerce.item_carrinho`.
+
+!!! info "🏗️ Decisão de Projeto"
+
+    ```python
+    self.preco_no_momento = produto.preco
+    ```
+
+    Esta linha parece inocente, mas representa uma decisão importante. O `ItemCarrinho` guarda uma **cópia do preço no momento em que foi criado**. Se o preço do produto mudar depois, o item do carrinho mantém o valor original.
+
+    **Alternativa descartada:** usar o preço atual do produto a cada consulta. Isso faria o total do carrinho variar mesmo sem o cliente alterar nada — uma experiência frustrante.
+
+    **Consequência futura:** essa mesma lógica se aplicará ao `ItemPedido`, que precisará preservar os preços da compra independentemente de reajustes futuros.
 
 ### `tests/test_item_carrinho.py`
 
@@ -401,6 +467,29 @@ pytest
 
 ---
 
+!!! warning "⚠️ Erro comum — ItemCarrinho herdar de Produto ou Carrinho"
+
+    ```python
+    class ItemCarrinho(Produto):   # ERRADO!
+        ...
+    ```
+
+    Um erro frequente é tentar usar herança para modelar o ItemCarrinho. Afinal, um item "é um" produto dentro do carrinho, certo?
+
+    **Não.** ItemCarrinho representa a **participação** de um produto no carrinho. Ele possui informações que o produto não tem (quantidade, preço no momento, subtotal). Além disso, um produto existe independentemente do carrinho — um item não.
+
+    A regra prática: se a relação é "faz parte de" em vez de "é um", provavelmente é **composição**, não herança.
+
+---
+
+!!! tip "🧠 Pense antes de continuar"
+
+    Agora que temos `ItemCarrinho`, surge uma nova pergunta: quem deveria coordenar esses itens? Quem é responsável por adicionar, remover e calcular o total?
+
+    O `Cliente`? O `Produto`? Uma função solta? Ou uma classe específica para representar o carrinho?
+
+    Reflita: quem conhece todos os itens adicionados até o momento? Quem possui as informações necessárias para calcular o valor total?
+
 ## Passo 9 — Carrinho
 
 A classe que coordena os itens. Observe a composição: o Carrinho cria e gerencia Itens, e um Item não existe sem um Carrinho.
@@ -431,7 +520,7 @@ class Carrinho:
         return len(self.itens)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # (1)
     from ecommerce.categoria import Categoria
     from ecommerce.produto import Produto
 
@@ -446,6 +535,8 @@ if __name__ == "__main__":
     print(f"Itens no carrinho: {carrinho.quantidade_itens()}")
     print(f"Total: R$ {carrinho.calcular_total():.2f}")
 ```
+
+1.  Bloco de teste manual, como visto no Produto. Execute com `python -m ecommerce.carrinho`.
 
 Observe que `calcular_total` delega o cálculo de cada item para o próprio `ItemCarrinho`. O Carrinho apenas soma os subtotais. Essa é a aplicação prática da pergunta "quem é responsável por isso?".
 
@@ -520,13 +611,22 @@ pytest
 
 ## Passo 10 — Rodando tudo
 
-Para executar todos os testes:
+Se você está criando o projeto do zero, execute os testes no diretório raiz do seu projeto:
 
 ```bash
-cd code/modulo1/capitulo4
 source .venv/bin/activate
 pytest -v
 ```
+
+!!! tip "Código pronto como referência"
+
+    Se preferir usar o código pronto em vez de digitar tudo, ele está disponível em `code/modulo1/capitulo4/`:
+
+    ```bash
+    cd code/modulo1/capitulo4
+    source .venv/bin/activate
+    pytest -v
+    ```
 
 A opção `-v` (verbose) exibe o nome de cada teste individualmente.
 

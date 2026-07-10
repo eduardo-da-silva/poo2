@@ -3,6 +3,7 @@
 
 ---
 
+
 # Objetivo deste documento
 
 Este documento apresenta a visão geral do curso, seus objetivos pedagógicos, a metodologia adotada e as decisões que orientam toda a produção do material.
@@ -14,6 +15,8 @@ Em caso de conflito entre este documento e qualquer outro arquivo da pasta `rule
 ---
 
 # Objetivo do curso
+
+Este curso ensina Programação Orientada a Objetos II por meio da evolução contínua de um único sistema. O objetivo não é ensinar sintaxe, mas desenvolver a capacidade de projetar software. Ao final, o aluno deve ser capaz de justificar decisões de modelagem, distribuir responsabilidades entre objetos e evoluir um sistema de forma incremental.
 
 Este curso tem como objetivo ensinar Programação Orientada a Objetos por meio do desenvolvimento incremental de um sistema real.
 

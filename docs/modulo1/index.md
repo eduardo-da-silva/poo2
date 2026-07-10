@@ -1,10 +1,16 @@
 # Módulo 1 — Construindo o domínio
 
-## Visão geral
+# Bem-vindo ao projeto
 
-Bem-vindo ao primeiro módulo do curso. Aqui começaremos do zero a construção de um sistema de E-Commerce. Mas não se preocupe — ainda não escreveremos código. Antes disso, precisamos aprender a **pensar sobre o projeto**.
+Imagine que você acabou de ser contratado por uma pequena empresa que vende produtos pela internet. 
 
-Este módulo responde a uma pergunta fundamental:
+Até hoje, tudo era controlado por planilhas. Os produtos ficam em um arquivo Excel. Os clientes são anotados em outro. Os pedidos são registrados manualmente. Com o aumento das vendas, ficou claro que esse processo não é mais suficiente. 
+
+Ao longo deste curso, acompanharemos a evolução dessa empresa. Cada capítulo representará um novo desafio enfrentado pelo negócio. À medida que a empresa cresce, nosso sistema também crescerá. Os conceitos de Programação Orientada a Objetos surgirão naturalmente como ferramentas para resolver esses novos problemas.
+
+Assim como acontece em projetos reais. Começaremos do zero a construção de um sistema de E-Commerce. Mas, ainda não escreveremos código, pois precisamos aprender a **pensar sobre o projeto**.
+
+Queremos responder a uma pergunta fundamental:
 
 > O que significa projetar software orientado a objetos?
 
@@ -21,24 +27,26 @@ A resposta envolve muito mais do que criar classes e instanciar objetos. Envolve
 - Como modelar relacionamentos com composição e associação
 - Por que evitamos herança neste módulo
 
-## O que construiremos
+## O que existe hoje?
 
-Neste módulo iniciaremos duas jornadas paralelas:
+Neste momento, a empresa possui apenas:
 
-| Projeto | O que faremos |
-|---------|---------------|
-| **E-Commerce** | Catálogo de produtos, categorias, clientes, carrinho e itens do carrinho |
-| **Financeiro Pessoal** | Cadastro de contas, categorias, lançamentos e movimentações |
+- uma lista de produtos;
+- um controle simples de preços;
+- nenhuma regra de negócio;
+- nenhuma persistência;
+- nenhum pedido.
 
-Ambos os projetos evoluirão juntos ao longo do curso. Sempre que um novo conceito surgir no E-Commerce, você deverá aplicá-lo ao sistema financeiro.
+Nosso primeiro objetivo será representar esses produtos utilizando objetos.
 
 ## Estrutura do módulo
 
-Este módulo está organizado em três capítulos:
+Este módulo está organizado em quatro capítulos:
 
 1. **O que significa projetar software** — fundamentos, projetos da disciplina e princípios de orientação a objetos
 2. **Conhecendo o domínio** — análise do problema, narrativa de compra e descoberta de entidades
 3. **Primeiras entidades e relacionamentos** — modelagem das classes, composição vs. associação e decisões de projeto
+4. **Mão na massa: implementando as classes** — criação do projeto, código das entidades e testes automatizados
 
 ---
 

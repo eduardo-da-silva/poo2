@@ -413,3 +413,10 @@ Ao terminar qualquer capítulo, o leitor deve sentir que:
 - está preparado para o próximo desafio.
 
 Essa sensação de continuidade é uma das principais características deste curso.
+
+Ao final do capítulo mostrar:
+
+- o que foi construído
+- quais conceitos apareceram
+- o estado atual do sistema
+- o próximo desafio

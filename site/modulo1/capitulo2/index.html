@@ -483,7 +483,18 @@
   <a href="#aplicando-ao-projeto-financeiro" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Aplicando ao Projeto Financeiro
+        🧩 Aplicando ao Projeto Financeiro
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        📌 Resumo
       </span>
     </span>
   </a>
@@ -659,7 +670,18 @@
   <a href="#aplicando-ao-projeto-financeiro" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Aplicando ao Projeto Financeiro
+        🧩 Aplicando ao Projeto Financeiro
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        📌 Resumo
       </span>
     </span>
   </a>
@@ -757,6 +779,11 @@
 
 
 <h1 id="capitulo-2-conhecendo-o-dominio">Capítulo 2 — Conhecendo o domínio<a class="headerlink" href="#capitulo-2-conhecendo-o-dominio" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Situação da Empresa</p>
+<p>No capítulo anterior, começamos a pensar como engenheiros de software. Discutimos responsabilidades, modelagem e a importância de projetar antes de codificar. Agora é hora de conhecer a fundo o domínio do nosso E-Commerce.</p>
+<p>A empresa já identificou seus principais produtos, mas ainda não existe uma forma clara de atender clientes, processar pedidos ou gerenciar vendas. Antes de modelar qualquer classe, precisamos entender como uma loja virtual realmente funciona.</p>
+</div>
 <p>No capítulo anterior discutimos o que significa projetar software orientado a objetos e por que modelar o domínio é mais importante que escrever código. Agora chegou o momento de conhecer o domínio do nosso sistema.</p>
 <p>Entretanto, <strong>ainda não escreveremos código</strong>. Nossa primeira tarefa será compreender o problema que estamos tentando resolver.</p>
 <div class="admonition info">
@@ -821,6 +848,9 @@
 <blockquote>
 <p><strong>Quais são os objetos que existem nesse domínio?</strong></p>
 </blockquote>
+<details class="question">
+<summary>Antes de olhar a lista, tente responder por conta própria. Que objetos você identifica no domínio de um E-Commerce?</summary>
+</details>
 <p>Pensando rapidamente, podemos listar:</p>
 <ul>
 <li>Produto</li>
@@ -835,6 +865,7 @@
 <li>Estoque</li>
 </ul>
 <p>Essa lista não está pronta. Provavelmente ela mudará durante o desenvolvimento. Isso é esperado. Projetar software é um processo <strong>iterativo</strong>.</p>
+<p>🧠 <strong>Pense:</strong> o que aconteceria se começássemos a implementar assumindo que essa lista está completa e nunca mudará? Que problemas enfrentaríamos?</p>
 <hr />
 <h2 id="uma-observacao-importante">Uma observação importante<a class="headerlink" href="#uma-observacao-importante" title="Permanent link">&para;</a></h2>
 <p>Muitos alunos imaginam que basta transformar cada substantivo em uma classe. Infelizmente isso não funciona.</p>
@@ -877,10 +908,18 @@
 </ul>
 <p>Perceba que esses objetos surgiram naturalmente da narrativa. Essa é uma excelente técnica para descobrir entidades de um domínio.</p>
 <hr />
-<h2 id="aplicando-ao-projeto-financeiro">Aplicando ao Projeto Financeiro<a class="headerlink" href="#aplicando-ao-projeto-financeiro" title="Permanent link">&para;</a></h2>
+<h2 id="aplicando-ao-projeto-financeiro">🧩 Aplicando ao Projeto Financeiro<a class="headerlink" href="#aplicando-ao-projeto-financeiro" title="Permanent link">&para;</a></h2>
 <p>Crie uma narrativa semelhante para o sistema financeiro. Imagine um usuário chamado "Maria" controlando suas finanças. Ela registra uma receita, categoriza um gasto, define um orçamento mensal. Que objetos surgem naturalmente dessa história? Liste-os antes de prosseguir.</p>
 <hr />
-<p>Agora que compreendemos o domínio, vamos modelar as primeiras entidades do nosso sistema e entender como elas se relacionam.</p>
+<h2 id="resumo">📌 Resumo<a class="headerlink" href="#resumo" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Domínio</strong> é o conjunto de regras e conceitos do problema que estamos resolvendo</li>
+<li>Antes de criar classes, precisamos compreender como o negócio funciona</li>
+<li><strong>Narrativas de compra</strong> ajudam a descobrir entidades naturalmente</li>
+<li>Nem todo substantivo vira classe — modelagem envolve decisões</li>
+<li>As entidades identificadas até agora: Produto, Categoria, Cliente, Carrinho, ItemCarrinho, Pedido, Cupom, Pagamento e Estoque</li>
+</ul>
+<p>No próximo capítulo vamos modelar as primeiras entidades do nosso sistema e entender como elas se relacionam — usando diagramas, decisões de projeto e discussões sobre responsabilidades.</p>
 
 
 

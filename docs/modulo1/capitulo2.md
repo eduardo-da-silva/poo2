@@ -1,5 +1,11 @@
 # Capítulo 2 — Conhecendo o domínio
 
+!!! info "Situação da Empresa"
+
+    No capítulo anterior, começamos a pensar como engenheiros de software. Discutimos responsabilidades, modelagem e a importância de projetar antes de codificar. Agora é hora de conhecer a fundo o domínio do nosso E-Commerce.
+
+    A empresa já identificou seus principais produtos, mas ainda não existe uma forma clara de atender clientes, processar pedidos ou gerenciar vendas. Antes de modelar qualquer classe, precisamos entender como uma loja virtual realmente funciona.
+
 No capítulo anterior discutimos o que significa projetar software orientado a objetos e por que modelar o domínio é mais importante que escrever código. Agora chegou o momento de conhecer o domínio do nosso sistema.
 
 Entretanto, **ainda não escreveremos código**. Nossa primeira tarefa será compreender o problema que estamos tentando resolver.
@@ -81,6 +87,8 @@ Sempre que iniciamos um novo sistema, uma boa pergunta é:
 
 > **Quais são os objetos que existem nesse domínio?**
 
+??? question "Antes de olhar a lista, tente responder por conta própria. Que objetos você identifica no domínio de um E-Commerce?"
+
 Pensando rapidamente, podemos listar:
 
 - Produto
@@ -95,6 +103,8 @@ Pensando rapidamente, podemos listar:
 - Estoque
 
 Essa lista não está pronta. Provavelmente ela mudará durante o desenvolvimento. Isso é esperado. Projetar software é um processo **iterativo**.
+
+🧠 **Pense:** o que aconteceria se começássemos a implementar assumindo que essa lista está completa e nunca mudará? Que problemas enfrentaríamos?
 
 ---
 
@@ -151,10 +161,18 @@ Perceba que esses objetos surgiram naturalmente da narrativa. Essa é uma excele
 
 ---
 
-## Aplicando ao Projeto Financeiro
+## 🧩 Aplicando ao Projeto Financeiro
 
 Crie uma narrativa semelhante para o sistema financeiro. Imagine um usuário chamado "Maria" controlando suas finanças. Ela registra uma receita, categoriza um gasto, define um orçamento mensal. Que objetos surgem naturalmente dessa história? Liste-os antes de prosseguir.
 
 ---
 
-Agora que compreendemos o domínio, vamos modelar as primeiras entidades do nosso sistema e entender como elas se relacionam.
+## 📌 Resumo
+
+- **Domínio** é o conjunto de regras e conceitos do problema que estamos resolvendo
+- Antes de criar classes, precisamos compreender como o negócio funciona
+- **Narrativas de compra** ajudam a descobrir entidades naturalmente
+- Nem todo substantivo vira classe — modelagem envolve decisões
+- As entidades identificadas até agora: Produto, Categoria, Cliente, Carrinho, ItemCarrinho, Pedido, Cupom, Pagamento e Estoque
+
+No próximo capítulo vamos modelar as primeiras entidades do nosso sistema e entender como elas se relacionam — usando diagramas, decisões de projeto e discussões sobre responsabilidades.

@@ -464,11 +464,6 @@
                       
                     
                     
-                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-                      <div class="md-sidebar-button__wrapper">
-                        <label class="md-sidebar-button" for="__toc"></label>
-                      </div>
-                    
                   
                   <div class="md-sidebar__inner">
                     
@@ -480,58 +475,6 @@
   
     
   
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Índice
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#visao-geral" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Visão geral
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#o-que-voce-aprendera" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        O que você aprenderá
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#o-que-construiremos" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        O que construiremos
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#estrutura-do-modulo" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Estrutura do módulo
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -622,9 +565,12 @@
 
 
 <h1 id="modulo-1-construindo-o-dominio">Módulo 1 — Construindo o domínio<a class="headerlink" href="#modulo-1-construindo-o-dominio" title="Permanent link">&para;</a></h1>
-<h2 id="visao-geral">Visão geral<a class="headerlink" href="#visao-geral" title="Permanent link">&para;</a></h2>
-<p>Bem-vindo ao primeiro módulo do curso. Aqui começaremos do zero a construção de um sistema de E-Commerce. Mas não se preocupe — ainda não escreveremos código. Antes disso, precisamos aprender a <strong>pensar sobre o projeto</strong>.</p>
-<p>Este módulo responde a uma pergunta fundamental:</p>
+<h1 id="bem-vindo-ao-projeto">Bem-vindo ao projeto<a class="headerlink" href="#bem-vindo-ao-projeto" title="Permanent link">&para;</a></h1>
+<p>Imagine que você acabou de ser contratado por uma pequena empresa que vende produtos pela internet. </p>
+<p>Até hoje, tudo era controlado por planilhas. Os produtos ficam em um arquivo Excel. Os clientes são anotados em outro. Os pedidos são registrados manualmente. Com o aumento das vendas, ficou claro que esse processo não é mais suficiente. </p>
+<p>Ao longo deste curso, acompanharemos a evolução dessa empresa. Cada capítulo representará um novo desafio enfrentado pelo negócio. À medida que a empresa cresce, nosso sistema também crescerá. Os conceitos de Programação Orientada a Objetos surgirão naturalmente como ferramentas para resolver esses novos problemas.</p>
+<p>Assim como acontece em projetos reais. Começaremos do zero a construção de um sistema de E-Commerce. Mas, ainda não escreveremos código, pois precisamos aprender a <strong>pensar sobre o projeto</strong>.</p>
+<p>Queremos responder a uma pergunta fundamental:</p>
 <blockquote>
 <p>O que significa projetar software orientado a objetos?</p>
 </blockquote>
@@ -640,33 +586,23 @@
 <li>Como modelar relacionamentos com composição e associação</li>
 <li>Por que evitamos herança neste módulo</li>
 </ul>
-<h2 id="o-que-construiremos">O que construiremos<a class="headerlink" href="#o-que-construiremos" title="Permanent link">&para;</a></h2>
-<p>Neste módulo iniciaremos duas jornadas paralelas:</p>
-<table>
-<thead>
-<tr>
-<th>Projeto</th>
-<th>O que faremos</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>E-Commerce</strong></td>
-<td>Catálogo de produtos, categorias, clientes, carrinho e itens do carrinho</td>
-</tr>
-<tr>
-<td><strong>Financeiro Pessoal</strong></td>
-<td>Cadastro de contas, categorias, lançamentos e movimentações</td>
-</tr>
-</tbody>
-</table>
-<p>Ambos os projetos evoluirão juntos ao longo do curso. Sempre que um novo conceito surgir no E-Commerce, você deverá aplicá-lo ao sistema financeiro.</p>
+<h2 id="o-que-existe-hoje">O que existe hoje?<a class="headerlink" href="#o-que-existe-hoje" title="Permanent link">&para;</a></h2>
+<p>Neste momento, a empresa possui apenas:</p>
+<ul>
+<li>uma lista de produtos;</li>
+<li>um controle simples de preços;</li>
+<li>nenhuma regra de negócio;</li>
+<li>nenhuma persistência;</li>
+<li>nenhum pedido.</li>
+</ul>
+<p>Nosso primeiro objetivo será representar esses produtos utilizando objetos.</p>
 <h2 id="estrutura-do-modulo">Estrutura do módulo<a class="headerlink" href="#estrutura-do-modulo" title="Permanent link">&para;</a></h2>
-<p>Este módulo está organizado em três capítulos:</p>
+<p>Este módulo está organizado em quatro capítulos:</p>
 <ol>
 <li><strong>O que significa projetar software</strong> — fundamentos, projetos da disciplina e princípios de orientação a objetos</li>
 <li><strong>Conhecendo o domínio</strong> — análise do problema, narrativa de compra e descoberta de entidades</li>
 <li><strong>Primeiras entidades e relacionamentos</strong> — modelagem das classes, composição vs. associação e decisões de projeto</li>
+<li><strong>Mão na massa: implementando as classes</strong> — criação do projeto, código das entidades e testes automatizados</li>
 </ol>
 <hr />
 <p>Prepare-se para pensar menos em sintaxe e mais em design. Vamos começar.</p>
