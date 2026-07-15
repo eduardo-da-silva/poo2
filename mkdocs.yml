@@ -110,3 +110,8 @@ nav:
     - Capítulo 2 — Conhecendo o domínio: modulo1/capitulo2.md
     - Capítulo 3 — Primeiras entidades e relacionamentos: modulo1/capitulo3.md
     - "Capítulo 4 — Mão na massa: implementando as classes": modulo1/capitulo4.md
+  - Módulo 2 — Evoluindo o Domínio:
+    - Visão geral do módulo: modulo2/index.md
+    - Capítulo 5 — Do carrinho ao pedido: modulo2/capitulo5.md
+    - Capítulo 6 — O ciclo de vida do pedido: modulo2/capitulo6.md
+    - Capítulo 7 — O fluxo completo de compra: modulo2/capitulo7.md

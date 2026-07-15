@@ -66,4 +66,7 @@ Além disso, cada estudante desenvolverá paralelamente um **Sistema de Controle
 
 ## Navegação
 
-Use o menu lateral para acessar o conteúdo de cada aula.
+Use o menu lateral para acessar o conteúdo de cada módulo. O curso está organizado em módulos que representam a evolução do sistema:
+
+- [Módulo 1 — Construindo o domínio](modulo1/index.md) — modelagem inicial: produtos, categorias, clientes, carrinho
+- [Módulo 2 — Evoluindo o domínio](modulo2/index.md) — pedidos, estados, pagamento, fluxo de compra

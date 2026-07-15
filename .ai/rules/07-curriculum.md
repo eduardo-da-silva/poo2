@@ -144,7 +144,7 @@ Extrato.
 
 ---
 
-Ao final deste módulo o aluno compreenderá como objetos colaboram.
+Ao final deste módulo o aluno compreenderá como objetos colaboram. O Módulo 2 não deve introduzir novos padrões de projeto.
 
 ---
 

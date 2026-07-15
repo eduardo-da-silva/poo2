@@ -685,4 +685,4 @@ Crie os arquivos, os testes e verifique se tudo passa. Use a mesma estrutura de 
 
 ## O que vem a seguir
 
-Agora temos um catálogo de produtos, clientes e um carrinho funcional. Mas o sistema ainda não permite finalizar uma compra. No próximo módulo evoluiremos o domínio para incluir pedidos, estados e regras de negócio mais complexas.
+Agora temos um catálogo de produtos, clientes e um carrinho funcional. Mas o sistema ainda não permite finalizar uma compra. No [Módulo 2](../modulo2/index.md) evoluiremos o domínio para incluir pedidos, estados e regras de negócio mais complexas.
