@@ -148,6 +148,12 @@ Ao final deste módulo o aluno compreenderá como objetos colaboram. O Módulo 2
 
 ---
 
+Checkpoint de entrega
+
+Ao final do Módulo 2 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo2/entrega.md`, sem número de capítulo), cobrindo tudo pedido do Capítulo 1 ao 7. Não substitui a entrega final do Módulo 7 — é um checkpoint formativo, avaliado, no meio do curso.
+
+---
+
 # Módulo 3
 ## Estratégias
 

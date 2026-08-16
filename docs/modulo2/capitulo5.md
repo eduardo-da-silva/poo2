@@ -18,14 +18,15 @@ Antes de escrever código, vamos responder a perguntas fundamentais.
 
 ??? question "O que um pedido precisa saber? Liste as informações que um pedido deve conter."
 
-Um pedido representa uma compra concretizada. Ele precisa:
-- saber **quem** comprou (cliente)
-- saber **o que** foi comprado (itens, com produto, quantidade e preço)
-- saber **quando** foi criado
-- saber **quanto** custou (total)
-- saber **em que situação** está (criado, pago, enviado etc.)
+    Um pedido representa uma compra concretizada. Ele precisa:
 
-Algumas dessas informações já existem no Carrinho. Mas carrinho e pedido têm responsabilidades diferentes. O carrinho é um rascunho temporário. O pedido é um documento definitivo.
+    - saber **quem** comprou (cliente)
+    - saber **o que** foi comprado (itens, com produto, quantidade e preço)
+    - saber **quando** foi criado
+    - saber **quanto** custou (total)
+    - saber **em que situação** está (criado, pago, enviado etc.)
+
+    Algumas dessas informações já existem no Carrinho. Mas carrinho e pedido têm responsabilidades diferentes. O carrinho é um rascunho temporário. O pedido é um documento definitivo.
 
 ---
 
@@ -33,7 +34,7 @@ Algumas dessas informações já existem no Carrinho. Mas carrinho e pedido têm
 
 Vamos começar implementando a classe `Pedido`. Neste primeiro momento, ela será simples: guarda itens e calcula o total.
 
-```python title="ecommerce/pedido.py"
+```python title="ecommerce/pedido.py" linenums="1"
 from ecommerce.item_pedido import ItemPedido
 
 
@@ -78,14 +79,14 @@ ItemPedido se parece com ItemCarrinho. Mas tem uma diferença sutil e importante
 
 ??? question "ItemPedido e ItemCarrinho são iguais? Se não, quais as diferenças?"
 
-Eles guardam informações parecidas (produto, quantidade, preço). Mas representam conceitos diferentes:
+    Eles guardam informações parecidas (produto, quantidade, preço). Mas representam conceitos diferentes:
 
-- **ItemCarrinho**: representa uma *intenção* de compra. O cliente ainda pode remover, alterar quantidade, desistir.
-- **ItemPedido**: representa uma *compra realizada*. Depois de criado, não pode mais ser alterado.
+    - **ItemCarrinho**: representa uma *intenção* de compra. O cliente ainda pode remover, alterar quantidade, desistir.
+    - **ItemPedido**: representa uma *compra realizada*. Depois de criado, não pode mais ser alterado.
 
-Por isso ItemPedido utiliza `@property` sem setter — seus atributos são definidos no construtor e não mudam mais.
+    Por isso ItemPedido utiliza `@property` sem setter — seus atributos são definidos no construtor e não mudam mais.
 
-```python title="ecommerce/item_pedido.py"
+```python title="ecommerce/item_pedido.py" linenums="1"
 class ItemPedido:
 
     def __init__(self, produto: "Produto", quantidade: int, preco_no_momento: float) -> None:
@@ -113,7 +114,9 @@ class ItemPedido:
         return self._preco_no_momento * self._quantidade
 ```
 
-⚠️ **Erro comum neste ponto** — Tentar usar a mesma classe ItemCarrinho dentro do Pedido. As classes são estruturalmente semelhantes, mas têm responsabilidades diferentes. ItemCarrinho pode ter métodos como `alterar_quantidade`. ItemPedido nunca deve permitir isso. Criar uma nova classe é a decisão correta, mesmo que o código pareça repetitivo.
+!!! warning "⚠️ Erro comum — usar ItemCarrinho dentro do Pedido"
+
+    Tentar usar a mesma classe ItemCarrinho dentro do Pedido. As classes são estruturalmente semelhantes, mas têm responsabilidades diferentes. ItemCarrinho pode ter métodos como `alterar_quantidade`. ItemPedido nunca deve permitir isso. Criar uma nova classe é a decisão correta, mesmo que o código pareça repetitivo.
 
 ---
 
@@ -121,7 +124,7 @@ class ItemPedido:
 
 Agora que Pedido existe, o Cliente precisa conhecer seus pedidos.
 
-```python title="ecommerce/cliente.py" hl_lines="5-6 9-11 16-17"
+```python title="ecommerce/cliente.py" linenums="1" hl_lines="7 9-11 16-17"
 class Cliente:
 
     def __init__(self, nome: str, email: str) -> None:
@@ -149,7 +152,7 @@ A lista de pedidos é privada (`_pedidos`) e exposta via `@property` que retorna
 
 O Carrinho precisa de um método que transforme seus itens em um Pedido.
 
-```python title="ecommerce/carrinho.py" hl_lines="16-22"
+```python title="ecommerce/carrinho.py" linenums="1" hl_lines="2 24-30"
 from ecommerce.item_carrinho import ItemCarrinho
 from ecommerce.pedido import Pedido
 
@@ -182,17 +185,17 @@ class Carrinho:
         return pedido
 ```
 
-🏗️ **Decisão de Projeto** — Por que o método `finalizar` está no Carrinho e não no Cliente?
+!!! info "🏗️ Decisão de Projeto — Por que `finalizar` está no Carrinho e não no Cliente?"
 
-Essa é uma decisão importante. Poderíamos ter colocado a lógica no Cliente (`cliente.finalizar_compra()`), no Pedido (`Pedido.a_partir_de(carrinho)`) ou em uma função separada (`criar_pedido(carrinho, cliente)`).
+    Essa é uma decisão importante. Poderíamos ter colocado a lógica no Cliente (`cliente.finalizar_compra()`), no Pedido (`Pedido.a_partir_de(carrinho)`) ou em uma função separada (`criar_pedido(carrinho, cliente)`).
 
-Optamos por colocar no Carrinho porque:
+    Optamos por colocar no Carrinho porque:
 
-1. O Carrinho conhece seus itens — ele tem as informações necessárias.
-2. A responsabilidade "transformar-se em pedido" é do próprio carrinho.
-3. Mais adiante, no Capítulo 7, o Cliente orquestrará o fluxo completo usando esse método.
+    1. O Carrinho conhece seus itens — ele tem as informações necessárias.
+    2. A responsabilidade "transformar-se em pedido" é do próprio carrinho.
+    3. Mais adiante, no Capítulo 7, o Cliente orquestrará o fluxo completo usando esse método.
 
-No entanto, isso não é definitivo. Conforme o fluxo de compra ficar mais complexo, talvez essa responsabilidade mude de lugar. Evolução do software é assim: decisões de hoje podem ser repensadas amanhã.
+    No entanto, isso não é definitivo. Conforme o fluxo de compra ficar mais complexo, talvez essa responsabilidade mude de lugar. Evolução do software é assim: decisões de hoje podem ser repensadas amanhã.
 
 ---
 
@@ -200,7 +203,7 @@ No entanto, isso não é definitivo. Conforme o fluxo de compra ficar mais compl
 
 Vamos criar os testes para verificar se tudo funciona.
 
-```python title="tests/test_item_pedido.py"
+```python title="tests/test_item_pedido.py" linenums="1"
 import pytest
 from ecommerce.categoria import Categoria
 from ecommerce.item_pedido import ItemPedido
@@ -228,7 +231,7 @@ class TestItemPedido:
             ItemPedido(self.notebook, 0, self.notebook.preco)
 ```
 
-```python title="tests/test_pedido.py"
+```python title="tests/test_pedido.py" linenums="1"
 import pytest
 from ecommerce.categoria import Categoria
 from ecommerce.pedido import Pedido

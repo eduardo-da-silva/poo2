@@ -23,7 +23,7 @@ Nosso pedido tem uma invariante clara: "um pedido entregue não pode ser cancela
 
 Vamos criar uma classe que centraliza os estados possíveis e as transições válidas.
 
-```python title="ecommerce/status_pedido.py"
+```python title="ecommerce/status_pedido.py" linenums="1"
 class StatusPedido:
     CRIADO = "criado"
     PAGO = "pago"
@@ -70,7 +70,7 @@ Note que `ENTREGUE` e `CANCELADO` são estados terminais — não possuem transi
 
 Agora vamos modificar `Pedido` para usar `StatusPedido` e validar transições.
 
-```python title="ecommerce/pedido.py" hl_lines="1-2 6 19-21 23-30 32-44"
+```python title="ecommerce/pedido.py" linenums="1" hl_lines="2 9 20 31-48"
 from ecommerce.item_pedido import ItemPedido
 from ecommerce.status_pedido import StatusPedido
 
@@ -121,11 +121,11 @@ class Pedido:
         self._transicionar(StatusPedido.CANCELADO)
 ```
 
-🧠 **Pense sobre o que acabamos de fazer:**
+!!! tip "🧠 Pense sobre o que acabamos de fazer"
 
-O método `_transicionar` é privado — começa com `_`. Isso significa que código externo não pode chamá-lo diretamente. Para mudar o estado, é preciso usar um método público com nome significativo: `pagar()`, `enviar()`, `entregar()`, `cancelar()`.
+    O método `_transicionar` é privado — começa com `_`. Isso significa que código externo não pode chamá-lo diretamente. Para mudar o estado, é preciso usar um método público com nome significativo: `pagar()`, `enviar()`, `entregar()`, `cancelar()`.
 
-Isso não é burocracia. É **encapsulamento de regras de negócio**. Se amanhã a regra mudar (por exemplo, "pedidos pagos há mais de 7 dias não podem ser cancelados"), basta alterar o método `cancelar()` sem mexer em mais nada.
+    Isso não é burocracia. É **encapsulamento de regras de negócio**. Se amanhã a regra mudar (por exemplo, "pedidos pagos há mais de 7 dias não podem ser cancelados"), basta alterar o método `cancelar()` sem mexer em mais nada.
 
 ---
 
@@ -133,7 +133,7 @@ Isso não é burocracia. É **encapsulamento de regras de negócio**. Se amanhã
 
 Um pedido precisa ser pago. Mas pagamento não é apenas um estado — é uma entidade com informações próprias: valor, data, confirmação.
 
-```python title="ecommerce/pagamento.py"
+```python title="ecommerce/pagamento.py" linenums="1"
 from datetime import date
 
 
@@ -181,7 +181,7 @@ O Pagamento é propositalmente simples. Ele não conhece formas de pagamento (ca
 
 Agora que Pagamento existe, vamos atualizar `Pedido.pagar()` para criar um Pagamento associado.
 
-```python title="ecommerce/pedido.py" hl_lines="2 8 48-49"
+```python title="ecommerce/pedido.py" linenums="1" hl_lines="2 11 13-15 21"
 from ecommerce.item_pedido import ItemPedido
 from ecommerce.pagamento import Pagamento
 from ecommerce.status_pedido import StatusPedido
@@ -211,7 +211,7 @@ Note que `Pedido.pagar()` faz duas coisas: muda o estado para `PAGO` **e** cria 
 
 ## Testes
 
-```python title="tests/test_status_pedido.py"
+```python title="tests/test_status_pedido.py" linenums="1"
 from ecommerce.status_pedido import StatusPedido
 
 
@@ -229,7 +229,7 @@ class TestStatusPedido:
         assert StatusPedido.transicao_valida(StatusPedido.PAGO, StatusPedido.ENTREGUE) is False
 ```
 
-```python title="tests/test_pagamento.py"
+```python title="tests/test_pagamento.py" linenums="1"
 import pytest
 from ecommerce.categoria import Categoria
 from ecommerce.pagamento import Pagamento
@@ -260,7 +260,7 @@ class TestPagamento:
             Pagamento(self.pedido, 0)
 ```
 
-```python title="tests/test_pedido.py" hl_lines="5-6 8-11"
+```python title="tests/test_pedido.py" linenums="1"
     def test_pagar(self) -> None:
         pedido = Pedido()
         pedido.adicionar_item(self.notebook, 1)

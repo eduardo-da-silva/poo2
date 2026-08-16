@@ -468,6 +468,8 @@
       
         
       
+        
+      
     
     
     
@@ -747,6 +749,33 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Entrega da Primeira Parte do Projeto
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -947,6 +976,8 @@
       
         
       
+        
+      
     
     
     
@@ -998,25 +1029,42 @@
 <hr />
 <h2 id="definindo-os-estados">Definindo os estados<a class="headerlink" href="#definindo-os-estados" title="Permanent link">&para;</a></h2>
 <p>Vamos criar uma classe que centraliza os estados possíveis e as transições válidas.</p>
-<div class="language-python highlight"><span class="filename">ecommerce/status_pedido.py</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">StatusPedido</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">CRIADO</span> <span class="o">=</span> <span class="s2">&quot;criado&quot;</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">PAGO</span> <span class="o">=</span> <span class="s2">&quot;pago&quot;</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">ENVIADO</span> <span class="o">=</span> <span class="s2">&quot;enviado&quot;</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">ENTREGUE</span> <span class="o">=</span> <span class="s2">&quot;entregue&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">CANCELADO</span> <span class="o">=</span> <span class="s2">&quot;cancelado&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">_TRANSIcoES_VALIDAS</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">CRIADO</span><span class="p">:</span> <span class="p">[</span><span class="n">PAGO</span><span class="p">,</span> <span class="n">CANCELADO</span><span class="p">],</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">PAGO</span><span class="p">:</span> <span class="p">[</span><span class="n">ENVIADO</span><span class="p">,</span> <span class="n">CANCELADO</span><span class="p">],</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="n">ENVIADO</span><span class="p">:</span> <span class="p">[</span><span class="n">ENTREGUE</span><span class="p">],</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="n">ENTREGUE</span><span class="p">:</span> <span class="p">[],</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="n">CANCELADO</span><span class="p">:</span> <span class="p">[],</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="p">}</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="nd">@classmethod</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">transicao_valida</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">de</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">para</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        <span class="k">return</span> <span class="n">para</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_TRANSIcoES_VALIDAS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="p">[])</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">ecommerce/status_pedido.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">StatusPedido</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>    <span class="n">CRIADO</span> <span class="o">=</span> <span class="s2">&quot;criado&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="n">PAGO</span> <span class="o">=</span> <span class="s2">&quot;pago&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="n">ENVIADO</span> <span class="o">=</span> <span class="s2">&quot;enviado&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>    <span class="n">ENTREGUE</span> <span class="o">=</span> <span class="s2">&quot;entregue&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="n">CANCELADO</span> <span class="o">=</span> <span class="s2">&quot;cancelado&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>    <span class="n">_TRANSIcoES_VALIDAS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>        <span class="n">CRIADO</span><span class="p">:</span> <span class="p">[</span><span class="n">PAGO</span><span class="p">,</span> <span class="n">CANCELADO</span><span class="p">],</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>        <span class="n">PAGO</span><span class="p">:</span> <span class="p">[</span><span class="n">ENVIADO</span><span class="p">,</span> <span class="n">CANCELADO</span><span class="p">],</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>        <span class="n">ENVIADO</span><span class="p">:</span> <span class="p">[</span><span class="n">ENTREGUE</span><span class="p">],</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>        <span class="n">ENTREGUE</span><span class="p">:</span> <span class="p">[],</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>        <span class="n">CANCELADO</span><span class="p">:</span> <span class="p">[],</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="p">}</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">transicao_valida</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">de</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">para</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>        <span class="k">return</span> <span class="n">para</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_TRANSIcoES_VALIDAS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">de</span><span class="p">,</span> <span class="p">[])</span>
+</span></code></pre></div></td></tr></table></div>
 <details class="question">
 <summary>Por que não usar um <code>Enum</code> do Python?</summary>
 <p>Poderíamos usar <code>enum.Enum</code> — é uma solução válida. Mas optamos por uma classe com constantes por dois motivos: (1) manter a simplicidade didática, já que <code>Enum</code> tem particularidades que desviam o foco; (2) mostrar que uma classe pode servir apenas como espaço de nome para constantes relacionadas.</p>
@@ -1034,95 +1082,176 @@
 <hr />
 <h2 id="evoluindo-o-pedido-com-estados">Evoluindo o Pedido com estados<a class="headerlink" href="#evoluindo-o-pedido-com-estados" title="Permanent link">&para;</a></h2>
 <p>Agora vamos modificar <code>Pedido</code> para usar <code>StatusPedido</code> e validar transições.</p>
-<div class="language-python highlight"><span class="filename">ecommerce/pedido.py</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.item_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemPedido</span>
-</span></span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.status_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusPedido</span>
-</span></span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pedido</span><span class="p">:</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="hll">
-</span></span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ItemPedido</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="nd">@property</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">itens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ItemPedido</span><span class="p">]:</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">)</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="nd">@property</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">:</span> <span class="s2">&quot;Produto&quot;</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="hll">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">!=</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">:</span>
-</span></span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Não é possível adicionar itens a um pedido já finalizado&quot;</span><span class="p">)</span>
-</span></span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        <span class="n">preco_no_momento</span> <span class="o">=</span> <span class="n">produto</span><span class="o">.</span><span class="n">preco</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ItemPedido</span><span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">,</span> <span class="n">preco_no_momento</span><span class="p">))</span>
-</span></span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="hll">
-</span></span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">calcular_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span></span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="hll">        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">calcular_subtotal</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">)</span>
-</span></span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="hll">
-</span></span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">quantidade_itens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span></span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="hll">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">)</span>
-</span></span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="hll">
-</span></span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_transicionar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">novo_status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="n">novo_status</span><span class="p">):</span>
-</span></span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-</span></span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="hll">                <span class="sa">f</span><span class="s2">&quot;Transicao invalida: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">novo_status</span><span class="si">}</span><span class="s2">&quot;</span>
-</span></span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="hll">            <span class="p">)</span>
-</span></span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">novo_status</span>
-</span></span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="hll">
-</span></span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">pagar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">)</span>
-</span></span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="hll">
-</span></span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">enviar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">)</span>
-</span></span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="hll">
-</span></span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">entregar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span>
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">cancelar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CANCELADO</span><span class="p">)</span>
-</span></code></pre></div>
-<p>🧠 <strong>Pense sobre o que acabamos de fazer:</strong></p>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">ecommerce/pedido.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span>
+<span class="normal"><a href="#__codelineno-1-46">46</a></span>
+<span class="normal"><a href="#__codelineno-1-47">47</a></span>
+<span class="normal"><a href="#__codelineno-1-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.item_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemPedido</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.status_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusPedido</span>
+</span></span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pedido</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ItemPedido</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span>
+</span></span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="nd">@property</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">itens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ItemPedido</span><span class="p">]:</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>    <span class="nd">@property</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">produto</span><span class="p">:</span> <span class="s2">&quot;Produto&quot;</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="hll">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">!=</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">:</span>
+</span></span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Não é possível adicionar itens a um pedido já finalizado&quot;</span><span class="p">)</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a>        <span class="n">preco_no_momento</span> <span class="o">=</span> <span class="n">produto</span><span class="o">.</span><span class="n">preco</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ItemPedido</span><span class="p">(</span><span class="n">produto</span><span class="p">,</span> <span class="n">quantidade</span><span class="p">,</span> <span class="n">preco_no_momento</span><span class="p">))</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calcular_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">calcular_subtotal</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">)</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">quantidade_itens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">_transicionar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">novo_status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a><span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="n">novo_status</span><span class="p">):</span>
+</span></span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="hll">                <span class="sa">f</span><span class="s2">&quot;Transicao invalida: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">novo_status</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="hll">            <span class="p">)</span>
+</span></span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">novo_status</span>
+</span></span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a><span class="hll">
+</span></span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">pagar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">)</span>
+</span></span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a><span class="hll">
+</span></span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">enviar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">)</span>
+</span></span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a><span class="hll">
+</span></span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">entregar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span>
+</span></span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46"></a><span class="hll">
+</span></span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">cancelar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CANCELADO</span><span class="p">)</span>
+</span></span></code></pre></div></td></tr></table></div>
+<div class="admonition tip">
+<p class="admonition-title">🧠 Pense sobre o que acabamos de fazer</p>
 <p>O método <code>_transicionar</code> é privado — começa com <code>_</code>. Isso significa que código externo não pode chamá-lo diretamente. Para mudar o estado, é preciso usar um método público com nome significativo: <code>pagar()</code>, <code>enviar()</code>, <code>entregar()</code>, <code>cancelar()</code>.</p>
 <p>Isso não é burocracia. É <strong>encapsulamento de regras de negócio</strong>. Se amanhã a regra mudar (por exemplo, "pedidos pagos há mais de 7 dias não podem ser cancelados"), basta alterar o método <code>cancelar()</code> sem mexer em mais nada.</p>
+</div>
 <hr />
 <h2 id="criando-o-pagamento">Criando o Pagamento<a class="headerlink" href="#criando-o-pagamento" title="Permanent link">&para;</a></h2>
 <p>Um pedido precisa ser pago. Mas pagamento não é apenas um estado — é uma entidade com informações próprias: valor, data, confirmação.</p>
-<div class="language-python highlight"><span class="filename">ecommerce/pagamento.py</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pagamento</span><span class="p">:</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">:</span> <span class="s2">&quot;Pedido&quot;</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="k">if</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valor do pagamento deve ser positivo&quot;</span><span class="p">)</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_pedido</span> <span class="o">=</span> <span class="n">pedido</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_valor</span> <span class="o">=</span> <span class="n">valor</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="nd">@property</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">pedido</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Pedido&quot;</span><span class="p">:</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pedido</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="nd">@property</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">valor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valor</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="nd">@property</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="nd">@property</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">confirmado</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">confirmar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span><span class="p">:</span>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pagamento ja foi confirmado&quot;</span><span class="p">)</span>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span> <span class="o">=</span> <span class="kc">True</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">ecommerce/pagamento.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pagamento</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pedido</span><span class="p">:</span> <span class="s2">&quot;Pedido&quot;</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>        <span class="k">if</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valor do pagamento deve ser positivo&quot;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_pedido</span> <span class="o">=</span> <span class="n">pedido</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_valor</span> <span class="o">=</span> <span class="n">valor</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>    <span class="nd">@property</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">pedido</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Pedido&quot;</span><span class="p">:</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pedido</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>    <span class="nd">@property</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">valor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valor</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a>    <span class="nd">@property</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>    <span class="nd">@property</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">confirmado</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">confirmar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span><span class="p">:</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pagamento ja foi confirmado&quot;</span><span class="p">)</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_confirmado</span> <span class="o">=</span> <span class="kc">True</span>
+</span></code></pre></div></td></tr></table></div>
 <p>O Pagamento é propositalmente simples. Ele não conhece formas de pagamento (cartão, boleto, pix) — isso virá em módulos futuros. Neste momento, o importante é entender que <strong>uma nova entidade surgiu porque o domínio evoluiu</strong>.</p>
 <div class="admonition warning">
 <p class="admonition-title">⚠️ Erro comum — Pagamento como atributo do Pedido</p>
@@ -1131,111 +1260,205 @@
 <hr />
 <h2 id="conectando-pagamento-ao-pedido">Conectando Pagamento ao Pedido<a class="headerlink" href="#conectando-pagamento-ao-pedido" title="Permanent link">&para;</a></h2>
 <p>Agora que Pagamento existe, vamos atualizar <code>Pedido.pagar()</code> para criar um Pagamento associado.</p>
-<div class="language-python highlight"><span class="filename">ecommerce/pedido.py</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.item_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemPedido</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.pagamento</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pagamento</span>
-</span></span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.status_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusPedido</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pedido</span><span class="p">:</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ItemPedido</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_pagamento</span><span class="p">:</span> <span class="n">Pagamento</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="nd">@property</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pagamento</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pagamento</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="c1"># ... demais métodos ...</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">pagar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">)</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_pagamento</span> <span class="o">=</span> <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcular_total</span><span class="p">())</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">ecommerce/pedido.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.item_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemPedido</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.pagamento</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pagamento</span>
+</span></span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.status_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusPedido</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pedido</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_itens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ItemPedido</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_pagamento</span><span class="p">:</span> <span class="n">Pagamento</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="hll">    <span class="nd">@property</span>
+</span></span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pagamento</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="hll">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pagamento</span>
+</span></span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>    <span class="c1"># ... demais métodos ...</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">pagar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_transicionar</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">)</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_pagamento</span> <span class="o">=</span> <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcular_total</span><span class="p">())</span>
+</span></span></code></pre></div></td></tr></table></div>
 <p>Note que <code>Pedido.pagar()</code> faz duas coisas: muda o estado para <code>PAGO</code> <strong>e</strong> cria o <code>Pagamento</code>. Uma única ação de domínio (pagar) pode envolver múltiplos objetos colaborando.</p>
 <hr />
 <h2 id="testes">Testes<a class="headerlink" href="#testes" title="Permanent link">&para;</a></h2>
-<div class="language-python highlight"><span class="filename">tests/test_status_pedido.py</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.status_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusPedido</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestStatusPedido</span><span class="p">:</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_transicao_valida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CANCELADO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_transicao_invalida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
-</span></code></pre></div>
-<div class="language-python highlight"><span class="filename">tests/test_pagamento.py</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.categoria</span><span class="w"> </span><span class="kn">import</span> <span class="n">Categoria</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.pagamento</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pagamento</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pedido</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.produto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Produto</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestPagamento</span><span class="p">:</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cat</span> <span class="o">=</span> <span class="n">Categoria</span><span class="p">(</span><span class="s2">&quot;Informática&quot;</span><span class="p">)</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">notebook</span> <span class="o">=</span> <span class="n">Produto</span><span class="p">(</span><span class="s2">&quot;Notebook&quot;</span><span class="p">,</span> <span class="mf">3500.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cat</span><span class="p">)</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_criar_pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>        <span class="n">pag</span> <span class="o">=</span> <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="p">,</span> <span class="mf">3500.0</span><span class="p">)</span>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>        <span class="k">assert</span> <span class="n">pag</span><span class="o">.</span><span class="n">valor</span> <span class="o">==</span> <span class="mf">3500.0</span>
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>        <span class="k">assert</span> <span class="n">pag</span><span class="o">.</span><span class="n">confirmado</span> <span class="ow">is</span> <span class="kc">False</span>
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_confirmar_pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>        <span class="n">pag</span> <span class="o">=</span> <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="p">,</span> <span class="mf">3500.0</span><span class="p">)</span>
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>        <span class="n">pag</span><span class="o">.</span><span class="n">confirmar</span><span class="p">()</span>
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>        <span class="k">assert</span> <span class="n">pag</span><span class="o">.</span><span class="n">confirmado</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
-</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_valor_invalido_zero</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>            <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span></code></pre></div>
-<div class="language-python highlight"><span class="filename">tests/test_pedido.py</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_pagar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">pagar</span><span class="p">()</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="hll">        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;pago&quot;</span>
-</span></span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="hll">        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">pagamento</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-</span></span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">test_enviar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="hll">        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
-</span></span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="hll">        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="hll">        <span class="n">pedido</span><span class="o">.</span><span class="n">pagar</span><span class="p">()</span>
-</span></span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">enviar</span><span class="p">()</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;enviado&quot;</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_cancelar_pedido_criado</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">cancelar</span><span class="p">()</span>
-</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;cancelado&quot;</span>
-</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
-</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_nao_cancelar_pedido_entregue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
-</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">pagar</span><span class="p">()</span>
-</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">enviar</span><span class="p">()</span>
-</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">entregar</span><span class="p">()</span>
-</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>            <span class="n">pedido</span><span class="o">.</span><span class="n">cancelar</span><span class="p">()</span>
-</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>
-</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_transicao_invalida_lanca_erro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
-</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>            <span class="n">pedido</span><span class="o">.</span><span class="n">enviar</span><span class="p">()</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">tests/test_status_pedido.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.status_pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusPedido</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestStatusPedido</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_transicao_valida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">CANCELADO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_transicao_invalida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">CRIADO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENVIADO</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>        <span class="k">assert</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">transicao_valida</span><span class="p">(</span><span class="n">StatusPedido</span><span class="o">.</span><span class="n">PAGO</span><span class="p">,</span> <span class="n">StatusPedido</span><span class="o">.</span><span class="n">ENTREGUE</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">tests/test_pagamento.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.categoria</span><span class="w"> </span><span class="kn">import</span> <span class="n">Categoria</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.pagamento</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pagamento</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.pedido</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pedido</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ecommerce.produto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Produto</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestPagamento</span><span class="p">:</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">setup_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cat</span> <span class="o">=</span> <span class="n">Categoria</span><span class="p">(</span><span class="s2">&quot;Informática&quot;</span><span class="p">)</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">notebook</span> <span class="o">=</span> <span class="n">Produto</span><span class="p">(</span><span class="s2">&quot;Notebook&quot;</span><span class="p">,</span> <span class="mf">3500.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cat</span><span class="p">)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_criar_pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>        <span class="n">pag</span> <span class="o">=</span> <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="p">,</span> <span class="mf">3500.0</span><span class="p">)</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>        <span class="k">assert</span> <span class="n">pag</span><span class="o">.</span><span class="n">valor</span> <span class="o">==</span> <span class="mf">3500.0</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a>        <span class="k">assert</span> <span class="n">pag</span><span class="o">.</span><span class="n">confirmado</span> <span class="ow">is</span> <span class="kc">False</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_confirmar_pagamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22"></a>        <span class="n">pag</span> <span class="o">=</span> <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="p">,</span> <span class="mf">3500.0</span><span class="p">)</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a>        <span class="n">pag</span><span class="o">.</span><span class="n">confirmar</span><span class="p">()</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24"></a>        <span class="k">assert</span> <span class="n">pag</span><span class="o">.</span><span class="n">confirmado</span> <span class="ow">is</span> <span class="kc">True</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_valor_invalido_zero</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27"></a>        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28"></a>            <span class="n">Pagamento</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pedido</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">tests/test_pedido.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_pagar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">pagar</span><span class="p">()</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;pago&quot;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">pagamento</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_enviar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">pagar</span><span class="p">()</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">enviar</span><span class="p">()</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a>        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;enviado&quot;</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_cancelar_pedido_criado</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">cancelar</span><span class="p">()</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19"></a>        <span class="k">assert</span> <span class="n">pedido</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;cancelado&quot;</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_nao_cancelar_pedido_entregue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">pagar</span><span class="p">()</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">enviar</span><span class="p">()</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">entregar</span><span class="p">()</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27"></a>        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28"></a>            <span class="n">pedido</span><span class="o">.</span><span class="n">cancelar</span><span class="p">()</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29"></a>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_transicao_invalida_lanca_erro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31"></a>        <span class="n">pedido</span> <span class="o">=</span> <span class="n">Pedido</span><span class="p">()</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32"></a>        <span class="n">pedido</span><span class="o">.</span><span class="n">adicionar_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33"></a>        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34"></a>            <span class="n">pedido</span><span class="o">.</span><span class="n">enviar</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>pytest<span class="w"> </span>tests/
 </span></code></pre></div>
 <hr />

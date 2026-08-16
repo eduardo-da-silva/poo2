@@ -29,7 +29,7 @@ Alguns desses passos já existem, mas estão espalhados. Precisamos de um métod
 
 Um detalhe importante: depois que o carrinho vira pedido, ele deve ser esvaziado. Caso contrário, o cliente veria os mesmos itens no carrinho mesmo depois de comprar.
 
-```python title="ecommerce/carrinho.py" hl_lines="14-15"
+```python title="ecommerce/carrinho.py" linenums="1" hl_lines="13-14"
 class Carrinho:
 
     # ... métodos existentes ...
@@ -52,7 +52,7 @@ class Carrinho:
 
 O método `finalizar_compra` no Cliente orquestra os passos 1 a 4.
 
-```python title="ecommerce/cliente.py" hl_lines="16-25"
+```python title="ecommerce/cliente.py" linenums="1" hl_lines="16-24"
 class Cliente:
 
     def __init__(self, nome: str, email: str) -> None:
@@ -85,7 +85,7 @@ class Cliente:
 
 No capítulo anterior, o método `pagar()` mudava o estado e criava o `Pagamento`. Agora vamos unificar isso em `confirmar_pagamento()`, que faz tudo em um passo: valida a transição, cria o pagamento e o confirma.
 
-```python title="ecommerce/pedido.py" hl_lines="43-46"
+```python title="ecommerce/pedido.py" linenums="1" hl_lines="12-15"
 class Pedido:
 
     # ... outros métodos ...
@@ -112,22 +112,23 @@ class Pedido:
         self._transicionar(StatusPedido.CANCELADO)
 ```
 
-🏗️ **Decisão de Projeto** — Por que `confirmar_pagamento` cria o pagamento internamente?
+!!! info "🏗️ Decisão de Projeto — Por que `confirmar_pagamento` cria o pagamento internamente?"
 
-Poderíamos exigir que o código externo criasse o `Pagamento` antes e depois passasse para o pedido:
+    Poderíamos exigir que o código externo criasse o `Pagamento` antes e depois passasse para o pedido:
 
-```python
-pagamento = Pagamento(pedido, total)
-pedido.associar_pagamento(pagamento)
-pagamento.confirmar()
-```
+    ```python
+    pagamento = Pagamento(pedido, total)
+    pedido.associar_pagamento(pagamento)
+    pagamento.confirmar()
+    ```
 
-Optamos por uma única chamada porque:
-1. Reduz o acoplamento — o mundo externo não precisa saber que `Pagamento` existe
-2. Garante consistência — não é possível ter um pedido "pago" sem pagamento criado
-3. Encapsula a regra — o pedido decide como o pagamento é criado e confirmado
+    Optamos por uma única chamada porque:
 
-Se no futuro houver múltiplas formas de pagamento, essa decisão será repensada. Mas hoje ela é a mais simples e segura.
+    1. Reduz o acoplamento — o mundo externo não precisa saber que `Pagamento` existe
+    2. Garante consistência — não é possível ter um pedido "pago" sem pagamento criado
+    3. Encapsula a regra — o pedido decide como o pagamento é criado e confirmado
+
+    Se no futuro houver múltiplas formas de pagamento, essa decisão será repensada. Mas hoje ela é a mais simples e segura.
 
 ---
 
@@ -177,7 +178,7 @@ Este diagrama de sequência mostra a **colaboração entre objetos** em ação. 
 
 ## Testes do fluxo completo
 
-```python title="tests/test_fluxo_compra.py"
+```python title="tests/test_fluxo_compra.py" linenums="1"
 from ecommerce.carrinho import Carrinho
 from ecommerce.categoria import Categoria
 from ecommerce.cliente import Cliente
@@ -297,3 +298,5 @@ Algumas decisões que tomamos neste módulo estão começando a mostrar seus lim
 Esses são exatamente os problemas que nos levarão ao **Módulo 3**, onde exploraremos como organizar a crescente complexidade do sistema sem perder a simplicidade.
 
 O sistema está maior, mas ainda totalmente compreensível. E você aprendeu algo mais importante que qualquer técnica: **software evolui, e o papel do desenvolvedor é guiar essa evolução com decisões conscientes de projeto**.
+
+Antes de seguirmos para o Módulo 3, é hora de parar e consolidar: [entregue a primeira parte do seu Projeto Financeiro](entrega.md).
