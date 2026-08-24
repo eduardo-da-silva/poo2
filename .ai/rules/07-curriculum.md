@@ -199,6 +199,16 @@ Correções monetárias.
 
 ---
 
+Ao final deste módulo o aluno saberá substituir condicionais por polimorfismo usando Strategy, e reconhecerá quando reaproveitar uma interface existente e quando criar uma nova.
+
+---
+
+Checkpoint de entrega
+
+Ao final do Módulo 3 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo3/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 8 ao 11. Mesmo formato do checkpoint do Módulo 2 — formativo, avaliado, não substitui a entrega final do Módulo 7.
+
+---
+
 # Módulo 4
 ## Criando objetos
 
