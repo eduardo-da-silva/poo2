@@ -513,6 +513,307 @@ Gancho.
 
 ---
 
+# MÓDULO 4 — Criando Objetos
+
+## Aula 12
+### Formas de pagamento e o problema da criação (Simple Factory)
+
+### Objetivo
+
+Mostrar que decidir *qual objeto instanciar* é uma responsabilidade.
+
+Espalhar essa decisão acopla quem cria a todos os tipos concretos.
+
+Introduzir Simple Factory como a solução mínima.
+
+---
+
+### E-Commerce
+
+`Pagamento` deixa de ser classe concreta única e vira abstração.
+
+`PagamentoPix`, `PagamentoBoleto`, `PagamentoCartao`.
+
+`FormaPagamento` (enum), `SituacaoPagamento` (enum, substitui a flag `_confirmado`).
+
+`CriadorPagamento` isola a criação.
+
+`Pedido.confirmar_pagamento(forma, **dados)` delega ao criador.
+
+---
+
+### Projeto Financeiro
+
+Leitores de arquivo de extrato (CSV, OFX, JSON) e um `CriadorLeitor`.
+
+---
+
+### Conceitos
+
+Criação como responsabilidade.
+
+Acoplamento a construtores concretos.
+
+Simple Factory.
+
+Enum para estado.
+
+---
+
+### Discussões
+
+Quem deveria saber montar um `Pagamento`?
+
+O que muda quando aparece uma forma nova?
+
+A regra de confirmação pertence ao `Pedido` ou ao pagamento?
+
+---
+
+### Diagramas
+
+Class diagram: `Pagamento` (ABC) + implementações + `CriadorPagamento`.
+
+Sequence: `Pedido → CriadorPagamento → PagamentoPix`.
+
+---
+
+### Exercícios
+
+Adicionar uma nova forma de pagamento sem editar `Pedido`.
+
+Projeto Financeiro: interface `Leitor` + duas implementações + factory.
+
+---
+
+### Gancho
+
+E quando a regra de qual objeto criar depender de contexto que a factory central
+não deveria conhecer? Ela vira um `if/elif` gigante de novo.
+
+---
+
+## Aula 13
+### Meios de entrega (Factory Method)
+
+### Objetivo
+
+Mostrar o limite da Simple Factory (centralização).
+
+Introduzir Factory Method: cada subclasse decide qual produto criar.
+
+Diferenciar meio de entrega (objeto de remessa) de cálculo de frete (Módulo 3).
+
+---
+
+### E-Commerce
+
+`Entrega` (ABC): código de rastreio, prazo estimado.
+
+`EntregaCorreios`, `EntregaTransportadora`.
+
+`Expedidor` (ABC) com factory method `criar_entrega` + `despachar`.
+
+`ExpedidorLojaCentral`, `ExpedidorCentroRegional`.
+
+---
+
+### Projeto Financeiro
+
+Exportadores de relatório (`ExportadorRelatorio` + factory method): PDF, CSV, HTML.
+
+---
+
+### Conceitos
+
+Factory Method.
+
+Método-molde que usa o factory method.
+
+Simple Factory × Factory Method.
+
+---
+
+### Discussões
+
+`EstrategiaFrete` calcula custo; `Entrega` é criada no despacho. São a mesma coisa?
+
+A escolha do meio de entrega depende de quê?
+
+---
+
+### Diagramas
+
+Class diagram: `Expedidor` + subclasses; `Entrega` + implementações.
+
+Tabela Simple Factory × Factory Method.
+
+---
+
+### Exercícios
+
+Adicionar uma nova origem de despacho por extensão, sem editar as existentes.
+
+Projeto Financeiro: `ExportadorRelatorio` com factory method e duas implementações.
+
+---
+
+### Gancho
+
+Pagamento e entrega variados. Quando o pedido muda de estado, o cliente precisa
+ser avisado — por e-mail, por SMS. Quem cria o notificador certo?
+
+---
+
+## Aula 14
+### Notificações (Factory reaproveitada, sem eventos ainda)
+
+### Objetivo
+
+Reconhecer que a forma do problema se repete e reaproveitar Simple Factory.
+
+Praticar a escolha do padrão certo para o problema certo.
+
+Não antecipar Observer/eventos (Módulo 6).
+
+---
+
+### E-Commerce
+
+`Notificacao` (ABC): `enviar(destinatario, mensagem)`.
+
+`NotificacaoEmail`, `NotificacaoSMS`.
+
+`CanalNotificacao` (enum), `CriadorNotificacao`.
+
+`Cliente.canal_preferido`.
+
+`ServicoNotificacaoPedido` chamado após as transições de estado do pedido.
+
+---
+
+### Projeto Financeiro
+
+Importadores por origem/banco e um `CriadorImportador`.
+
+---
+
+### Conceitos
+
+Reaproveitamento de um padrão já conhecido.
+
+Simple Factory × Factory Method revisitados.
+
+Separação entre criar o notificador e disparar a notificação.
+
+---
+
+### Discussões
+
+Por que Simple Factory de novo, e não Factory Method?
+
+Onde mora a decisão de *quando* notificar?
+
+---
+
+### Diagramas
+
+Class diagram: `Notificacao` + implementações + `CriadorNotificacao`.
+
+Sequence: transição do pedido → `ServicoNotificacaoPedido` → `NotificacaoEmail`.
+
+---
+
+### Exercícios
+
+Adicionar um novo canal (push) sem editar quem dispara a notificação.
+
+Projeto Financeiro: `CriadorImportador` por origem.
+
+---
+
+### Gancho
+
+Três factories, três pontos onde `Pedido` e serviços fazem `new` dos próprios
+colaboradores. `Pedido` sabe demais sobre como montar suas dependências.
+
+---
+
+## Aula 15
+### Quem entrega as dependências? (Dependency Injection)
+
+### Objetivo
+
+Mostrar que criar os próprios colaboradores é acoplamento.
+
+Declarar dependências e recebê-las prontas (DI) torna o objeto simples e testável.
+
+Fechar o módulo com uma refatoração ampla.
+
+---
+
+### E-Commerce
+
+`Pedido` (ou um serviço de aplicação `ServicoPedido`/`Checkout`) recebe no
+construtor: `CriadorPagamento`, `Expedidor`, `ServicoNotificacaoPedido`.
+
+Raiz de composição no script de exemplo monta o grafo de objetos.
+
+Tipos de injeção: construtor, método, setter.
+
+---
+
+### Projeto Financeiro
+
+Raiz de composição do sistema financeiro: leitores, importadores e exportadores
+injetados num serviço.
+
+---
+
+### Conceitos
+
+Inversão de Controle.
+
+Injeção de Dependências.
+
+Raiz de composição.
+
+DI manual × contêiner.
+
+---
+
+### Discussões
+
+Isso mora no `Pedido` (entidade) ou num serviço? (prenúncio de camadas do Módulo 5)
+
+O `default=` que instancia um concreto é injeção de verdade?
+
+---
+
+### Diagramas
+
+Grafo de dependências do `Pedido` antes × depois.
+
+Sequence da raiz de composição montando tudo.
+
+---
+
+### Exercícios
+
+Testar o `Pedido`/serviço com dublês de todos os colaboradores.
+
+Projeto Financeiro: montar a raiz de composição.
+
+---
+
+### Gancho
+
+Muitos objetos montados numa raiz, tudo em memória, aplicação misturada no
+domínio. O Módulo 5 separa domínio de infraestrutura: camadas, repositórios,
+persistência.
+
+---
+
 # Ordem dos padrões
 
 Factory.

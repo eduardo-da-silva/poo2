@@ -123,3 +123,10 @@ nav:
     - Capítulo 10 — Cupom: modulo3/capitulo10.md
     - Capítulo 11 — Frete: modulo3/capitulo11.md
     - Entrega da Segunda Parte do Projeto: modulo3/entrega.md
+  - Módulo 4 — Criando Objetos:
+    - Visão geral do módulo: modulo4/index.md
+    - Capítulo 12 — Formas de pagamento e o problema da criação: modulo4/capitulo12.md
+    - "Capítulo 13 — Meios de entrega: Factory Method": modulo4/capitulo13.md
+    - Capítulo 14 — Notificações: modulo4/capitulo14.md
+    - "Capítulo 15 — Quem entrega as dependências?": modulo4/capitulo15.md
+    - Entrega da Terceira Parte do Projeto: modulo4/entrega.md

@@ -64,11 +64,27 @@ Pedido
 
 Pagamento
 
+FormaPagamento
+
+SituacaoPagamento
+
+CriadorPagamento
+
 Cupom
 
 ItemCarrinho
 
 ItemPedido
+
+Entrega
+
+Expedidor
+
+Notificacao
+
+CanalNotificacao
+
+CriadorNotificacao
 
 Essa consistência reduz a carga cognitiva do aluno.
 
@@ -122,6 +138,24 @@ Descontos
 
 ---
 
+## Etapa do Módulo 4 — criação de objetos
+
+FormaPagamento como abstração (Pix, boleto, cartão)
+
+SituacaoPagamento
+
+Entrega e meios de entrega (Expedidor)
+
+Notificacao e canais (e-mail, SMS)
+
+Factory (Simple Factory e Factory Method) e Injeção de Dependências
+
+A criação desses objetos deixa de ser feita diretamente por quem os usa
+(`Pedido`, serviços) e passa a ser responsabilidade de peças dedicadas
+(factories) e da raiz de composição (injeção de dependências).
+
+---
+
 ## Quinta etapa
 
 Estoque
@@ -165,6 +199,10 @@ ItemPedido
 Pagamento
 
 Cupom
+
+Entrega
+
+Notificacao
 
 Estoque
 
@@ -480,6 +518,8 @@ Conhecer situação.
 
 Registrar data.
 
+Confirmar a si mesmo.
+
 ---
 
 ## Não é responsabilidade
@@ -489,6 +529,109 @@ Modificar produtos.
 Alterar carrinhos.
 
 Controlar estoque.
+
+Decidir qual forma de pagamento instanciar.
+
+---
+
+## Formas de pagamento (Módulo 4)
+
+A partir do Módulo 4 `Pagamento` deixa de ser uma classe concreta única.
+
+Ele passa a ser uma abstração, com uma implementação por forma de pagamento:
+`PagamentoPix`, `PagamentoBoleto`, `PagamentoCartao`.
+
+Cada forma conhece seus próprios dados (chave Pix, linha digitável e vencimento
+do boleto, bandeira e parcelas do cartão) e sua própria regra de confirmação.
+
+`FormaPagamento` é um enum: `PIX`, `BOLETO`, `CARTAO_CREDITO`.
+
+`SituacaoPagamento` é um enum: `PENDENTE`, `CONFIRMADO`, `RECUSADO`. Ele substitui
+qualquer flag booleana de "confirmado".
+
+`CriadorPagamento` (Simple Factory) concentra num único lugar a decisão de qual
+implementação instanciar a partir de uma `FormaPagamento`. `Pedido` depende
+apenas da abstração `Pagamento` e do `CriadorPagamento`.
+
+---
+
+# Entrega
+
+## O que representa
+
+A remessa física de um pedido já pago até o cliente.
+
+Não é o cálculo do custo do frete (isso é `EstrategiaFrete`, do Módulo 3).
+
+`Entrega` representa o objeto criado no momento do despacho, que carrega o
+código de rastreio e o prazo estimado.
+
+---
+
+## Responsabilidades
+
+Conhecer o código de rastreio.
+
+Estimar o prazo de entrega.
+
+Gerar a etiqueta de envio.
+
+---
+
+## Não é responsabilidade
+
+Calcular o custo do frete.
+
+Mudar o estado do pedido.
+
+Conhecer pagamento.
+
+---
+
+## Meios de entrega (Módulo 4)
+
+`Entrega` é uma abstração. Implementações: `EntregaCorreios`, `EntregaTransportadora`.
+
+`Expedidor` é a peça que decide qual `Entrega` criar para um pedido (Factory
+Method). Cada origem de despacho tem sua subclasse: `ExpedidorLojaCentral`,
+`ExpedidorCentroRegional`.
+
+---
+
+# Notificacao
+
+## O que representa
+
+Um aviso enviado ao cliente quando o pedido muda de estado (pago, enviado).
+
+---
+
+## Responsabilidades
+
+Montar e enviar a mensagem por um canal específico.
+
+---
+
+## Não é responsabilidade
+
+Decidir *quando* notificar (isso é do fluxo do pedido).
+
+Conhecer pagamento, estoque ou catálogo.
+
+---
+
+## Canais de notificação (Módulo 4)
+
+`Notificacao` é uma abstração. Implementações: `NotificacaoEmail`, `NotificacaoSMS`.
+
+`CanalNotificacao` é um enum: `EMAIL`, `SMS`.
+
+`CriadorNotificacao` (Simple Factory) decide qual implementação instanciar a
+partir do canal preferido do cliente.
+
+No Módulo 4 a notificação é disparada por chamada direta e explícita após a
+transição de estado do pedido. Publicação/assinatura e eventos só aparecem no
+Módulo 6.
 
 ---
 
@@ -620,11 +763,31 @@ Pedido
 
 ↓
 
+possui (após o pagamento)
+
+↓
+
+Entrega
+
+Pedido
+
+↓
+
 pode utilizar
 
 ↓
 
 Cupom
+
+Pedido
+
+↓
+
+dispara
+
+↓
+
+Notificacao
 
 ---
 
@@ -651,6 +814,14 @@ Pagamento
 Cupom
 
 FormaPagamento
+
+Entrega
+
+Expedidor
+
+Notificacao
+
+CanalNotificacao
 
 Estoque
 
@@ -756,8 +927,31 @@ Um ItemPedido:
 Um pagamento:
 
 - pertence a apenas um pedido;
-- possui um valor;
-- possui um estado.
+- possui um valor positivo;
+- possui uma forma de pagamento;
+- possui uma situação (`PENDENTE`, `CONFIRMADO` ou `RECUSADO`), nunca uma flag booleana;
+- não decide qual forma de pagamento instanciar.
+
+---
+
+## Entrega
+
+Uma entrega:
+
+- pertence a apenas um pedido;
+- existe apenas depois que o pedido foi pago;
+- possui um código de rastreio;
+- não calcula o custo do frete.
+
+---
+
+## Notificacao
+
+Uma notificação:
+
+- é enviada por exatamente um canal;
+- não decide quando é disparada;
+- não conhece pagamento, estoque nem catálogo.
 
 ---
 
@@ -955,6 +1149,12 @@ Pedido
 
 ↓
 
+Entrega
+
+Pedido
+
+↓
+
 ItemPedido
 
 ItemPedido
@@ -962,6 +1162,24 @@ ItemPedido
 ↓
 
 Produto
+
+Expedidor
+
+↓
+
+Entrega
+
+CriadorPagamento
+
+↓
+
+Pagamento
+
+CriadorNotificacao
+
+↓
+
+Notificacao
 
 ---
 

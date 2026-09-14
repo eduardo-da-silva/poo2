@@ -71,3 +71,4 @@ Use o menu lateral para acessar o conteúdo de cada módulo. O curso está organ
 - [Módulo 1 — Construindo o domínio](modulo1/index.md) — modelagem inicial: produtos, categorias, clientes, carrinho
 - [Módulo 2 — Evoluindo o domínio](modulo2/index.md) — pedidos, estados, pagamento, fluxo de compra
 - [Módulo 3 — Estratégias](modulo3/index.md) — descontos, cupons e frete com o padrão Strategy
+- [Módulo 4 — Criando Objetos](modulo4/index.md) — formas de pagamento, entrega e notificações com Factory e Injeção de Dependências
