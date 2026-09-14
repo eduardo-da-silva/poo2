@@ -250,6 +250,16 @@ Leitores de arquivos.
 
 ---
 
+Ao final deste módulo o aluno saberá isolar a criação de objetos em factories (Simple Factory e Factory Method) e receber colaboradores por injeção de dependências, em vez de instanciá-los diretamente dentro de quem os usa.
+
+---
+
+Checkpoint de entrega
+
+Ao final do Módulo 4 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo4/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 12 ao 15. Mesmo formato dos checkpoints dos Módulos 2 e 3 — formativo, avaliado, não substitui a entrega final do Módulo 7.
+
+---
+
 # Módulo 5
 ## Organização do sistema
 
