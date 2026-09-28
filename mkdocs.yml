@@ -110,11 +110,13 @@ nav:
     - Capítulo 2 — Conhecendo o domínio: modulo1/capitulo2.md
     - Capítulo 3 — Primeiras entidades e relacionamentos: modulo1/capitulo3.md
     - "Capítulo 4 — Mão na massa: implementando as classes": modulo1/capitulo4.md
+    - Mapa do conhecimento: modulo1/mapa-conhecimento.md
   - Módulo 2 — Evoluindo o Domínio:
     - Visão geral do módulo: modulo2/index.md
     - Capítulo 5 — Do carrinho ao pedido: modulo2/capitulo5.md
     - Capítulo 6 — O ciclo de vida do pedido: modulo2/capitulo6.md
     - Capítulo 7 — O fluxo completo de compra: modulo2/capitulo7.md
+    - Mapa do conhecimento: modulo2/mapa-conhecimento.md
     - Entrega da Primeira Parte do Projeto: modulo2/entrega.md
   - Módulo 3 — Estratégias:
     - Visão geral do módulo: modulo3/index.md
@@ -122,6 +124,7 @@ nav:
     - "Capítulo 9 — Strategy: desconto como objeto": modulo3/capitulo9.md
     - Capítulo 10 — Cupom: modulo3/capitulo10.md
     - Capítulo 11 — Frete: modulo3/capitulo11.md
+    - Mapa do conhecimento: modulo3/mapa-conhecimento.md
     - Entrega da Segunda Parte do Projeto: modulo3/entrega.md
   - Módulo 4 — Criando Objetos:
     - Visão geral do módulo: modulo4/index.md
@@ -129,4 +132,6 @@ nav:
     - "Capítulo 13 — Meios de entrega: Factory Method": modulo4/capitulo13.md
     - Capítulo 14 — Notificações: modulo4/capitulo14.md
     - "Capítulo 15 — Quem entrega as dependências?": modulo4/capitulo15.md
+    - Mapa do conhecimento: modulo4/mapa-conhecimento.md
     - Entrega da Terceira Parte do Projeto: modulo4/entrega.md
+  - Mapa do Conhecimento - até módulo 4: mapa-conceitos.md
