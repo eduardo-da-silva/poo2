@@ -63,7 +63,20 @@ O Módulo 2 não substitui os conceitos do Módulo 1. Ele os amplia: objetos pas
 
 ### Design de objetos
 
-- **Colaboração entre objetos** — objetos trabalham juntos para realizar uma operação maior.
+- **Colaboração entre objetos** — os objetos não existem isoladamente. Um sistema orientado a objetos é formado por objetos que colaboram para realizar comportamentos maiores. No fluxo de compra, por exemplo:
+
+    ```
+    Cliente
+       ↓
+    Carrinho
+       ↓
+    Pedido
+       ↓
+    Pagamento
+    ```
+
+    Cada objeto realiza uma parte da operação. O objetivo não é colocar todo o fluxo em uma única classe, mas fazer os objetos colaborarem de maneira coerente.
+
 - **Distribuição de responsabilidades** — o fluxo deixa de pertencer a uma única classe e passa a ser dividido entre objetos que possuem responsabilidades coerentes.
 
 ### Qualidade do design

@@ -1492,3 +1492,12 @@ O domínio evolui primeiro.
 O código evolui depois.
 
 Essa disciplina garante consistência durante todo o curso.
+
+## Etapa do Módulo 5 — organização do sistema
+
+- `Produto` e `Pedido` ganham identidade (`id`), atribuída uma única vez pelo repositório (`atribuir_id`).
+- `RepositorioProduto` e `RepositorioPedido` são contratos no domínio (`adicionar`, `obter`, `listar`, `atualizar`); implementações em memória e SQLite ficam na infraestrutura.
+- `Pedido.reconstituir(id, status, itens)` recria um pedido sem passar pelas regras de criação.
+- Persistidos: produtos, pedidos (status e itens). Não persistidos de propósito: `Pagamento`, `Entrega`, `Cupom`, `Cliente`.
+- `ServicoPedido` é substituído pelos casos de uso `CadastrarProduto`, `FinalizarCompra`, `PagarPedido`, `DespacharPedido`.
+- `Notificacao` (ABC) e `FabricaNotificacao` (Protocol) pertencem à aplicação; e-mail e SMS ficam na infraestrutura.

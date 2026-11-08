@@ -2,7 +2,7 @@
 
 > **Do objeto ao design de software**
 
-Ao longo dos quatro primeiros módulos, vários conceitos apareceram em momentos diferentes. Alguns foram apresentados diretamente; outros foram utilizados na prática antes de receberem uma definição formal.
+Ao longo dos cinco primeiros módulos, vários conceitos apareceram em momentos diferentes. Alguns foram apresentados diretamente; outros foram utilizados na prática antes de receberem uma definição formal.
 
 Este mapa reúne esses conceitos em uma visão única.
 
@@ -23,6 +23,7 @@ graph TD
     POO --> SOLID[5. SOLID]
     POO --> PAT[6. Design Patterns]
     POO --> DEP[7. Dependências e Composição]
+    POO --> ARQ[8. Organização do Sistema]
 
     FUND --> CL[Classe]
     FUND --> OB[Objeto]
@@ -65,12 +66,21 @@ graph TD
     DEP --> SERV[Serviços / Orquestração]
     DEP --> DUB[Dublês de teste]
 
+    ARQ --> REPO[Repository]
+    ARQ --> PERS[Persistência]
+    ARQ --> CAM[Camadas]
+    ARQ --> UC[Casos de uso]
+    ARQ --> TARQ[Teste de arquitetura]
+
     ABS --> INT
     INT --> POL
     POL --> STR
     AC --> DIP
     DIP --> DI
     DI --> RC
+    DIP --> CAM
+    REPO --> PERS
+    CAM --> UC
 ```
 
 ---
@@ -137,12 +147,13 @@ Antes de escrever código, precisamos compreender o problema, identificar seus c
 - Polimorfismo
 - Composição de objetos
 - Serviço de aplicação/orquestração
+- Caso de uso
 
 ### Ideia central
 
 Projetar objetos é decidir quem conhece o quê, quem faz o quê e como os objetos colaboram sem assumir responsabilidades que pertencem a outros conceitos.
 
-**Estudado principalmente:** Módulos 1 a 4.
+**Estudado principalmente:** Módulos 1 a 5.
 
 ---
 
@@ -189,7 +200,7 @@ SOLID não é uma coleção de Design Patterns.
 
 São **princípios de projeto** que ajudam a avaliar e orientar a estrutura do software.
 
-**Estudado principalmente:** Módulos 3 e 4, com diferentes princípios aparecendo conforme os problemas de design surgiram.
+**Estudado principalmente:** Módulos 3 a 5, com diferentes princípios aparecendo conforme os problemas de design surgiram. O Módulo 5 fecha o **D** (Inversão de Dependências): a abstração pertence a quem a usa.
 
 ---
 
@@ -265,6 +276,37 @@ Isso reduz acoplamento, facilita substituições e melhora a testabilidade.
 
 ---
 
+# 8. Organização do Sistema
+
+**Pergunta:** *Como separar o que o sistema é de onde e como ele guarda e entrega as coisas?*
+
+- Identidade
+- Persistência
+- Repository
+- Contrato de repositório
+- Suíte de contrato
+- Mapeamento objeto↔tabela (e ORM)
+- Reconstituição
+- Camadas: domínio, aplicação, infraestrutura
+- Regra de dependência
+- Caso de uso
+- Inversão de Dependências (DIP)
+- Teste de arquitetura
+
+### Ideia central
+
+O domínio não conhece ninguém. A abstração pertence a quem a usa, e os detalhes (banco, e-mail, ORM) se adaptam a ela e são escolhidos num único ponto, a raiz de composição.
+
+| Conceito | Pergunta que responde |
+|---|---|
+| **Inversão de Dependências** | Quem define a abstração? Para onde apontam as dependências? |
+| **Injeção de Dependências** | Como o objeto recebe o que precisa? |
+| **Raiz de composição** | Onde as peças são escolhidas e ligadas? |
+
+**Estudado principalmente:** Módulo 5.
+
+---
+
 # Como os blocos se conectam
 
 Uma maneira de contar a história da disciplina é:
@@ -305,6 +347,10 @@ Uma maneira de contar a história da disciplina é:
 9. Como manter tudo substituível e testável?
         ↓
    Baixo acoplamento + alta coesão + composição
+        ↓
+10. Onde os objetos vivem e quem pode conhecer quem?
+        ↓
+   Repositórios, camadas e Inversão de Dependências
 ```
 
 ---
@@ -339,6 +385,13 @@ Ao revisar POO II, tente responder sem consultar o material:
 18. O que é Injeção de Dependência?
 19. O que é uma raiz de composição?
 20. Como SOLID se relaciona com as decisões de design estudadas?
+21. O que é um repositório e por que seu contrato fala a linguagem do domínio?
+22. Por que reconstituir um objeto não é o mesmo que criá-lo?
+23. O que são camadas e qual é a regra de dependência entre elas?
+24. O que é um caso de uso e o que ele não deve conter?
+25. O que significa dizer que a abstração pertence a quem a usa?
+26. Qual a diferença entre Inversão de Dependências, Injeção de Dependências e raiz de composição?
+27. O que mudaria no sistema ao trocar o SQLite por um ORM, e o que não mudaria?
 
 ---
 
@@ -350,11 +403,12 @@ Ao revisar POO II, tente responder sem consultar o material:
 | **2 — Evoluindo o domínio** | Como objetos protegem seu estado e colaboram? | Invariantes, estados, transições, regras de negócio, colaboração |
 | **3 — Estratégias** | Como representar comportamentos que variam? | Interfaces, contratos, polimorfismo, Strategy, Open/Closed |
 | **4 — Criando Objetos** | Como controlar criação e dependências? | Factories, Factory Method, Template Method, DI, raiz de composição |
+| **5 — Organização do Sistema** | Quem pode conhecer quem? | Repository, persistência, camadas, casos de uso, DIP, teste de arquitetura |
 
 ---
 
 ## E agora?
 
-Este mapa representa **o que foi consolidado até o final do Módulo 4**.
+Este mapa representa **o que foi consolidado até o final do Módulo 5**.
 
 Os próximos módulos podem acrescentar novos conceitos ao mapa sem apagar os anteriores. A ideia é que, ao final da disciplina, este documento seja a visão geral de tudo o que foi estudado em POO II.

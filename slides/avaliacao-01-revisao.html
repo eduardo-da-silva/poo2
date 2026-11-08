@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>POO-II — Revisão da Avaliação 1</title>
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('poo2-slides-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: 'rgb(var(--ink) / <alpha-value>)',
+          surface: 'rgb(var(--surface) / <alpha-value>)',
+          card: 'rgb(var(--card) / <alpha-value>)',
+          accent: 'rgb(var(--accent) / <alpha-value>)',
+          cool: 'rgb(var(--cool) / <alpha-value>)',
+          white: 'rgb(var(--white) / <alpha-value>)',
+          slate: {
+            50: 'rgb(var(--slate-50) / <alpha-value>)',
+            100: 'rgb(var(--slate-100) / <alpha-value>)',
+            200: 'rgb(var(--slate-200) / <alpha-value>)',
+            300: 'rgb(var(--slate-300) / <alpha-value>)',
+            400: 'rgb(var(--slate-400) / <alpha-value>)',
+            500: 'rgb(var(--slate-500) / <alpha-value>)',
+            600: 'rgb(var(--slate-600) / <alpha-value>)',
+            700: 'rgb(var(--slate-700) / <alpha-value>)',
+            800: 'rgb(var(--slate-800) / <alpha-value>)',
+            900: 'rgb(var(--slate-900) / <alpha-value>)',
+          },
+          red: {
+            400: 'rgb(var(--red-400) / <alpha-value>)',
+            500: 'rgb(var(--red-500) / <alpha-value>)',
+          },
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root[data-theme="light"] {
+    --surface: 255 255 255; --card: 241 245 249; --ink: 226 232 240;
+    --accent: 180 83 9; --cool: 3 105 161; --white: 15 23 42;
+    --slate-50: 15 23 42; --slate-100: 30 41 59; --slate-200: 51 65 85;
+    --slate-300: 63 75 92; --slate-400: 71 85 105; --slate-500: 100 116 139;
+    --slate-600: 148 163 184; --slate-700: 203 213 225; --slate-800: 230 235 240;
+    --slate-900: 11 17 32;
+    --red-400: 220 38 38; --red-500: 220 38 38;
+    --code-bg: 241 245 249; --code-border: 203 213 225; --code-fg: 30 41 59;
+    --scrollbar: 203 213 225;
+  }
+  :root[data-theme="dark"] {
+    --surface: 15 23 42; --card: 30 41 59; --ink: 11 17 32;
+    --accent: 245 158 11; --cool: 56 189 248; --white: 255 255 255;
+    --slate-50: 248 250 252; --slate-100: 241 245 249; --slate-200: 226 232 240;
+    --slate-300: 203 213 225; --slate-400: 148 163 184; --slate-500: 100 116 139;
+    --slate-600: 71 85 105; --slate-700: 51 65 85; --slate-800: 30 41 59;
+    --slate-900: 11 17 32;
+    --red-400: 248 113 113; --red-500: 239 68 68;
+    --code-bg: 11 17 32; --code-border: 30 41 59; --code-fg: 203 213 225;
+    --scrollbar: 51 65 85;
+  }
+  html, body { height: 100%; }
+  body { background: rgb(var(--surface)); font-family: 'Inter', system-ui, sans-serif; overflow: hidden; transition: background .2s ease; }
+  #deck { position: relative; height: 100vh; width: 100vw; }
+  .slide {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    padding: clamp(1.5rem, 4.5vw, 4.5rem); padding-bottom: 6.5rem;
+    opacity: 0; visibility: hidden; transform: translateY(16px);
+    transition: opacity .45s ease, transform .45s ease, visibility .45s;
+    overflow-y: auto;
+  }
+  .slide.active { opacity: 1; visibility: visible; transform: none; }
+  .slide-inner { width: 100%; max-width: 64rem; margin: auto; }
+  .kicker { text-transform: uppercase; letter-spacing: .14em; font-size: .8rem; font-weight: 600; }
+  pre.code {
+    background: rgb(var(--code-bg)); border: 1px solid rgb(var(--code-border)); border-radius: .6rem;
+    padding: 1.05rem 1.2rem; font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: .8rem; line-height: 1.55; color: rgb(var(--code-fg)); overflow-x: auto; white-space: pre;
+  }
+  pre.code.sm { font-size: .74rem; }
+  pre.code { white-space: pre; }
+  .mermaid { display: flex; justify-content: center; }
+  .mermaid svg { max-width: 100%; height: auto; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--scrollbar)); border-radius: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
+</style>
+</head>
+<body class="text-slate-300">
+
+<div class="fixed top-0 left-0 right-0 z-20 flex items-center justify-between px-5 py-3 text-xs tracking-wide text-slate-600 pointer-events-none">
+  <span>Programação Orientada a Objetos II · Revisão da Avaliação 1</span>
+  <div class="flex items-center gap-3 pointer-events-auto">
+    <span id="label" class="pointer-events-none"></span>
+    <button id="theme-toggle" type="button" class="w-7 h-7 flex items-center justify-center rounded-full border border-slate-700 bg-card/60 text-sm leading-none hover:border-accent/60 transition" title="Mudar tema" aria-label="Alternar tema claro/escuro">🌙</button>
+  </div>
+</div>
+
+<div id="deck">
+<section class="slide" data-label="Capa"><div class="slide-inner"><p class="kicker text-slate-500">Programação Orientada a Objetos II · Módulos 1 a 4</p>
+      <div class="mt-8"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">A1</span></div>
+      <h1 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Revisão da Avaliação Escrita 1</h1>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Questão a questão, com o gabarito oficial, o que vale ponto, código e diagramas UML para fixar os conceitos.</p>
+      <p class="mt-12 text-sm text-slate-600">Aplicada em 19/10/2026 · Navegue com as setas ◀ ▶, a barra de espaço ou os botões abaixo.</p></div></section>
+  <section class="slide" data-label="Roteiro">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Como vamos revisar</p>
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Três tipos de slide para cada questão</h2>
+      <div class="mt-5 grid md:grid-cols-3 gap-4"><div class="rounded-xl border border-accent/50 bg-card/50 p-5"><h3 class="kicker text-accent">1 · Enunciado</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A questão como foi aplicada. Dê um minuto para a turma <strong class="text-slate-100 font-semibold">tentar responder de novo</strong> antes de avançar.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">2 · Gabarito</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A resposta oficial, o que <strong class="text-slate-100 font-semibold">vale ponto</strong> e os erros mais comuns de correção.</div></div><div class="rounded-xl border border-cool/50 bg-card/50 p-5"><h3 class="kicker text-cool">3 · Reforço</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Código “antes e depois” e <strong class="text-slate-100 font-semibold">diagramas UML</strong> para ver o conceito funcionando.</div></div></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Atalhos: ← → ou espaço para navegar, Home/End para ir ao início/fim, e o número no endereço (<code class="text-cool">#12</code>) leva direto a um slide.</p><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Os exemplos de código usam Python, mas o foco é conceitual: o código serve para <strong class="text-slate-100 font-semibold">reconhecer</strong> um problema ou uma solução de design.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Mapa da prova">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Mapa da prova</p>
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Seis blocos, 18 questões, 10 pontos</h2>
+      <div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500">Bloco</th><th class="text-left px-3 py-2 kicker text-slate-500">Questões</th><th class="text-left px-3 py-2 kicker text-slate-500">Pontos</th><th class="text-left px-3 py-2 kicker text-slate-500">Conceitos cobrados</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">1 · Fundamentos e modelagem</td><td class="px-3 py-2 align-top">Q1–Q5</td><td class="px-3 py-2 align-top">2,0</td><td class="px-3 py-2 align-top">classe, objeto, invariante, encapsulamento, objeto rico, associação, composição, herança, coesão, acoplamento</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">2 · Abstração e responsabilidade</td><td class="px-3 py-2 align-top">Q6–Q8</td><td class="px-3 py-2 align-top">1,25</td><td class="px-3 py-2 align-top">interface e contrato, SRP, quem tem a informação tem a responsabilidade</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">3 · Strategy e YAGNI</td><td class="px-3 py-2 align-top">Q9–Q10</td><td class="px-3 py-2 align-top">1,25</td><td class="px-3 py-2 align-top">code smell de condicional, OCP, Strategy, quando não aplicar um padrão</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">4 · Factories</td><td class="px-3 py-2 align-top">Q11–Q13</td><td class="px-3 py-2 align-top">1,5</td><td class="px-3 py-2 align-top">Simple Factory, Factory Method, Template Method</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">5 · Injeção de Dependência</td><td class="px-3 py-2 align-top">Q14–Q16</td><td class="px-3 py-2 align-top">1,5</td><td class="px-3 py-2 align-top">DI por construtor, raiz de composição, dublês de teste</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">6 · Integração</td><td class="px-3 py-2 align-top">Q17–Q18</td><td class="px-3 py-2 align-top">2,5</td><td class="px-3 py-2 align-top">como os conceitos se conectam; refatoração completa da <code class="text-cool">Comanda</code></td></tr></tbody></table></div>
+    </div>
+  </section><section class="slide" data-label="Bloco 1"><div class="slide-inner"><p class="kicker text-slate-500">Bloco 1 · Q1–Q5 · 2,0 pontos</p>
+      <div class="mt-6"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">01</span></div>
+      <h2 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Fundamentos e modelagem</h2>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Objetos que protegem as próprias regras, relacionamentos certos entre classes e as duas medidas de qualidade de um design.</p></div></section>
+  <section class="slide" data-label="Q1">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 1 · 0,25 pt · Bloco 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Conceitos básicos</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Associe cada termo à descrição mais adequada.</p><div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500">Termo</th><th class="text-left px-3 py-2 kicker text-slate-500">Descrição</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">1. Classe</td><td class="px-3 py-2 align-top">( ) Regra que deve ser sempre verdadeira para um objeto válido</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">2. Objeto</td><td class="px-3 py-2 align-top">( ) Molde que descreve estado e comportamento de um conceito</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">3. Invariante</td><td class="px-3 py-2 align-top">( ) Instância concreta, com identidade e estado próprios</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">4. Encapsulamento</td><td class="px-3 py-2 align-top">( ) Esconder detalhes internos e expor apenas operações que preservam a consistência</td></tr></tbody></table></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q1 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Conceitos básicos</h2>
+      <div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500">Termo</th><th class="text-left px-3 py-2 kicker text-slate-500">Resposta</th><th class="text-left px-3 py-2 kicker text-slate-500">Por quê</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">1. Classe</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">( 2 )</strong> molde</td><td class="px-3 py-2 align-top">descreve estado e comportamento; não tem valores próprios</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">2. Objeto</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">( 3 )</strong> instância</td><td class="px-3 py-2 align-top">tem identidade e estado próprios, criado a partir da classe</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">3. Invariante</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">( 1 )</strong> regra sempre verdadeira</td><td class="px-3 py-2 align-top">ex.: saldo nunca negativo, temperatura dentro da faixa</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">4. Encapsulamento</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">( 4 )</strong> esconde e expõe só o seguro</td><td class="px-3 py-2 align-top">o único caminho para mudar o estado preserva a invariante</td></tr></tbody></table></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Sequência na prova, de cima para baixo: <strong class="text-slate-100 font-semibold">3 · 1 · 2 · 4</strong>.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q1 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Os quatro termos em um só exemplo</h2>
+      <pre class="code mt-4">class Termostato:                        # CLASSE: o molde
+    def __init__(self, temp_inicial):
+        self._temp = 21.0
+        self.ajustar(temp_inicial)       # já nasce válido
+
+    def ajustar(self, temp):             # ENCAPSULAMENTO: único caminho
+        if not 5 &lt;= temp &lt;= 30:          # INVARIANTE: 5 °C &lt;= temp &lt;= 30 °C
+            raise ValueError("fora da faixa")
+        self._temp = temp
+
+sala = Termostato(22)                    # OBJETO: identidade + estado
+quarto = Termostato(18)                  # outro objeto, outro estado</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  class Termostato {
+    -temp : float
+    +ajustar(temp)
+  }
+  class sala {
+    temp : 22
+  }
+  class quarto {
+    temp : 18
+  }
+  Termostato &lt;.. sala : instancia de
+  Termostato &lt;.. quarto : instancia de</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q2">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 2 · 0,5 pt · Bloco 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Objeto rico × objeto anêmico</h2>
+      <div class="mt-4 grid md:grid-cols-2 gap-4"><pre class="code sm mt-4"># Versão 1
+class Emprestimo:
+    def __init__(self, livro, prazo_dias):
+        self.livro = livro
+        self.prazo_dias = prazo_dias
+        self.devolvido = False
+
+# em outro lugar do sistema:
+def devolver(emprestimo):
+    if emprestimo.devolvido:
+        raise ValueError("já devolvido")
+    emprestimo.devolvido = True</pre><pre class="code sm mt-4"># Versão 2
+class Emprestimo:
+    def __init__(self, livro, prazo_dias):
+        self._livro = livro
+        self._prazo_dias = prazo_dias
+        self._devolvido = False
+
+    def devolver(self):
+        if self._devolvido:
+            raise ValueError("já devolvido")
+        self._devolvido = True</pre></div><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Qual versão é <strong class="text-slate-100 font-semibold">anêmica</strong> e qual é <strong class="text-slate-100 font-semibold">rica</strong>?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Cite <strong class="text-slate-100 font-semibold">uma</strong> consequência prática de manter a regra fora da classe (Versão 1).</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q2 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 2</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Objeto rico × objeto anêmico</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Quais são quais</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Versão 1 = anêmica:</strong> só dados; a regra de devolução está fora da classe.
+<br/><strong class="text-slate-100 font-semibold">Versão 2 = rica:</strong> regra e dados juntos, com estado protegido.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Qualquer uma destas vale</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><ul class="mt-4 space-y-3 text-sm text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">—</span><span>a regra pode ser <strong class="text-slate-100 font-semibold">esquecida ou duplicada</strong> em outros lugares;</span></li><li class="flex gap-3"><span class="text-accent shrink-0">—</span><span>qualquer código pode alterar <code class="text-cool">devolvido</code> direto e <strong class="text-slate-100 font-semibold">violar a regra</strong>;</span></li><li class="flex gap-3"><span class="text-accent shrink-0">—</span><span>mudar a regra exige <strong class="text-slate-100 font-semibold">procurar usos espalhados</strong>.</span></li></ul></div></div></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Basta <strong class="text-slate-100 font-semibold">uma</strong> consequência bem justificada para pontuar a letra b.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q2 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 2</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">O que “anêmico” custa na prática</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="mermaid mt-4 text-sm">classDiagram
+  class Emprestimo {
+    +livro
+    +prazo_dias
+    +devolvido
+  }
+  class funcao_devolver {
+    +devolver(emprestimo)
+  }
+  funcao_devolver ..&gt; Emprestimo : mexe nos dados</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  class Emprestimo {
+    -livro
+    -prazo_dias
+    -devolvido
+    +devolver()
+  }</pre></div><pre class="code sm mt-4"># importar_planilha.py  (outro módulo, outra pessoa, outro dia)
+for e in emprestimos_do_arquivo:
+    e.devolvido = True        # Versão 1 aceita: ninguém checou "já devolvido"
+
+# Versão 2: o objeto é quem decide
+emprestimo.devolver()         # "Tell, don't ask": peça a ação, não mexa nos dados</pre><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Na Versão 1 a regra existe em <strong class="text-slate-100 font-semibold">um</strong> lugar, mas nada obriga os outros a usá-lo.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q3">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 3 · 0,5 pt · Bloco 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Associação × composição × herança</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Para cada situação, indique o relacionamento mais adequado (<strong class="text-slate-100 font-semibold">associação</strong>, <strong class="text-slate-100 font-semibold">composição</strong> ou <strong class="text-slate-100 font-semibold">herança</strong>) e justifique em uma frase.</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Uma <code class="text-cool">Playlist</code> e as <code class="text-cool">Faixas</code> que existem apenas dentro dela.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Um <code class="text-cool">Professor</code> e as <code class="text-cool">Turmas</code> em que leciona (ambos existem de forma independente).</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>c) <code class="text-cool">Quadrado</code> “é um” <code class="text-cool">Polígono</code>, e deve poder ser usado em qualquer lugar onde um <code class="text-cool">Polígono</code> é esperado.</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q3 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 3</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Associação × composição × herança</h2>
+      <div class="mt-5 grid md:grid-cols-3 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Composição</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">O ciclo de vida das faixas <strong class="text-slate-100 font-semibold">depende da playlist</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Associação</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Professor e turma <strong class="text-slate-100 font-semibold">existem independentes</strong>; só se relacionam.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">c) Herança</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Há relação “é um” e <strong class="text-slate-100 font-semibold">substituibilidade (LSP)</strong>.</div></div></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Justificativa em <strong class="text-slate-100 font-semibold">uma frase</strong> é suficiente: o ponto está em citar o <strong class="text-slate-100 font-semibold">ciclo de vida</strong> (a, b) e o <strong class="text-slate-100 font-semibold">“é um” com substituição</strong> (c).</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q3 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 3</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Como cada relacionamento aparece na UML</h2>
+      <pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  Playlist "1" *-- "0..*" Faixa : contem
+  Professor "1" --&gt; "0..*" Turma : leciona
+  Poligono &lt;|-- Quadrado</pre><div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500"></th><th class="text-left px-3 py-2 kicker text-slate-500">Pergunta-teste</th><th class="text-left px-3 py-2 kicker text-slate-500">Ciclo de vida</th><th class="text-left px-3 py-2 kicker text-slate-500">UML</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Associação</td><td class="px-3 py-2 align-top">A usa/conhece B?</td><td class="px-3 py-2 align-top">independentes</td><td class="px-3 py-2 align-top">seta simples</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Composição</td><td class="px-3 py-2 align-top">B é <strong class="text-slate-100 font-semibold">parte</strong> de A e some com ele?</td><td class="px-3 py-2 align-top">B depende de A</td><td class="px-3 py-2 align-top">losango preenchido ◆</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Herança</td><td class="px-3 py-2 align-top">B <strong class="text-slate-100 font-semibold">é um</strong> A, substituível em todo uso de A?</td><td class="px-3 py-2 align-top">—</td><td class="px-3 py-2 align-top">triângulo vazado ◁</td></tr></tbody></table></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Cuidado clássico: “é um” na linguagem natural nem sempre é substituível em código (o <code class="text-cool">Quadrado</code> herdando de <code class="text-cool">Retângulo</code> e quebrando <code class="text-cool">set_largura</code>). Teste sempre o <strong class="text-slate-100 font-semibold">LSP</strong>.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q4">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 4 · 0,25 pt · Bloco 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Verdadeiro ou falso</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Justifique os falsos.</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) a) Tornar todos os atributos públicos e criar <code class="text-cool">get</code>/<code class="text-cool">set</code> para cada um garante bom encapsulamento.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) b) Duas instâncias com os mesmos valores de atributo podem ser entidades diferentes, se tiverem identidades diferentes.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) c) Herança é sempre a melhor forma de reaproveitar código.</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q4 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 4</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Verdadeiro ou falso</h2>
+      <div class="mt-5 space-y-4"><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500"><span class="inline-block px-2 py-0.5 rounded bg-red-500/15 text-red-500 font-bold text-sm">F</span>  a)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">get</code>/<code class="text-cool">set</code> para tudo <strong class="text-slate-100 font-semibold">expõe o estado</strong> e não protege invariantes. O mesmo vale para atributos públicos.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-500 font-bold text-sm">V</span>  b)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Entidade é definida pela <strong class="text-slate-100 font-semibold">identidade</strong>, não pelos valores.</div></div><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500"><span class="inline-block px-2 py-0.5 rounded bg-red-500/15 text-red-500 font-bold text-sm">F</span>  c)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A herança <strong class="text-slate-100 font-semibold">acopla</strong> a subclasse à base. Em geral, <strong class="text-slate-100 font-semibold">composição</strong> costuma ser preferível.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q4 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 4</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Getter/setter não é encapsulamento · entidade × valor</h2>
+      <div class="grid md:grid-cols-2 gap-4"><p class="kicker text-slate-500 mt-4 mb-1">Item a · só mudou a sintaxe</p><pre class="code sm">class Conta:
+    def get_saldo(self): return self._saldo
+    def set_saldo(self, v): self._saldo = v
+
+conta.set_saldo(-500)   # aceito! invariante violada</pre><p class="kicker text-slate-500 mt-4 mb-1">Item a · operação que protege</p><pre class="code sm">class Conta:
+    def sacar(self, valor):
+        if valor &gt; self._saldo:
+            raise ValueError("saldo insuficiente")
+        self._saldo -= valor
+
+conta.sacar(500)        # a regra mora aqui</pre></div><p class="kicker text-slate-500 mt-4 mb-1">Item b · identidade</p><pre class="code sm">class Cliente:                              # ENTIDADE: igual se o id for igual
+    def __init__(self, id, nome): self.id, self.nome = id, nome
+    def __eq__(self, o): return self.id == o.id
+
+Cliente(1, "Ana") == Cliente(2, "Ana")      # False: mesmos valores, identidades diferentes
+
+@dataclass(frozen=True)                     # OBJETO DE VALOR: igual se os valores forem iguais
+class Dinheiro: valor: int; moeda: str
+Dinheiro(10, "BRL") == Dinheiro(10, "BRL")  # True</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q5">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 5 · 0,5 pt · Bloco 1</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Coesão e acoplamento</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Explique, em até três linhas cada:</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) O que é <strong class="text-slate-100 font-semibold">coesão</strong> e por que ela deve ser alta.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) O que é <strong class="text-slate-100 font-semibold">acoplamento</strong> e por que ele deve ser baixo.</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q5 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 5</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Coesão e acoplamento</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Coesão</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Grau em que as <strong class="text-slate-100 font-semibold">responsabilidades de uma classe se relacionam</strong>. Alta coesão facilita o entendimento e a mudança.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Acoplamento</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Grau de <strong class="text-slate-100 font-semibold">dependência entre elementos</strong>, em especial dos detalhes uns dos outros. Baixo acoplamento reduz o <strong class="text-slate-100 font-semibold">efeito cascata</strong> das mudanças.</div></div></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Uma definição <strong class="text-slate-100 font-semibold">e</strong> a razão. Só a definição vale metade.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q5 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 5</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Baixa coesão × alto acoplamento</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="mermaid mt-4 text-sm">classDiagram
+  class GerenteTudo {
+    +calcular_frete()
+    +enviar_email()
+    +gerar_pdf()
+    +validar_cpf()
+  }</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  class Pedido
+  class ConexaoMySQL
+  class SmtpGmail
+  Pedido ..&gt; ConexaoMySQL : conhece o concreto
+  Pedido ..&gt; SmtpGmail : conhece o concreto</pre></div><div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Baixa coesão (à esquerda)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Quatro assuntos não relacionados na mesma classe: <strong class="text-slate-100 font-semibold">muitas razões para mudar</strong>.</div></div><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Alto acoplamento (à direita)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Trocar o banco ou o provedor de e-mail obriga a <strong class="text-slate-100 font-semibold">editar</strong> <code class="text-cool">Pedido</code>.</div></div></div>
+    </div>
+  </section><section class="slide" data-label="Bloco 2"><div class="slide-inner"><p class="kicker text-slate-500">Bloco 2 · Q6–Q8 · 1,25 pontos</p>
+      <div class="mt-6"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">02</span></div>
+      <h2 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Abstração e responsabilidade</h2>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Contratos que escondem implementações e a pergunta que orienta onde cada regra deve morar.</p></div></section>
+  <section class="slide" data-label="Q6">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 6 · 0,25 pt · Bloco 2</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Interface e contrato</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Sobre os conceitos de interface e contrato, responda:</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) O que é uma <strong class="text-slate-100 font-semibold">interface</strong> (ou classe abstrata usada como contrato)?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) O que significa dizer que o código cliente <strong class="text-slate-100 font-semibold">depende de uma abstração</strong>?</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q6 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 6</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Interface e contrato</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Interface</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">É um <strong class="text-slate-100 font-semibold">contrato</strong> que define quais operações um conjunto de classes deve oferecer, <strong class="text-slate-100 font-semibold">sem dizer como</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Depender de abstração</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">O cliente usa <strong class="text-slate-100 font-semibold">apenas o contrato</strong>, sem saber qual implementação concreta recebe. Isso facilita <strong class="text-slate-100 font-semibold">substituição</strong>, <strong class="text-slate-100 font-semibold">extensão</strong> e <strong class="text-slate-100 font-semibold">testes com dublês</strong>.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q6 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 6</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Um contrato, várias implementações</h2>
+      <pre class="code sm mt-4">from abc import ABC, abstractmethod
+
+class Exportador(ABC):                    # o CONTRATO
+    @abstractmethod
+    def exportar(self, dados) -&gt; bytes: ...
+
+class ExportadorCSV(Exportador):
+    def exportar(self, dados): return ",".join(map(str, dados)).encode()
+
+class ExportadorJSON(Exportador):
+    def exportar(self, dados): return json.dumps(dados).encode()
+
+class Relatorio:
+    def __init__(self, exportador: Exportador):   # depende da ABSTRAÇÃO
+        self._exportador = exportador
+    def gerar(self, dados):
+        return self._exportador.exportar(dados)   # não sabe qual é</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  class Exportador {
+    &lt;&lt;interface&gt;&gt;
+    +exportar(dados)
+  }
+  Exportador &lt;|.. ExportadorCSV
+  Exportador &lt;|.. ExportadorJSON
+  Relatorio --&gt; Exportador</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q7">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 7 · 0,75 pt · Bloco 2</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Diagnóstico de design</h2>
+      <pre class="code sm mt-4">class RelatorioMensal:
+   def gerar(self, dados):
+      total = sum(d["valor"] for d in dados)
+      texto = f"Total do mês: {total}"
+      with open("relatorio.txt", "w") as arquivo:
+         arquivo.write(texto)
+      import smtplib
+      servidor = smtplib.SMTP("smtp.exemplo.com")
+      servidor.sendmail("sistema@exemplo.com", "chefe@exemplo.com", texto)
+      servidor.quit()</pre><ul class="mt-4 space-y-3 text-base text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Quantas <strong class="text-slate-100 font-semibold">razões para mudar</strong> essa classe tem? Liste-as.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Qual princípio SOLID está sendo violado?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>c) Como você reorganizaria as responsabilidades (sem código)?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>d) Que tipo de teste fica difícil de escrever? Por quê?</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q7 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 7</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Diagnóstico de design</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Três razões</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">regra de cálculo</strong> · <strong class="text-slate-100 font-semibold">formato/saída em arquivo</strong> · <strong class="text-slate-100 font-semibold">envio por e-mail</strong></div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Princípio</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">SRP</strong> (Single Responsibility Principle).</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">c) Reorganização</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Separar <strong class="text-slate-100 font-semibold">cálculo</strong>, <strong class="text-slate-100 font-semibold">persistência</strong> (gravar) e <strong class="text-slate-100 font-semibold">notificação</strong> (enviar) em classes distintas; uma classe <strong class="text-slate-100 font-semibold">coordenadora</strong> recebe os colaboradores.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">d) Teste difícil</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">O <strong class="text-slate-100 font-semibold">teste do cálculo</strong>: exige arquivo e servidor de e-mail reais. Fica <strong class="text-slate-100 font-semibold">lento, frágil</strong> e dependente de infraestrutura.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q7 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 7</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Antes e depois do SRP</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="mermaid mt-4 text-sm">classDiagram
+  class RelatorioMensal {
+    +gerar(dados)
+  }
+  note for RelatorioMensal "3 razoes para mudar:&lt;br/&gt;calculo, arquivo, e-mail"</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  class RelatorioMensal {
+    +gerar(dados)
+  }
+  class CalculadoraTotal {
+    +calcular(dados)
+  }
+  class GravadorArquivo {
+    +gravar(texto)
+  }
+  class NotificadorEmail {
+    +enviar(texto)
+  }
+  RelatorioMensal --&gt; CalculadoraTotal
+  RelatorioMensal --&gt; GravadorArquivo
+  RelatorioMensal --&gt; NotificadorEmail</pre></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q7 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 7</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">O ganho: o cálculo agora testa em milissegundos</h2>
+      <pre class="code sm mt-4">class RelatorioMensal:                         # coordena, não faz tudo
+    def __init__(self, calculadora, gravador, notificador):
+        self._calculadora = calculadora
+        self._gravador = gravador
+        self._notificador = notificador
+
+    def gerar(self, dados):
+        total = self._calculadora.calcular(dados)
+        texto = f"Total do mês: {total}"
+        self._gravador.gravar(texto)
+        self._notificador.enviar(texto)
+
+def test_calculo_do_total():                   # sem arquivo, sem SMTP
+    assert CalculadoraTotal().calcular([{"valor": 10}, {"valor": 5}]) == 15</pre><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Cada classe tem <strong class="text-slate-100 font-semibold">uma</strong> razão para mudar; o teste do item d deixou de depender de infraestrutura.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q8">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 8 · 0,25 pt · Bloco 2</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Quem deve saber o quê?</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Em um sistema de reservas, é preciso calcular o valor final com base na quantidade de diárias e na diária do quarto. Três alunos propuseram onde colocar o cálculo:</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span><strong class="text-slate-100 font-semibold">Aluno 1:</strong> em uma classe utilitária <code class="text-cool">Calculadora</code>, que recebe os dados soltos.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span><strong class="text-slate-100 font-semibold">Aluno 2:</strong> na classe <code class="text-cool">Reserva</code>, que conhece suas diárias e seu quarto.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span><strong class="text-slate-100 font-semibold">Aluno 3:</strong> na tela que mostra o resultado ao usuário.</span></li></ul><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Qual respeita melhor o princípio “<strong class="text-slate-100 font-semibold">quem tem a informação, tem a responsabilidade</strong>”? Justifique e explique o problema das outras duas.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q8 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 8</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Quem deve saber o quê?</h2>
+      <div class="mt-5 grid md:grid-cols-3 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Aluno 2 está certo</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A <code class="text-cool">Reserva</code> <strong class="text-slate-100 font-semibold">conhece os dados</strong>, então é ela quem deve fazer o cálculo.</div></div><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Aluno 1 · problema</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Gera classe <strong class="text-slate-100 font-semibold">anêmica/utilitária</strong> e <strong class="text-slate-100 font-semibold">espalha regras</strong>.</div></div><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Aluno 3 · problema</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Mistura <strong class="text-slate-100 font-semibold">regra de negócio com UI</strong> e impede <strong class="text-slate-100 font-semibold">reuso e teste</strong>.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q8 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 8</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Information Expert na prática</h2>
+      <pre class="code sm mt-4"># Aluno 1: dados soltos, a "calculadora" só repassa
+Calculadora.valor_final(reserva.diarias, reserva.quarto.diaria)
+
+# Aluno 3: regra dentro da tela. Se amanhã existir uma API ou um relatório,
+# a conta é copiada e as duas versões passam a divergir
+label.setText(str(reserva.diarias * reserva.quarto.diaria))
+
+# Aluno 2: quem tem a informação calcula
+class Reserva:
+    def __init__(self, quarto, diarias):
+        self._quarto, self._diarias = quarto, diarias
+
+    def valor_final(self):
+        return self._diarias * self._quarto.diaria
+
+tela.mostrar(reserva.valor_final())      # a tela só exibe</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  class Reserva {
+    -diarias : int
+    +valor_final() float
+  }
+  class Quarto {
+    +diaria : float
+  }
+  Reserva --&gt; Quarto
+  Tela ..&gt; Reserva : pede valor_final()</pre>
+    </div>
+  </section><section class="slide" data-label="Bloco 3"><div class="slide-inner"><p class="kicker text-slate-500">Bloco 3 · Q9–Q10 · 1,25 pontos</p>
+      <div class="mt-6"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">03</span></div>
+      <h2 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Strategy e YAGNI</h2>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Trocar <code class="text-cool">if/elif</code> por polimorfismo quando há variação real, e saber quando isso não vale a pena.</p></div></section>
+  <section class="slide" data-label="Q9">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 9 · 0,75 pt · Bloco 3</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Reconhecendo o problema</h2>
+      <pre class="code sm mt-4">class Impressao:
+   def __init__(self, tipo):
+      self.tipo = tipo
+
+   def custo(self, paginas):
+      if self.tipo == "preto_branco":
+         return paginas * 0.10
+      elif self.tipo == "colorida":
+         return paginas * 0.50
+      elif self.tipo == "foto":
+         return paginas * 2.00
+      else:
+         raise ValueError("tipo desconhecido")</pre><ul class="mt-4 space-y-3 text-base text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Qual <strong class="text-slate-100 font-semibold">mau cheiro</strong> de design aparece quando precisarmos adicionar novos tipos?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Que princípio SOLID é quebrado a cada novo tipo, e por quê?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>c) Qual padrão resolve? Esboce a estrutura da solução.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>d) Depois da refatoração, o que é preciso para adicionar o tipo <code class="text-cool">"rascunho"</code>?</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q9 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 9</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Reconhecendo o problema</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Code smell</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Cadeia de condicionais por tipo</strong> (<code class="text-cool">if-elif</code>/switch) que cresce a cada novo caso.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Princípio</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">OCP</strong> (Open/Closed): a cada tipo é preciso <strong class="text-slate-100 font-semibold">modificar a classe existente</strong>, com risco de regressão.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">c) Padrão</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Strategy:</strong> uma interface (<code class="text-cool">Tarifa</code>) com <code class="text-cool">custo_por_pagina</code>, uma classe por tipo de tarifa, e <code class="text-cool">Impressao</code> <strong class="text-slate-100 font-semibold">recebe uma estratégia e delega</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">d) Novo tipo</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Criar <strong class="text-slate-100 font-semibold">uma nova classe</strong> que implemente o contrato e passá-la a <code class="text-cool">Impressao</code>, <strong class="text-slate-100 font-semibold">sem tocar</strong> nas existentes.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q9 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 9</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Strategy: estrutura em UML</h2>
+      <pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  class Impressao {
+    -tarifa : Tarifa
+    +custo(paginas)
+  }
+  class Tarifa {
+    &lt;&lt;interface&gt;&gt;
+    +custo_por_pagina() float
+  }
+  class TarifaPB
+  class TarifaColorida
+  class TarifaFoto
+  Impressao o--&gt; Tarifa : delega
+  Tarifa &lt;|.. TarifaPB
+  Tarifa &lt;|.. TarifaColorida
+  Tarifa &lt;|.. TarifaFoto</pre><div class="mt-5 grid md:grid-cols-3 gap-4"><div class="rounded-xl border border-slate-700 bg-card/50 p-5"><h3 class="kicker text-slate-400">Contexto</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">Impressao</code>: usa uma estratégia, não sabe qual.</div></div><div class="rounded-xl border border-slate-700 bg-card/50 p-5"><h3 class="kicker text-slate-400">Estratégia</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">Tarifa</code>: o contrato da família de algoritmos.</div></div><div class="rounded-xl border border-slate-700 bg-card/50 p-5"><h3 class="kicker text-slate-400">Estratégias concretas</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">TarifaPB</code>, <code class="text-cool">TarifaColorida</code>, <code class="text-cool">TarifaFoto</code>.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q9 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 9</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Strategy: o código e o novo tipo “rascunho”</h2>
+      <div class="grid md:grid-cols-2 gap-4"><p class="kicker text-slate-500 mt-4 mb-1">Depois da refatoração</p><pre class="code sm">class Tarifa(ABC):
+    @abstractmethod
+    def custo_por_pagina(self): ...
+
+class TarifaPB(Tarifa):
+    def custo_por_pagina(self): return 0.10
+
+class TarifaColorida(Tarifa):
+    def custo_por_pagina(self): return 0.50
+
+class TarifaFoto(Tarifa):
+    def custo_por_pagina(self): return 2.00
+
+class Impressao:
+    def __init__(self, tarifa):
+        self._tarifa = tarifa
+    def custo(self, paginas):
+        return paginas * self._tarifa.custo_por_pagina()</pre><p class="kicker text-slate-500 mt-4 mb-1">Adicionando “rascunho”</p><pre class="code sm"># item d: nova classe, nenhuma existente é editada
+class TarifaRascunho(Tarifa):
+    def custo_por_pagina(self): return 0.05
+
+Impressao(TarifaRascunho()).custo(10)   # 0.5
+
+# OCP: aberto para extensão (nova classe),
+#      fechado para modificação (Impressao intacta)</pre></div><pre class="mermaid mt-4 text-sm">sequenceDiagram
+  participant C as Cliente
+  participant I as Impressao
+  participant T as TarifaFoto
+  C-&gt;&gt;I: custo(10)
+  I-&gt;&gt;T: custo_por_pagina()
+  T--&gt;&gt;I: 2.00
+  I--&gt;&gt;C: 20.00</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q10">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 10 · 0,5 pt · Bloco 3</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Strategy em todo lugar?</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Um colega propõe aplicar Strategy em um método que só tem <strong class="text-slate-100 font-semibold">uma regra de cálculo</strong>, que nunca mudou e para a qual não há previsão de variar.</p><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Você concorda? Explique em duas ou três linhas.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q10 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 10</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Strategy em todo lugar?</h2>
+      <div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Resposta esperada: não concordo</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Sem variação real, o padrão acrescenta <strong class="text-slate-100 font-semibold">complexidade sem benefício</strong> (<strong class="text-slate-100 font-semibold">YAGNI</strong>). Padrões resolvem problemas: primeiro identifique o problema, e só aplique quando houver <strong class="text-slate-100 font-semibold">variação ou risco de variação plausível</strong>.</div></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Dois elementos para pontuar: <strong class="text-slate-100 font-semibold">discordar</strong> e <strong class="text-slate-100 font-semibold">justificar</strong> com ausência de variação (YAGNI).</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q10 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 10</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Antes do padrão, a pergunta</h2>
+      <pre class="mermaid mt-4 text-sm">flowchart TD
+  A["Há um ponto de variação&lt;br/&gt;real ou plausível?"] --&gt;|Não| B["Método simples.&lt;br/&gt;Não aplique padrão"]
+  A --&gt;|Sim| C["Varia o COMPORTAMENTO&lt;br/&gt;ou a CRIAÇÃO?"]
+  C --&gt;|Comportamento| D["Strategy"]
+  C --&gt;|Criação| E["Factory"]
+  B -.-&gt;|surgiu variação depois| A</pre><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed"><strong class="text-slate-100 font-semibold">YAGNI</strong> (You Aren't Gonna Need It): não construa flexibilidade para um futuro que ninguém viu chegar. Refatorar para Strategy depois, quando a segunda regra aparecer, é barato.</p>
+    </div>
+  </section><section class="slide" data-label="Bloco 4"><div class="slide-inner"><p class="kicker text-slate-500">Bloco 4 · Q11–Q13 · 1,5 pontos</p>
+      <div class="mt-6"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">04</span></div>
+      <h2 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Factories</h2>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Quem decide qual objeto concreto criar, e onde essa decisão deve ficar.</p></div></section>
+  <section class="slide" data-label="Q11">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 11 · 0,5 pt · Bloco 4</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Simple Factory</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Com relação ao conceito de Simple Factory, estudado em sala de aula:</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) O que é uma Simple Factory?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Ela é um Design Pattern oficial do catálogo clássico ou uma convenção de organização? Comente.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>c) Qual é o limite dela? (O que ainda acontece dentro dela quando surgem novos tipos?)</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q11 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 11</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Simple Factory</h2>
+      <div class="mt-5 grid md:grid-cols-3 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) O que é</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Uma classe/função que <strong class="text-slate-100 font-semibold">centraliza a decisão</strong> de qual objeto concreto criar.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Padrão oficial?</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">É uma <strong class="text-slate-100 font-semibold">convenção/idiom</strong>, <strong class="text-slate-100 font-semibold">não</strong> faz parte do catálogo clássico do GoF.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">c) Limite</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Continua tendo <strong class="text-slate-100 font-semibold">condicional e centralização</strong>: é preciso <strong class="text-slate-100 font-semibold">modificar a factory</strong> a cada novo tipo, o que fere <strong class="text-slate-100 font-semibold">parcialmente o OCP</strong>.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q11 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 11</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Simple Factory: onde a decisão passa a morar</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="code sm mt-4">class FabricaPagamento:
+    @staticmethod
+    def criar(forma):
+        if forma == "dinheiro":
+            return PagamentoDinheiro()
+        if forma == "cartao":
+            return PagamentoCartao()
+        raise ValueError(f"forma desconhecida: {forma}")
+
+# o cliente só conhece o contrato
+pagamento = FabricaPagamento.criar("cartao")
+pagamento.pagar(100)</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  class FabricaPagamento {
+    +criar(forma) Pagamento
+  }
+  class Pagamento {
+    &lt;&lt;interface&gt;&gt;
+    +pagar(valor)
+  }
+  FabricaPagamento ..&gt; Pagamento : devolve
+  FabricaPagamento ..&gt; PagamentoDinheiro : cria
+  FabricaPagamento ..&gt; PagamentoCartao : cria
+  Pagamento &lt;|.. PagamentoDinheiro
+  Pagamento &lt;|.. PagamentoCartao</pre></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">O <code class="text-cool">if</code> não sumiu: <strong class="text-slate-100 font-semibold">mudou de lugar</strong>, de forma que o cliente fica estável. Para um novo tipo, ainda se edita a fábrica (limite do item c).</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q12">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 12 · 0,25 pt · Bloco 4</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Criar e usar na mesma classe</h2>
+      <pre class="code sm mt-4">class Notificador:
+  def avisar(self, canal, mensagem):
+     if canal == "email":
+        envio = EnvioEmail()
+     elif canal == "sms":
+        envio = EnvioSMS()
+     envio.enviar(mensagem)</pre><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Que <strong class="text-slate-100 font-semibold">duas responsabilidades</strong> essa classe mistura?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Por que adicionar o canal <code class="text-cool">push</code> obriga a mexer em <code class="text-cool">Notificador</code>?</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q12 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 12</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Criar e usar na mesma classe</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Duas responsabilidades</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Decidir qual objeto criar</strong> e <strong class="text-slate-100 font-semibold">usar o objeto</strong> (enviar).</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Por que mexer</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Porque a decisão está <strong class="text-slate-100 font-semibold">dentro</strong> de <code class="text-cool">Notificador</code>: um novo canal exige um novo <code class="text-cool">elif</code>, <strong class="text-slate-100 font-semibold">quebrando o OCP</strong>.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q12 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 12</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Separando criar de usar</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="code sm mt-4">class FabricaEnvio:                    # criar
+    def criar(self, canal):
+        if canal == "email": return EnvioEmail()
+        if canal == "sms":   return EnvioSMS()
+        if canal == "push":  return EnvioPush()   # só a fábrica muda
+        raise ValueError(canal)
+
+class Notificador:                     # usar
+    def __init__(self, fabrica):
+        self._fabrica = fabrica
+    def avisar(self, canal, mensagem):
+        self._fabrica.criar(canal).enviar(mensagem)</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  class Notificador {
+    +avisar(canal, mensagem)
+  }
+  class FabricaEnvio {
+    +criar(canal) Envio
+  }
+  class Envio {
+    &lt;&lt;interface&gt;&gt;
+    +enviar(mensagem)
+  }
+  Notificador --&gt; FabricaEnvio
+  FabricaEnvio ..&gt; Envio
+  Envio &lt;|.. EnvioEmail
+  Envio &lt;|.. EnvioSMS
+  Envio &lt;|.. EnvioPush</pre></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q13">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 13 · 0,75 pt · Bloco 4</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Simple Factory × Factory Method</h2>
+      <div class="mt-4 grid md:grid-cols-2 gap-4"><pre class="code sm mt-4"># Esboço A
+class CriadorTransporte:
+  def criar(self, tipo):
+    if tipo == "terrestre":
+        return Caminhao()
+    if tipo == "maritimo":
+        return Navio()</pre><pre class="code sm mt-4"># Esboço B
+class Logistica:
+  def planejar_entrega(self):
+    transporte = self.criar_transporte()
+    transporte.carregar()
+    transporte.entregar()
+
+  def criar_transporte(self):
+    raise NotImplementedError
+
+class LogisticaRodoviaria(Logistica):
+  def criar_transporte(self):
+    return Caminhao()
+
+class LogisticaMaritima(Logistica):
+  def criar_transporte(self):
+    return Navio()</pre></div><ul class="mt-4 space-y-3 text-base text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Qual é Simple Factory e qual é Factory Method?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) No B, quem decide o objeto criado? Como a decisão é “empurrada” para as subclasses?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>c) No B, <code class="text-cool">planejar_entrega</code> é exemplo de qual outro padrão? Por quê?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>d) Em que situação você preferiria A? E B?</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q13 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 13</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Simple Factory × Factory Method</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Quem é quem</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">A = Simple Factory</strong> · <strong class="text-slate-100 font-semibold">B = Factory Method</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Quem decide</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A superclasse <code class="text-cool">Logistica</code> define o fluxo (<code class="text-cool">planejar_entrega</code>) e deixa <code class="text-cool">criar_transporte</code> como <strong class="text-slate-100 font-semibold">ponto de variação</strong>; <strong class="text-slate-100 font-semibold">cada subclasse decide</strong> qual concreto instanciar.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">c) Outro padrão</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Template Method:</strong> o <strong class="text-slate-100 font-semibold">fluxo geral</strong> está na superclasse e <strong class="text-slate-100 font-semibold">só a etapa de criação varia</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">d) Quando usar</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><ul class="mt-4 space-y-3 text-sm text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">—</span><span><strong class="text-slate-100 font-semibold">A:</strong> poucos tipos, criação centralizada, <strong class="text-slate-100 font-semibold">sem hierarquia de criadores</strong>;</span></li><li class="flex gap-3"><span class="text-accent shrink-0">—</span><span><strong class="text-slate-100 font-semibold">B:</strong> já há <strong class="text-slate-100 font-semibold">hierarquia ou fluxo comum</strong>, cujas variantes decidem o que criar, e se quer <strong class="text-slate-100 font-semibold">extensão por subclasse</strong>.</span></li></ul></div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q13 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 13</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Factory Method + Template Method em UML</h2>
+      <pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  class Logistica {
+    &lt;&lt;abstract&gt;&gt;
+    +planejar_entrega()
+    +criar_transporte()* Transporte
+  }
+  class Transporte {
+    &lt;&lt;interface&gt;&gt;
+    +carregar()
+    +entregar()
+  }
+  Logistica &lt;|-- LogisticaRodoviaria
+  Logistica &lt;|-- LogisticaMaritima
+  Transporte &lt;|.. Caminhao
+  Transporte &lt;|.. Navio
+  Logistica ..&gt; Transporte : usa
+  LogisticaRodoviaria ..&gt; Caminhao : cria
+  LogisticaMaritima ..&gt; Navio : cria
+  note for Logistica "planejar_entrega = Template Method&lt;br/&gt;criar_transporte = Factory Method"</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q13 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 13</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Lado a lado</h2>
+      <div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500"></th><th class="text-left px-3 py-2 kicker text-slate-500">Simple Factory</th><th class="text-left px-3 py-2 kicker text-slate-500">Factory Method</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Natureza</td><td class="px-3 py-2 align-top">convenção/idiom</td><td class="px-3 py-2 align-top">padrão GoF</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Mecanismo</td><td class="px-3 py-2 align-top">uma classe/função com <code class="text-cool">if</code></td><td class="px-3 py-2 align-top">método sobrescrito em subclasses</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Quem decide</td><td class="px-3 py-2 align-top">a fábrica, por um parâmetro</td><td class="px-3 py-2 align-top">cada subclasse, pela sua identidade</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Novo tipo</td><td class="px-3 py-2 align-top">editar a fábrica</td><td class="px-3 py-2 align-top">criar nova subclasse</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Custo</td><td class="px-3 py-2 align-top">baixo; fere parcialmente o OCP</td><td class="px-3 py-2 align-top">mais classes; exige hierarquia</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Use quando</td><td class="px-3 py-2 align-top">poucos tipos, criação centralizada</td><td class="px-3 py-2 align-top">há fluxo comum e variantes por subclasse</td></tr></tbody></table></div>
+    </div>
+  </section><section class="slide" data-label="Bloco 5"><div class="slide-inner"><p class="kicker text-slate-500">Bloco 5 · Q14–Q16 · 1,5 pontos</p>
+      <div class="mt-6"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">05</span></div>
+      <h2 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Injeção de Dependência</h2>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Receber os colaboradores de fora em vez de criá-los por dentro, e o que isso faz pelos testes.</p></div></section>
+  <section class="slide" data-label="Q14">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 14 · 0,5 pt · Bloco 5</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Quem cria as dependências?</h2>
+      <pre class="code sm mt-4">class ServicoCadastro:
+  def __init__(self):
+     self.repositorio = RepositorioEmArquivo("dados.json")
+     self.email = EnvioEmail()
+
+  def cadastrar(self, usuario):
+    self.repositorio.salvar(usuario)
+    self.email.enviar("Bem-vindo!")</pre><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Quais dependências a classe <strong class="text-slate-100 font-semibold">cria por conta própria</strong>?</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Reescreva (em código ou palavras) o construtor usando <strong class="text-slate-100 font-semibold">injeção por construtor</strong>.</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q14 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 14</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Quem cria as dependências?</h2>
+      <div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Dependências criadas</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">RepositorioEmArquivo</code> e <code class="text-cool">EnvioEmail</code>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Injeção por construtor</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><pre class="code sm mt-4">def __init__(self, repositorio, email):
+    self.repositorio = repositorio
+    self.email = email</pre></div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q14 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 14</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">De “cria por dentro” para “recebe de fora”</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="mermaid mt-4 text-sm">classDiagram
+  class ServicoCadastro
+  ServicoCadastro ..&gt; RepositorioEmArquivo : cria
+  ServicoCadastro ..&gt; EnvioEmail : cria</pre><pre class="mermaid mt-4 text-sm">classDiagram
+  class ServicoCadastro {
+    +cadastrar(usuario)
+  }
+  class Repositorio {
+    &lt;&lt;interface&gt;&gt;
+    +salvar(usuario)
+  }
+  class Envio {
+    &lt;&lt;interface&gt;&gt;
+    +enviar(msg)
+  }
+  ServicoCadastro --&gt; Repositorio
+  ServicoCadastro --&gt; Envio
+  Repositorio &lt;|.. RepositorioEmArquivo
+  Envio &lt;|.. EnvioEmail</pre></div><div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Antes</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Para testar <code class="text-cool">cadastrar</code>, o teste grava <code class="text-cool">dados.json</code> e manda e-mail de verdade. Trocar o armazenamento exige <strong class="text-slate-100 font-semibold">editar</strong> a classe.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Depois</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A classe só conhece <strong class="text-slate-100 font-semibold">contratos</strong>. Arquivo, banco ou memória são escolhas de <strong class="text-slate-100 font-semibold">quem monta</strong> o objeto.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q14 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 14</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">O teste que a DI torna possível</h2>
+      <pre class="code sm mt-4">class RepositorioFake:                       # dublê: guarda em memória
+    def __init__(self): self.salvos = []
+    def salvar(self, usuario): self.salvos.append(usuario)
+
+class EnvioFake:                             # dublê: só registra
+    def __init__(self): self.mensagens = []
+    def enviar(self, msg): self.mensagens.append(msg)
+
+def test_cadastrar_salva_e_avisa():
+    repo, email = RepositorioFake(), EnvioFake()
+    servico = ServicoCadastro(repo, email)   # injeção por construtor
+
+    servico.cadastrar("ana")
+
+    assert repo.salvos == ["ana"]
+    assert email.mensagens == ["Bem-vindo!"]</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q15">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 15 · 0,5 pt · Bloco 5</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Vocabulário de DI</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Defina brevemente:</p><ul class="mt-4 space-y-3 text-base md:text-lg text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>a) Injeção de Dependência.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>b) Raiz de composição (composition root).</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>c) Dublê de teste (test double) e o que ele permite fazer.</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q15 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 15</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Vocabulário de DI</h2>
+      <div class="mt-5 grid md:grid-cols-3 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">a) Injeção de Dependência</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Receber de fora</strong> os colaboradores ou recursos necessários, em vez de criá-los dentro.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">b) Raiz de composição</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Um <strong class="text-slate-100 font-semibold">ponto único</strong> (normalmente a entrada do programa) onde os objetos são <strong class="text-slate-100 font-semibold">criados e conectados</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">c) Dublê de teste</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Objeto <strong class="text-slate-100 font-semibold">falso/simulado</strong> que substitui uma dependência real, permitindo <strong class="text-slate-100 font-semibold">isolar e controlar</strong> o teste.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q15 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 15</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">A raiz de composição em ação</h2>
+      <div class="grid md:grid-cols-2 gap-4"><p class="kicker text-slate-500 mt-4 mb-1">Produção</p><pre class="code sm"># main.py: o ÚNICO lugar que usa "new"/construtores concretos
+def main():
+    repo   = RepositorioEmArquivo("dados.json")
+    email  = EnvioEmail()
+    servico = ServicoCadastro(repo, email)
+    app    = AppConsole(servico)
+    app.executar()
+
+if __name__ == "__main__":
+    main()</pre><p class="kicker text-slate-500 mt-4 mb-1">Teste</p><pre class="code sm"># test_cadastro.py: o teste é a sua própria raiz
+def test_algo():
+    servico = ServicoCadastro(RepositorioFake(), EnvioFake())
+    ...</pre></div><pre class="mermaid mt-4 text-sm">flowchart LR
+  M["main()&lt;br/&gt;raiz de composição"] --&gt; R[RepositorioEmArquivo]
+  M --&gt; E[EnvioEmail]
+  M --&gt; S[ServicoCadastro]
+  R -.injeta.-&gt; S
+  E -.injeta.-&gt; S
+  M --&gt; A[AppConsole]
+  S -.injeta.-&gt; A</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q15 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 15</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Tipos de dublê (vocabulário de apoio)</h2>
+      <div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500">Dublê</th><th class="text-left px-3 py-2 kicker text-slate-500">O que faz</th><th class="text-left px-3 py-2 kicker text-slate-500">Exemplo</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Dummy</td><td class="px-3 py-2 align-top">só preenche um parâmetro obrigatório</td><td class="px-3 py-2 align-top">um <code class="text-cool">EnvioFake</code> que nunca é chamado</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Stub</td><td class="px-3 py-2 align-top">devolve respostas prontas</td><td class="px-3 py-2 align-top">repositório que sempre retorna o mesmo usuário</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Fake</td><td class="px-3 py-2 align-top">implementação simples e funcional</td><td class="px-3 py-2 align-top">repositório em memória (<code class="text-cool">RepositorioFake</code>)</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Spy / Mock</td><td class="px-3 py-2 align-top">registra ou verifica as chamadas recebidas</td><td class="px-3 py-2 align-top"><code class="text-cool">EnvioFake.mensagens</code></td></tr></tbody></table></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Na prova basta saber: dublê <strong class="text-slate-100 font-semibold">substitui</strong> a dependência real e dá <strong class="text-slate-100 font-semibold">controle e isolamento</strong>. A classificação é aprofundamento.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q16">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 16 · 0,5 pt · Bloco 5</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Verdadeiro ou falso</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Justifique os falsos.</p><ul class="mt-4 space-y-3 text-base text-slate-300 leading-relaxed"><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) a) Receber um parâmetro com valor padrão que instancia um concreto (<code class="text-cool">def __init__(self, envio=EnvioEmail())</code>) elimina totalmente o acoplamento ao concreto.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) b) Injeção por construtor é útil para dependências obrigatórias; injeção por método é útil quando a dependência só importa naquela operação.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) c) Para usar Injeção de Dependência é necessário um framework ou contêiner.</span></li><li class="flex gap-3"><span class="text-accent shrink-0">›</span><span>( ) d) A raiz de composição deve ficar espalhada por todo o sistema para facilitar o acesso.</span></li></ul>
+    </div>
+  </section>
+  <section class="slide" data-label="Q16 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 16</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Verdadeiro ou falso</h2>
+      <div class="mt-5 space-y-3"><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500"><span class="inline-block px-2 py-0.5 rounded bg-red-500/15 text-red-500 font-bold text-sm">F</span>  a)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">O padrão <strong class="text-slate-100 font-semibold">ainda aponta para um concreto</strong>, e o objeto padrão é <strong class="text-slate-100 font-semibold">compartilhado entre instâncias</strong>. A dependência continua escondida no código.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500"><span class="inline-block px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-500 font-bold text-sm">V</span>  b)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Construtor para o que é <strong class="text-slate-100 font-semibold">obrigatório</strong>; método para o que só importa <strong class="text-slate-100 font-semibold">naquela operação</strong>.</div></div><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500"><span class="inline-block px-2 py-0.5 rounded bg-red-500/15 text-red-500 font-bold text-sm">F</span>  c)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">DI pode ser feita <strong class="text-slate-100 font-semibold">manualmente</strong>, sem framework.</div></div><div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500"><span class="inline-block px-2 py-0.5 rounded bg-red-500/15 text-red-500 font-bold text-sm">F</span>  d)</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Ao contrário: a raiz de composição fica <strong class="text-slate-100 font-semibold">concentrada em um ponto</strong>.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q16 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 16</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Por que o valor padrão concreto engana</h2>
+      <pre class="code sm mt-4">class Notificador:
+    def __init__(self, envio=EnvioEmail()):   # avaliado UMA vez, na definição
+        self.envio = envio
+
+a = Notificador()
+b = Notificador()
+a.envio is b.envio          # True: o mesmo objeto compartilhado
+
+# Pior: o acoplamento continua e agora está escondido na assinatura.
+# Teste e produção só trocam se alguém lembrar de passar o argumento.</pre><pre class="code sm mt-4"># Injeção por construtor: dependência OBRIGATÓRIA
+class Notificador:
+    def __init__(self, envio):
+        self._envio = envio
+
+# Injeção por método: só importa nesta operação
+class Relatorio:
+    def exportar(self, dados, formato):       # "formato" varia por chamada
+        return formato.serializar(dados)</pre>
+    </div>
+  </section><section class="slide" data-label="Bloco 6"><div class="slide-inner"><p class="kicker text-slate-500">Bloco 6 · Q17–Q18 · 2,5 pontos</p>
+      <div class="mt-6"><span class="text-7xl md:text-9xl font-extrabold text-accent tracking-tighter leading-none">06</span></div>
+      <h2 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Integração</h2>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">Juntar tudo: como os conceitos se explicam uns aos outros e uma refatoração completa.</p></div></section>
+  <section class="slide" data-label="Q17">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 17 · 0,5 pt · Bloco 6</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Relacionando conceitos</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Explique, em um parágrafo curto (5 a 8 linhas), como se relacionam os conceitos abaixo. <strong class="text-slate-100 font-semibold">Use todos</strong> no texto.</p><div class="mt-6 flex flex-wrap gap-3 text-lg"><span class="px-4 py-2 rounded-full border border-accent/50 text-accent font-semibold">abstração</span><span class="px-4 py-2 rounded-full border border-accent/50 text-accent font-semibold">polimorfismo</span><span class="px-4 py-2 rounded-full border border-accent/50 text-accent font-semibold">baixo acoplamento</span><span class="px-4 py-2 rounded-full border border-accent/50 text-accent font-semibold">Injeção de Dependência</span><span class="px-4 py-2 rounded-full border border-accent/50 text-accent font-semibold">testabilidade</span></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q17 · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 17</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Relacionando conceitos</h2>
+      <div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Proposta aceitável</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><p class="text-base md:text-lg leading-relaxed">As <strong class="text-accent">abstrações</strong> definem contratos e o <strong class="text-accent">polimorfismo</strong> permite trocar implementações. Isso reduz o <strong class="text-accent">acoplamento</strong>. Ao adicionar <strong class="text-accent">DI</strong>, as implementações são recebidas de fora, facilitando a <strong class="text-accent">testabilidade</strong> (dublês).</p></div></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Critérios: <strong class="text-slate-100 font-semibold">os cinco termos</strong> presentes e <strong class="text-slate-100 font-semibold">a cadeia causal</strong> correta (contrato → troca → acoplamento menor → recebido de fora → testável).</p><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Erro comum: listar definições soltas, sem <strong class="text-slate-100 font-semibold">relacionar</strong> os termos.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q17 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 17</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">A cadeia em um diagrama</h2>
+      <pre class="mermaid mt-4 text-sm">flowchart LR
+  A["Abstração&lt;br/&gt;(contrato)"] --&gt;|permite| B["Polimorfismo&lt;br/&gt;(trocar a implementação)"]
+  B --&gt;|resulta em| C["Baixo&lt;br/&gt;acoplamento"]
+  C --&gt;|é concretizado por| D["Injeção de&lt;br/&gt;Dependência"]
+  D --&gt;|habilita| E["Testabilidade&lt;br/&gt;(dublês)"]</pre><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Cada seta é uma frase do parágrafo. Na Q18, os cinco aparecem juntos em uma só classe.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18">
+    <div class="slide-inner">
+      <p class="kicker text-slate-500 mb-3">Questão 18 · 2,0 pt · Bloco 6</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Sistema de restaurante: a questão integradora</h2>
+      <p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Leia o trecho abaixo, que faz parte de um sistema de restaurante. Para cada marcação (1), (2), (3), e para o estado exposto, diagnostique e proponha a correção.</p><pre class="code sm mt-4">class Comanda:
+  def __init__(self):
+     self.itens = []
+     self.total = 0
+     self.fechada = False
+     self.impressora = ImpressoraTermica()      # (1)
+
+  def adicionar(self, item):
+    self.itens.append(item)
+    self.total += item.preco
+
+  def fechar(self, tipo_desconto):
+    if tipo_desconto == "fidelidade":           # (2)
+        self.total *= 0.90
+    elif tipo_desconto == "aniversario":
+        self.total *= 0.80
+    self.fechada = True
+    self.impressora.imprimir(self.total)
+
+  def criar_pagamento(self, forma):             # (3)
+    if forma == "dinheiro":
+        return PagamentoDinheiro()
+    elif forma == "cartao":
+        return PagamentoCartao()</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18a · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 18a</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">(1) Dependência concreta criada por dentro</h2>
+      <div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Problema</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">A comanda <strong class="text-slate-100 font-semibold">cria</strong> <code class="text-cool">ImpressoraTermica</code>: trocar ou testar fica difícil.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Técnica</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Injeção de Dependência:</strong> receber uma impressora (abstração) no <strong class="text-slate-100 font-semibold">construtor</strong> ou em <code class="text-cool">fechar</code>.</div></div><pre class="code sm mt-4">comanda = Comanda(impressora)        # no uso: quem monta decide qual impressora</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18b · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 18b</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">(2) Condicional por tipo de desconto</h2>
+      <div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Problema</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">if/elif</code> por tipo de desconto: a cada novo desconto, a classe é editada, <strong class="text-slate-100 font-semibold">violando o OCP</strong>.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Padrão</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Strategy:</strong> cada desconto é um objeto com <code class="text-cool">aplicar(total)</code>. A <code class="text-cool">Comanda</code> apenas <strong class="text-slate-100 font-semibold">delega</strong>.</div></div><pre class="code sm mt-4">def fechar(self, desconto):
+    self._total_final = desconto.aplicar(self.total)
+    self._fechada = True
+    self._impressora.imprimir(self._total_final)</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18c · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 18c</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">(3) Criação misturada com a regra</h2>
+      <div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Problema</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">O método mistura <strong class="text-slate-100 font-semibold">criação de objetos</strong> com a regra da comanda e <strong class="text-slate-100 font-semibold">cresce com <code class="text-cool">elif</code></strong>.</div></div><div class="mt-5 grid md:grid-cols-2 gap-4"><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Opção simples: Simple Factory</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Uma <code class="text-cool">FabricaPagamento.criar(forma)</code> fora da <code class="text-cool">Comanda</code>. <strong class="text-slate-100 font-semibold">Faz sentido</strong> com poucas formas e criação centralizada.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Opção com herança: Factory Method</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><code class="text-cool">Comanda</code> define <code class="text-cool">criar_pagamento()</code> e subclasses (<code class="text-cool">ComandaBalcao</code>, <code class="text-cool">ComandaDelivery</code>) decidem. <strong class="text-slate-100 font-semibold">Faz sentido</strong> se já existir hierarquia de comandas com fluxos próprios.</div></div></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18d · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 18d</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Estado exposto: itens, total, fechada</h2>
+      <div class="rounded-xl border border-red-500/50 bg-card/50 p-5"><h3 class="kicker text-red-500">Problema</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]">Qualquer código pode <strong class="text-slate-100 font-semibold">quebrar invariantes</strong>: <code class="text-cool">total</code> inconsistente, comanda fechada recebendo item.</div></div><div class="rounded-xl border border-emerald-500/50 bg-card/50 p-5"><h3 class="kicker text-emerald-500">Correção</h3><div class="mt-2 text-slate-300 leading-relaxed text-[0.95rem]"><strong class="text-slate-100 font-semibold">Atributos privados</strong> e operações que preservam as regras: <code class="text-cool">adicionar</code> valida o estado “fechada”; o <code class="text-cool">total</code> é <strong class="text-slate-100 font-semibold">calculado a partir dos itens</strong>.</div></div><p class="kicker text-slate-500 mt-4 mb-1">O que a versão original permite</p><pre class="code sm">comanda.fechada = False        # reabriu por fora
+comanda.total = -50            # total sem relação com os itens
+comanda.itens.append(item)     # item novo em comanda fechada</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18e · gabarito">
+    <div class="slide-inner">
+      <p class="kicker text-emerald-500 mb-3">✓ Gabarito · Questão 18e</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Quem é responsável por quê</h2>
+      <div class="mt-5 rounded-xl border border-slate-700 bg-card/50 overflow-x-auto"><table class="w-full text-[0.95rem] text-slate-300"><thead><tr><th class="text-left px-3 py-2 kicker text-slate-500">Classe</th><th class="text-left px-3 py-2 kicker text-slate-500">Responsabilidade</th></tr></thead><tbody><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top"><code class="text-cool">Comanda</code></td><td class="px-3 py-2 align-top">itens, total e <strong class="text-slate-100 font-semibold">ciclo de vida</strong> (aberta → fechada)</td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Classes de desconto</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">calcular o desconto</strong></td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Factory</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">criar os pagamentos</strong></td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Impressora</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">imprimir</strong></td></tr><tr class="border-t border-slate-700"><td class="px-3 py-2 align-top">Raiz de composição</td><td class="px-3 py-2 align-top"><strong class="text-slate-100 font-semibold">montar tudo</strong>: cria e conecta os objetos</td></tr></tbody></table></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Cada linha da tabela é uma <strong class="text-slate-100 font-semibold">razão única para mudar</strong>. Isto é o SRP aplicado ao conjunto.</p>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 18</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">A Comanda refatorada</h2>
+      <div class="grid md:grid-cols-2 gap-4"><pre class="code sm mt-4">class Comanda:
+    def __init__(self, impressora):               # (1) DI
+        self._itens = []
+        self._fechada = False
+        self._impressora = impressora
+
+    @property
+    def total(self):                              # derivado dos itens
+        return sum(i.preco for i in self._itens)
+
+    def adicionar(self, item):
+        if self._fechada:                         # invariante protegida
+            raise ValueError("comanda fechada")
+        self._itens.append(item)
+
+    def fechar(self, desconto):                   # (2) Strategy
+        if self._fechada:
+            raise ValueError("já fechada")
+        total_final = desconto.aplicar(self.total)
+        self._fechada = True
+        self._impressora.imprimir(total_final)
+        return total_final</pre><pre class="code sm mt-4">class Desconto(ABC):
+    @abstractmethod
+    def aplicar(self, total): ...
+
+class SemDesconto(Desconto):
+    def aplicar(self, total): return total
+class DescontoFidelidade(Desconto):
+    def aplicar(self, total): return total * 0.90
+class DescontoAniversario(Desconto):
+    def aplicar(self, total): return total * 0.80
+
+class FabricaPagamento:                           # (3) Simple Factory
+    _formas = {"dinheiro": PagamentoDinheiro,
+               "cartao": PagamentoCartao}
+    @classmethod
+    def criar(cls, forma):
+        return cls._formas[forma]()</pre></div>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 18</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">O desenho final em UML</h2>
+      <pre class="mermaid mt-4 text-sm">classDiagram
+  direction LR
+  class Comanda {
+    -itens
+    -fechada
+    +total
+    +adicionar(item)
+    +fechar(desconto)
+  }
+  class Desconto {
+    &lt;&lt;interface&gt;&gt;
+    +aplicar(total)
+  }
+  class Impressora {
+    &lt;&lt;interface&gt;&gt;
+    +imprimir(valor)
+  }
+  class Pagamento {
+    &lt;&lt;interface&gt;&gt;
+    +pagar(valor)
+  }
+  class FabricaPagamento {
+    +criar(forma) Pagamento
+  }
+  Comanda --&gt; Impressora : injetada
+  Comanda ..&gt; Desconto : fechar recebe
+  Desconto &lt;|.. DescontoFidelidade
+  Desconto &lt;|.. DescontoAniversario
+  Impressora &lt;|.. ImpressoraTermica
+  FabricaPagamento ..&gt; Pagamento
+  Pagamento &lt;|.. PagamentoDinheiro
+  Pagamento &lt;|.. PagamentoCartao</pre>
+    </div>
+  </section>
+  <section class="slide" data-label="Q18 · reforço">
+    <div class="slide-inner">
+      <p class="kicker text-cool mb-3">🔎 Reforço · Questão 18</p>
+      <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-50 leading-[1.1]">Montagem e teste</h2>
+      <div class="grid md:grid-cols-2 gap-4"><p class="kicker text-slate-500 mt-4 mb-1">Produção</p><pre class="code sm">def main():                                    # raiz de composição
+    comanda = Comanda(ImpressoraTermica())
+    comanda.adicionar(Item("Prato", 100))
+    comanda.fechar(DescontoFidelidade())
+    pagamento = FabricaPagamento.criar("cartao")
+    pagamento.pagar(90)</pre><p class="kicker text-slate-500 mt-4 mb-1">Teste, sem hardware de impressão</p><pre class="code sm">class ImpressoraFake:
+    def __init__(self): self.impresso = []
+    def imprimir(self, valor): self.impresso.append(valor)
+
+def test_desconto_fidelidade():
+    imp = ImpressoraFake()
+    c = Comanda(imp)
+    c.adicionar(Item("Prato", 100))
+    c.fechar(DescontoFidelidade())
+    assert imp.impresso == [90.0]
+
+def test_nao_aceita_item_apos_fechar():
+    c = Comanda(ImpressoraFake())
+    c.fechar(SemDesconto())
+    with pytest.raises(ValueError):
+        c.adicionar(Item("Sobremesa", 20))</pre></div><p class="mt-4 text-base md:text-lg text-slate-400 leading-relaxed">Os conceitos do semestre em uma só classe: <strong class="text-slate-100 font-semibold">encapsulamento</strong> (d), <strong class="text-slate-100 font-semibold">DI</strong> (1), <strong class="text-slate-100 font-semibold">Strategy</strong> (2), <strong class="text-slate-100 font-semibold">Factory</strong> (3), <strong class="text-slate-100 font-semibold">SRP</strong> (e) e <strong class="text-slate-100 font-semibold">testabilidade</strong>.</p>
+    </div>
+  </section><section class="slide" data-label="Fim"><div class="slide-inner"><div class="min-h-[60vh] flex flex-col justify-center">
+      <p class="kicker text-slate-500">Programação Orientada a Objetos II · Avaliação 1</p>
+      <h1 class="mt-6 text-6xl md:text-8xl font-extrabold tracking-tight text-slate-50 leading-[1.05]">Fim</h1>
+      <p class="mt-6 text-xl md:text-2xl text-slate-400">Obrigado! Dúvidas?</p></div></div></section>
+</div>
+
+<nav class="fixed bottom-0 left-0 right-0 z-30 bg-surface/85 backdrop-blur border-t border-slate-800">
+  <div class="h-1 bg-slate-800"><div id="progress" class="h-full bg-accent transition-all duration-300" style="width:0%"></div></div>
+  <div class="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
+    <span class="text-sm text-slate-500 truncate hidden sm:block">POO-II · Avaliação Escrita 1 · Gabarito comentado</span>
+    <div class="flex items-center gap-3 ml-auto shrink-0">
+      <span id="counter" class="text-sm tabular-nums text-slate-500">1 / 75</span>
+      <button id="prev" class="px-3 py-1.5 rounded-md border border-slate-700 text-slate-300 hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed text-sm transition">◀ Voltar</button>
+      <button id="next" class="px-3 py-1.5 rounded-md bg-accent text-slate-900 font-semibold hover:brightness-110 disabled:opacity-30 disabled:cursor-not-allowed text-sm transition">Avançar ▶</button>
+    </div>
+  </div>
+</nav>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  const THEME_KEY = 'poo2-slides-theme';
+
+  function cssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function rgbVar(name) {
+    return `rgb(${cssVar(name)})`;
+  }
+
+  function initMermaid() {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '15px',
+        background: 'transparent',
+        primaryColor: rgbVar('--card'),
+        primaryTextColor: rgbVar('--slate-200'),
+        primaryBorderColor: rgbVar('--accent'),
+        lineColor: rgbVar('--slate-400'),
+        edgeLabelBackground: rgbVar('--surface'),
+        clusterBkg: rgbVar('--card'),
+        clusterBorder: rgbVar('--slate-700'),
+      },
+      flowchart: { curve: 'basis', htmlLabels: true, padding: 14, nodeSpacing: 40, rankSpacing: 55 },
+    });
+  }
+  initMermaid();
+
+  const mermaidSources = new Map();
+  document.querySelectorAll('pre.mermaid').forEach((el) => mermaidSources.set(el, el.textContent));
+
+  const slides = [...document.querySelectorAll('.slide')];
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const themeToggle = document.getElementById('theme-toggle');
+  let idx = 0;
+
+  const clamp = (n) => Math.max(0, Math.min(slides.length - 1, n));
+
+  async function renderMermaid(slide) {
+    const blocks = [...slide.querySelectorAll('.mermaid:not([data-processed])')];
+    if (blocks.length) {
+      try { await mermaid.run({ nodes: blocks }); } catch (e) { console.error(e); }
+    }
+  }
+
+  function show(n, updateHash = true) {
+    idx = clamp(n);
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    counter.textContent = `${idx + 1} / ${slides.length}`;
+    progress.style.width = `${((idx + 1) / slides.length) * 100}%`;
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === slides.length - 1;
+    slides[idx].scrollTop = 0;
+    document.getElementById('label').textContent = slides[idx].dataset.label || '';
+    renderMermaid(slides[idx]);
+    if (updateHash) history.replaceState(null, '', `#${idx + 1}`);
+  }
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function updateThemeToggleUI() {
+    if (!themeToggle) return;
+    const isDark = currentTheme() === 'dark';
+    themeToggle.textContent = isDark ? '☀️' : '🌙';
+    const label = isDark ? 'Mudar para tema claro' : 'Mudar para tema escuro';
+    themeToggle.setAttribute('title', label);
+    themeToggle.setAttribute('aria-label', label);
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    updateThemeToggleUI();
+    initMermaid();
+    document.querySelectorAll('pre.mermaid[data-processed]').forEach((el) => {
+      el.removeAttribute('data-processed');
+      el.textContent = mermaidSources.get(el) || el.textContent;
+    });
+    renderMermaid(slides[idx]);
+  }
+
+  if (themeToggle) {
+    updateThemeToggleUI();
+    themeToggle.addEventListener('click', () => setTheme(currentTheme() === 'dark' ? 'light' : 'dark'));
+  }
+
+  prevBtn.addEventListener('click', () => show(idx - 1));
+  nextBtn.addEventListener('click', () => show(idx + 1));
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(idx - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); }
+    else if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+  });
+  window.addEventListener('hashchange', () => {
+    const n = parseInt(location.hash.replace('#', ''), 10);
+    if (Number.isFinite(n) && n - 1 !== idx) show(n - 1, false);
+  });
+
+  const start = parseInt(location.hash.replace('#', ''), 10);
+  show(Number.isFinite(start) && start >= 1 ? start - 1 : 0, false);
+</script>
+</body>
+</html>

@@ -814,6 +814,28 @@ persistência.
 
 ---
 
+# MÓDULO 5 — Organização do Sistema
+
+Detalhamento completo em `.ai/plans/modulo5.md`.
+
+## Aula 16 — O sistema precisa lembrar (Repository)
+
+Identidade (`id`) em `Produto` e `Pedido`. `RepositorioProduto` / `RepositorioPedido` (contrato) e implementações em memória. `ServicoPedido` passa a operar por `pedido_id`. Projeto Financeiro: repositório de lançamentos. Gancho: reiniciar o programa apaga tudo.
+
+## Aula 17 — Guardando de verdade (SQLite)
+
+Segunda implementação do mesmo contrato com `sqlite3`; `Pedido.reconstituir`; suíte de contrato rodando nas duas implementações; seção sobre ORM (o que mudaria). Pagamento, entrega e cupom ficam fora da persistência (dívida visível). Gancho: tudo na mesma pasta.
+
+## Aula 18 — Casos de uso e camadas
+
+`dominio/`, `aplicacao/`, `infraestrutura/`; `ServicoPedido` vira `CadastrarProduto`, `FinalizarCompra`, `PagarPedido`, `DespacharPedido`; `composicao.py`; teste de arquitetura com uma violação conhecida (`xfail`). Gancho: como a aplicação envia notificação sem conhecer a infraestrutura?
+
+## Aula 19 — Quem depende de quem? (DIP)
+
+Contrato `Notificacao` / `FabricaNotificacao` sobe para a aplicação; `xfail` vira teste verde; DIP × DI × raiz de composição; trocar memória/SQLite/ORM só na composição. Gancho: cada reação a um pagamento vira mais uma linha no caso de uso (Módulo 6, eventos).
+
+---
+
 # Ordem dos padrões
 
 Factory.

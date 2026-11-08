@@ -72,3 +72,4 @@ Use o menu lateral para acessar o conteúdo de cada módulo. O curso está organ
 - [Módulo 2 — Evoluindo o domínio](modulo2/index.md) — pedidos, estados, pagamento, fluxo de compra
 - [Módulo 3 — Estratégias](modulo3/index.md) — descontos, cupons e frete com o padrão Strategy
 - [Módulo 4 — Criando Objetos](modulo4/index.md) — formas de pagamento, entrega e notificações com Factory e Injeção de Dependências
+- [Módulo 5 — Organização do Sistema](modulo5/index.md) — repositórios, persistência com SQLite, casos de uso, camadas e Inversão de Dependências

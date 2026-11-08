@@ -134,4 +134,12 @@ nav:
     - "Capítulo 15 — Quem entrega as dependências?": modulo4/capitulo15.md
     - Mapa do conhecimento: modulo4/mapa-conhecimento.md
     - Entrega da Terceira Parte do Projeto: modulo4/entrega.md
-  - Mapa do Conhecimento - até módulo 4: mapa-conceitos.md
+  - Módulo 5 — Organização do Sistema:
+    - Visão geral do módulo: modulo5/index.md
+    - Capítulo 16 — O sistema precisa lembrar: modulo5/capitulo16.md
+    - Capítulo 17 — Guardando de verdade: modulo5/capitulo17.md
+    - Capítulo 18 — Casos de uso e camadas: modulo5/capitulo18.md
+    - "Capítulo 19 — Quem depende de quem?": modulo5/capitulo19.md
+    - Mapa do conhecimento: modulo5/mapa-conhecimento.md
+    - Entrega da Quarta Parte do Projeto: modulo5/entrega.md
+  - Mapa do Conhecimento - até módulo 5: mapa-conceitos.md

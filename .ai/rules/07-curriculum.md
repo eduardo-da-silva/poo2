@@ -303,6 +303,16 @@ Relatórios.
 
 ---
 
+Ao final deste módulo o aluno saberá guardar objetos de domínio atrás de repositórios (em memória e em SQLite, sem ORM), organizar o sistema em domínio, aplicação e infraestrutura com casos de uso, e aplicar a Inversão de Dependências (a abstração pertence a quem a usa), verificando a regra de dependência por testes de arquitetura. O ORM é apresentado como alternativa de implementação do repositório, não como conteúdo do módulo.
+
+---
+
+Checkpoint de entrega
+
+Ao final do Módulo 5 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo5/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 16 ao 19. Mesmo formato dos checkpoints anteriores — formativo, avaliado, não substitui a entrega final do Módulo 7.
+
+---
+
 # Módulo 6
 ## Eventos
 
