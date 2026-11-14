@@ -27,8 +27,8 @@
   implementações SQLite/memória/e-mail/SMS são adaptadores. Já descrito sem o vocabulário.
 - **State:** `StatusPedido` é tabela de transições (máquina de estados), não o padrão State.
   Não confundir nem nomear como State sem refatorar.
-- **Facade:** listado no roadmap (`Ordem dos padrões`) mas nunca apareceu. Decidir: remover da lista
-  ou reconhecer o `ServicoPedido` (Caps. 15–17) como seu exemplo.
+- **Facade (decidido em 2026-11-14):** fica na lista. O `ServicoPedido` (Caps. 15–17) é reconhecido como Facade
+  por nota no Cap. 15; o Cap. 18 explica que a fachada, ao crescer, se desfaz em casos de uso. Feito.
 
 ## Padrões que ficam de fora (candidatos, por prioridade)
 

@@ -135,6 +135,8 @@ Os testes seguem as mesmas pastas (`tests/dominio`, `tests/aplicacao`, `tests/in
 
 Lembra da dúvida do exercício de reflexão? O `ServicoPedido` do capítulo anterior tinha três operações — finalizar a compra, pagar, despachar — e recebia quatro colaboradores no construtor. Quem chama `pagar` carrega, de brinde, a dependência do expedidor, que nada tem a ver com pagamento.
 
+O Capítulo 15 mostrou que esse serviço é um Facade: uma fachada simples sobre várias peças. O problema aparece quando a fachada **cresce**: com o tempo, ela vira o ponto por onde passa tudo, e cada nova operação arrasta mais um colaborador para o construtor. Uma fachada útil esconde complexidade; uma que acumula responsabilidades só a concentra num lugar só.
+
 Cada operação responde a uma **intenção diferente de alguém**: "quero comprar", "quero pagar", "quero enviar". Em vez de um serviço genérico, cada intenção vira uma classe pequena: um **caso de uso**.
 
 !!! important "💡 Conceito — Caso de uso"

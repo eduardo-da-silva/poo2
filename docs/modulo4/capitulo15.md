@@ -132,6 +132,12 @@ class ServicoPedido:
 
     Essa separação entre "a entidade" e "o serviço que coordena a entidade" é o primeiro passo para a ideia de **camadas**, que é o assunto do Módulo 5. Por enquanto, basta perceber que nem todo comportamento cabe dentro da entidade.
 
+!!! info "📖 Nomenclatura — o `ServicoPedido` é um Facade"
+
+    O `ServicoPedido` é uma aplicação do padrão **Facade** (fachada): uma classe que oferece uma interface simples a um conjunto de peças. Quem chama `servico.pagar(pedido_id, cliente)` não precisa saber que, por trás, existem um repositório, uma factory de pagamento, o `Pedido` e o serviço de notificação, nem em que ordem eles são usados. A complexidade do subsistema fica escondida atrás de três métodos com nomes do domínio: `finalizar_compra`, `pagar`, `despachar`.
+
+    Repare no que o Facade **não** faz: ele não contém regra de negócio (as regras continuam em `Pedido`) e não impede o acesso às peças (os testes as usam diretamente). Ele só oferece um caminho curto e conveniente para quem não precisa de mais do que isso.
+
 ---
 
 ## A raiz de composição
