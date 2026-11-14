@@ -854,6 +854,10 @@ Repository.
 
 ↓
 
+Facade.
+
+↓
+
 Dependency Injection.
 
 Nunca antecipar padrões.
