@@ -190,6 +190,12 @@ Os outros três seguem o mesmo molde:
 
     Escolhemos a segunda. A repetição de estrutura entre os casos de uso é um custo pequeno, que se paga a cada vez que um deles precisa mudar sozinho.
 
+!!! info "📖 Nomenclatura — isto é um Command?"
+
+    Não exatamente. O padrão **Command** transforma uma requisição em um **objeto que carrega os dados** ("pagar o pedido 12 com Pix"). Nossos casos de uso não carregam dados: os colaboradores entram pelo construtor e os parâmetros, em `executar`. Por isso o nome mais adequado para eles é *Application Service* (ou *Interactor*): um parente simplificado do Command.
+
+    A forma fiel separaria o **comando** (só os dados, `PagarPedidoComando`) do **handler** (quem executa), como em arquiteturas CQRS. Vale guardar a ideia: um comando expressa uma *intenção* ("quero pagar"), e no Módulo 6 vamos contrastá-la com um *evento*, que registra um *fato ocorrido* ("o pedido foi pago").
+
 ---
 
 ## A raiz de composição ganha um arquivo

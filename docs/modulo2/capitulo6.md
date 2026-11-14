@@ -64,6 +64,10 @@ stateDiagram-v2
 
 Note que `ENTREGUE` e `CANCELADO` são estados terminais — não possuem transições de saída.
 
+!!! info "📖 Nomenclatura — máquina de estados, não o padrão State"
+
+    O que modelamos aqui é uma **máquina de estados**: uma tabela que diz quais transições são válidas. Ela não é o padrão de projeto **State**, que faz o contrário: cada estado vira um **objeto** com seu próprio comportamento, e o `Pedido` delega a ele em vez de consultar uma tabela. Para quatro ou cinco estados com regras simples, a tabela basta.
+
 ---
 
 ## Evoluindo o Pedido com estados

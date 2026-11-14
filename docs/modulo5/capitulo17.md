@@ -212,6 +212,43 @@ Repare no tipo: `RepositorioProduto`, a abstração — não `RepositorioProduto
         pedido.atribuir_id(cursor.lastrowid)
 ```
 
+Três coisas merecem atenção nesse método:
+
+- **Uma transação só.** O `with self._conexao:` confirma (`COMMIT`) se tudo der certo e desfaz (`ROLLBACK`) se algo falhar no meio. Não existe pedido gravado sem seus itens, nem itens sem pedido.
+- **O `id` nasce no banco.** O `INSERT` em `pedido` gera o `id`, e `cursor.lastrowid` entrega esse número. Precisamos dele *antes* de gravar os itens, porque cada item guarda o `pedido_id`.
+- **`atribuir_id` vem depois do `with`.** Só avisamos o objeto de que ele tem identidade quando a transação já foi confirmada. Se o `COMMIT` falhar, o `Pedido` continua sem `id`, e isso é verdade: ele não foi guardado.
+
+Quem grava as linhas de `item_pedido` é o método auxiliar `_gravar_itens`:
+
+```python title="ecommerce/repositorio_pedido_sqlite.py" linenums="1"
+    def _gravar_itens(self, pedido_id: int, pedido: Pedido) -> None:
+        self._conexao.executemany(
+            "INSERT INTO item_pedido (pedido_id, produto_id, quantidade, preco_no_momento) "
+            "VALUES (?, ?, ?, ?)",
+            [
+                (pedido_id, item.produto.id, item.quantidade, item.preco_no_momento)
+                for item in pedido.itens
+            ],
+        )
+```
+
+Cada item do pedido vira **uma linha** de `item_pedido`, e a linha é montada com quatro valores:
+
+| Coluna | De onde vem |
+|---|---|
+| `pedido_id` | O `id` que o banco acabou de gerar para o pedido (recebido como parâmetro) |
+| `produto_id` | `item.produto.id`: o item guarda o produto inteiro, mas o banco só guarda a **referência** |
+| `quantidade` | `item.quantidade` |
+| `preco_no_momento` | `item.preco_no_momento`: a cópia do preço do dia da compra, e não o preço atual do produto |
+
+O `executemany` executa o mesmo `INSERT` uma vez para cada tupla da lista. Os `?` são parâmetros: o SQLite recebe os valores separados do texto do comando, o que evita montar SQL por concatenação (e a injeção de SQL que vem junto).
+
+!!! warning "⚠️ Erro comum — o produto precisa ter sido guardado antes"
+
+    `item.produto.id` só tem valor se o produto já passou pelo `RepositorioProduto.adicionar`. Um produto que nunca foi guardado tem `id` igual a `None`, e como `produto_id` é `NOT NULL` no esquema, o `INSERT` falha com `sqlite3.IntegrityError` e a transação inteira é desfeita.
+
+    Já um `id` que tem valor mas não existe na tabela `produto` passa sem reclamação: o SQLite, por padrão, **não confere** a cláusula `REFERENCES`. Ela documenta a ligação, mas só é imposta se a conexão executar `PRAGMA foreign_keys = ON`. Por isso a ordem correta (produto primeiro, pedido depois) é, por enquanto, responsabilidade de quem chama.
+
 E `atualizar` regrava o status e os itens:
 
 ```python title="ecommerce/repositorio_pedido_sqlite.py" linenums="1"
@@ -243,6 +280,109 @@ Para reler, o repositório lê as linhas, monta os `ItemPedido` (buscando cada p
         ]
         return Pedido.reconstituir(id, status, itens)
 ```
+
+---
+
+## O caminho completo pelas três tabelas
+
+Vimos cada método separado. Vamos juntar as peças e acompanhar, só pelo lado do banco, o que acontece em cada tabela. O cenário: duas peças no catálogo e um pedido com dois itens.
+
+### 1. Guardar os produtos
+
+Cada `RepositorioProdutoSQLite.adicionar` executa um `INSERT` e devolve o `id` gerado:
+
+```sql
+INSERT INTO produto (nome, preco, quantidade_estoque, categoria)
+VALUES ('Mouse', 150.0, 20, 'Informática');      -- id gerado: 1
+
+INSERT INTO produto (nome, preco, quantidade_estoque, categoria)
+VALUES ('Teclado', 250.0, 10, 'Informática');    -- id gerado: 2
+```
+
+| id | nome | preco | quantidade_estoque | categoria |
+|---|---|---|---|---|
+| 1 | Mouse | 150.0 | 20 | Informática |
+| 2 | Teclado | 250.0 | 10 | Informática |
+
+### 2. Guardar o pedido (`adicionar`)
+
+O pedido tem dois itens: 2 mouses e 1 teclado. Dentro de **uma transação**, o repositório faz três comandos:
+
+```sql
+BEGIN;
+
+INSERT INTO pedido (status) VALUES ('criado');   -- id gerado: 1
+
+-- _gravar_itens, com executemany: um INSERT por item
+INSERT INTO item_pedido (pedido_id, produto_id, quantidade, preco_no_momento)
+VALUES (1, 1, 2, 150.0);
+INSERT INTO item_pedido (pedido_id, produto_id, quantidade, preco_no_momento)
+VALUES (1, 2, 1, 250.0);
+
+COMMIT;
+```
+
+Depois do `COMMIT`, o repositório chama `pedido.atribuir_id(1)`. O estado do banco fica assim:
+
+**`pedido`**
+
+| id | status |
+|---|---|
+| 1 | criado |
+
+**`item_pedido`**
+
+| pedido_id | produto_id | quantidade | preco_no_momento |
+|---|---|---|---|
+| 1 | 1 | 2 | 150.0 |
+| 1 | 2 | 1 | 250.0 |
+
+Repare que `item_pedido` é a tabela que **liga** as outras duas: `pedido_id` aponta para `pedido`, `produto_id` aponta para `produto`. Ela não tem `id` próprio: cada linha é lida sempre pelo `pedido_id`.
+
+### 3. Atualizar o pedido (`atualizar`)
+
+O cliente pagou. O `Pedido` passou para `pago` e o serviço chamou `atualizar`. Em uma única transação:
+
+```sql
+BEGIN;
+
+UPDATE pedido SET status = 'pago' WHERE id = 1;  -- 1 linha afetada
+
+DELETE FROM item_pedido WHERE pedido_id = 1;     -- remove as 2 linhas antigas
+
+INSERT INTO item_pedido (pedido_id, produto_id, quantidade, preco_no_momento)
+VALUES (1, 1, 2, 150.0);
+INSERT INTO item_pedido (pedido_id, produto_id, quantidade, preco_no_momento)
+VALUES (1, 2, 1, 250.0);
+
+COMMIT;
+```
+
+O `UPDATE` só mexe em `pedido`. Os itens são apagados e regravados a partir do que o objeto tem **agora** na memória, então a tabela passa a refletir exatamente o `Pedido` atual (se um item tivesse sido removido do objeto, ele deixaria de existir no banco). Se o `UPDATE` afetar zero linhas, o pedido nunca foi adicionado e o repositório lança `PedidoNaoEncontradoError` antes de tocar em `item_pedido`.
+
+### 4. Reler o pedido (`obter`)
+
+Reconstituir um `Pedido` exige consultar as três tabelas:
+
+```sql
+-- 1) o pedido
+SELECT id, status FROM pedido WHERE id = 1;
+--    -> (1, 'pago')
+
+-- 2) as linhas de itens
+SELECT produto_id, quantidade, preco_no_momento FROM item_pedido WHERE pedido_id = 1;
+--    -> (1, 2, 150.0), (2, 1, 250.0)
+
+-- 3) para cada linha, o produto (feito pelo RepositorioProduto.obter)
+SELECT id, nome, preco, quantidade_estoque, categoria FROM produto WHERE id = 1;
+SELECT id, nome, preco, quantidade_estoque, categoria FROM produto WHERE id = 2;
+```
+
+Com esses resultados, o repositório monta dois `ItemPedido(produto, quantidade, preco_no_momento)` e chama `Pedido.reconstituir(1, 'pago', itens)`. O objeto volta com o mesmo `id`, o mesmo status e os preços **da época da compra**, mesmo que o `preco` do produto tenha mudado depois.
+
+!!! tip "💡 Dica — veja você mesmo"
+
+    Rode `python -m ecommerce.repositorio_pedido_sqlite` na pasta do capítulo. Para ver as linhas, troque `":memory:"` por um nome de arquivo (por exemplo `loja.db`) e abra-o com `sqlite3 loja.db "SELECT * FROM item_pedido;"`.
 
 ---
 
@@ -347,6 +487,12 @@ $ pytest tests/
 ## 🔍 E o ORM?
 
 Você deve ter percebido que escrevemos SQL à mão, e que o mapeamento (`_reconstituir`, os `INSERT`) é uma parte trabalhosa. Existem bibliotecas para automatizar isso: os **ORMs** (*Object-Relational Mappers*), como o SQLAlchemy. Você declara como as classes se relacionam com as tabelas, e a biblioteca gera o SQL.
+
+!!! info "📖 Nomenclatura — Data Mapper e Active Record"
+
+    O que escrevemos à mão nos repositórios SQLite (traduzir linhas em objetos e objetos em linhas, com `Pedido.reconstituir` na ponta) é o padrão **Data Mapper**: o mapeamento mora em uma classe separada, e o objeto de domínio não sabe que existe banco.
+
+    O oposto é o **Active Record**, em que o próprio objeto sabe se gravar (`pedido.save()`). É o que o ORM do Django faz: a classe de domínio herda da base do ORM. É prático, mas acopla o domínio à biblioteca, que é o problema da observação mais abaixo. O SQLAlchemy, no modo imperativo, é um Data Mapper.
 
 Usamos SQL puro neste módulo por um motivo pedagógico: ele deixa visível a fronteira entre objeto e tabela, que um ORM esconde. Mas **um ORM pode, sim, ser usado** neste projeto — e a boa notícia é que o desenho que fizemos torna a troca barata. O que mudaria:
 

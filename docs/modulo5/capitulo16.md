@@ -93,6 +93,8 @@ Precisamos de um lugar com uma única responsabilidade: **guardar e devolver obj
 
     O contrato do repositório fala a linguagem do domínio (`obter`, `adicionar`, `listar`), não a linguagem do armazenamento (tabelas, linhas, arquivos). Por isso ele é a fronteira entre o que o sistema *é* e onde ele *guarda* as coisas.
 
+O Repository é um **padrão de projeto**, como o Strategy e o Factory Method: um nome conhecido para uma solução que se repete. Quem encontrar "repositório" em outro projeto, em qualquer linguagem, vai reconhecer o papel.
+
 Isso é o mesmo movimento que fizemos várias vezes no curso: separar o que **muda** (onde e como guardar) do que **fica** (o que o sistema precisa fazer). Primeiro definimos o contrato, como em `EstrategiaDesconto` e `Pagamento`.
 
 ```mermaid

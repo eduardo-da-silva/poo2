@@ -166,6 +166,10 @@ O DIP é um **princípio de design** (a direção das dependências). A DI é um
 
 ---
 
+!!! info "📖 Nomenclatura — Ports & Adapters"
+
+    O que montamos tem nome: **Ports & Adapters** (também chamada de arquitetura hexagonal). As **portas** são os contratos que a aplicação define para falar com o mundo de fora: `RepositorioPedido`, `RepositorioProduto`, `Notificacao`, `FabricaNotificacao`. Os **adaptadores** são as implementações que se encaixam nelas: SQLite e memória, e-mail e SMS. A regra de dependência do DIP é o que mantém as portas do lado de dentro.
+
 ## A recompensa: trocar peças só na composição
 
 Com as camadas e as dependências no lugar certo, escolher onde os dados ficam deixa de ser assunto do sistema e vira assunto de quem monta o sistema. A raiz de composição ganha um parâmetro:
