@@ -121,7 +121,20 @@ class ConsultarPedido:
         return self._repositorio_pedido.obter(pedido_id)
 ```
 
-`ListarProdutos` tem a mesma forma. A raiz de composição passa a entregar os dois em `Aplicacao`, junto dos casos de uso que já existiam.
+`ListarProdutos` tem a mesma forma, e devolve todos os produtos guardados:
+
+```python title="ecommerce/aplicacao/listar_produtos.py" linenums="1"
+class ListarProdutos:
+    """Caso de uso de consulta: quais produtos a loja tem."""
+
+    def __init__(self, repositorio_produto: RepositorioProduto) -> None:
+        self._repositorio_produto = repositorio_produto
+
+    def executar(self) -> list[Produto]:
+        return self._repositorio_produto.listar()
+```
+
+A raiz de composição passa a entregar os dois em `Aplicacao`, junto dos casos de uso que já existiam.
 
 ---
 
@@ -174,6 +187,30 @@ def cenario_compra(app: Aplicacao, saida: Saida = print) -> None:
     _mostrar_auditoria(app, saida)
 ```
 
+O cenário usa três auxiliares pequenos: um monta o cliente com o carrinho cheio, os outros dois imprimem o estoque e a trilha de auditoria. Eles também escrevem por `saida`:
+
+```python title="ecommerce/entrada/cenario.py" linenums="1"
+Saida = Callable[[str], None]
+
+
+def _cliente_com(nome: str, email: str, *itens: tuple[Produto, int]) -> Cliente:
+    cliente = Cliente(nome, email)
+    cliente.carrinho = Carrinho()
+    for produto, quantidade in itens:
+        cliente.carrinho.adicionar_item(produto, quantidade)
+    return cliente
+
+def _mostrar_estoque(app: Aplicacao, saida: Saida, titulo: str) -> None:
+    saida(f"{titulo}:")
+    for produto in app.listar_produtos.executar():
+        saida(f"  {produto.nome}: {produto.quantidade_estoque}")
+
+def _mostrar_auditoria(app: Aplicacao, saida: Saida) -> None:
+    saida("Auditoria:")
+    for entrada in app.auditoria.entradas():
+        saida(f"  {entrada}")
+```
+
 Repare em dois detalhes. O cenário recebe o sistema **pronto** (`app`) e não o monta: quem monta é o `main.py`, que veremos já. E ele escreve por uma função `saida`, que por padrão é `print`. Isso permite que o teste passe uma lista no lugar e confira o que seria impresso.
 
 Para rodar:
@@ -208,7 +245,23 @@ Tudo o que construímos nos últimos três módulos aparece nessa saída: o pedi
 
 O cenário conta uma história fixa. O segundo ponto de entrada deixa **a pessoa** conduzir: um menu no terminal, só com a biblioteca padrão.
 
-```python title="ecommerce/entrada/menu.py" linenums="1" hl_lines="3-4 7-8"
+A lista de opções é um texto fixo:
+
+```python title="ecommerce/entrada/menu.py" linenums="1"
+OPCOES = """
+1. Listar produtos
+2. Colocar produto no carrinho
+3. Finalizar compra
+4. Pagar pedido
+5. Despachar pedido
+6. Consultar pedido
+7. Ver auditoria
+0. Sair"""
+```
+
+A classe `Menu` recebe o sistema montado e, junto dele, **de onde vem o que a pessoa digita** (`entrada`) e **para onde vai o que ela vê** (`saida`). O cliente é fixo e tem um carrinho vazio. Cada opção do menu aponta para um método:
+
+```python title="ecommerce/entrada/menu.py" linenums="1" hl_lines="4-5 11-12"
 class Menu:
     """Menu de terminal: traduz o que a pessoa digita em chamadas aos casos de uso.
 
@@ -222,8 +275,96 @@ class Menu:
         entrada: Callable[[str], str] = input,
         saida: Callable[[str], None] = print,
     ) -> None:
-        ...
+        self._app = app
+        self._entrada = entrada
+        self._saida = saida
+        self._cliente = Cliente("Maria", "maria@email.com")
+        self._cliente.carrinho = Carrinho()
+        self._acoes = {
+            "1": self._listar_produtos,
+            "2": self._colocar_no_carrinho,
+            "3": self._finalizar_compra,
+            "4": self._pagar_pedido,
+            "5": self._despachar_pedido,
+            "6": self._consultar_pedido,
+            "7": self._ver_auditoria,
+        }
+
+    def executar(self) -> None:
+        while True:
+            self._saida(OPCOES)
+            opcao = self._entrada("Opcao: ").strip()
+            if opcao == "0":
+                self._saida("Ate logo.")
+                return
+            acao = self._acoes.get(opcao)
+            if acao is None:
+                self._saida("Opcao invalida.")
+                continue
+            self._executar_com_seguranca(acao)
 ```
+
+O laço (`executar`) mostra as opções, lê uma delas e chama a ação correspondente. Opção desconhecida não derruba nada, e `0` encerra.
+
+As ações são todas parecidas: leem o que precisam, chamam **um** caso de uso e escrevem o resultado. O `_ler_inteiro` converte o texto digitado e recusa o que não é número:
+
+```python title="ecommerce/entrada/menu.py" linenums="1"
+    def _ler_inteiro(self, pergunta: str) -> int:
+        texto = self._entrada(pergunta).strip()
+        try:
+            return int(texto)
+        except ValueError:
+            raise ValueError("digite um numero inteiro") from None
+
+    def _listar_produtos(self) -> None:
+        produtos = self._app.listar_produtos.executar()
+        if not produtos:
+            self._saida("Nenhum produto cadastrado.")
+        for produto in produtos:
+            self._saida(
+                f"{produto.id}. {produto.nome} - R$ {produto.preco:.2f} "
+                f"(estoque {produto.quantidade_estoque})"
+            )
+
+    def _colocar_no_carrinho(self) -> None:
+        produto_id = self._ler_inteiro("Id do produto: ")
+        quantidade = self._ler_inteiro("Quantidade: ")
+        produtos = {p.id: p for p in self._app.listar_produtos.executar()}
+        if produto_id not in produtos:
+            raise ProdutoNaoEncontradoError(f"Produto {produto_id} nao encontrado")
+        self._cliente.carrinho.adicionar_item(produtos[produto_id], quantidade)
+        self._saida(f"{quantidade} x {produtos[produto_id].nome} no carrinho.")
+
+    def _finalizar_compra(self) -> None:
+        pedido = self._app.finalizar_compra.executar(self._cliente)
+        self._saida(f"Pedido {pedido.id} criado: R$ {pedido.calcular_total():.2f}")
+
+    def _pagar_pedido(self) -> None:
+        pedido_id = self._ler_inteiro("Id do pedido: ")
+        self._app.pagar_pedido.executar(pedido_id, self._cliente)
+        self._saida(f"Pagamento do pedido {pedido_id} confirmado.")
+
+    def _despachar_pedido(self) -> None:
+        pedido_id = self._ler_inteiro("Id do pedido: ")
+        entrega = self._app.despachar_pedido.executar(pedido_id, self._cliente)
+        self._saida(f"Pedido {pedido_id} enviado. Rastreio: {entrega.codigo_rastreio}")
+
+    def _consultar_pedido(self) -> None:
+        pedido = self._app.consultar_pedido.executar(self._ler_inteiro("Id do pedido: "))
+        self._saida(
+            f"Pedido {pedido.id}: {pedido.status}, "
+            f"{pedido.quantidade_itens()} item(ns), R$ {pedido.calcular_total():.2f}"
+        )
+
+    def _ver_auditoria(self) -> None:
+        entradas = self._app.auditoria.entradas()
+        if not entradas:
+            self._saida("Nenhuma entrada de auditoria.")
+        for entrada in entradas:
+            self._saida(entrada)
+```
+
+Repare que nenhuma ação tem regra de negócio. O carrinho recebe o item pelo domínio, e todo o resto (finalizar, pagar, despachar, consultar) é uma chamada a `app.<caso_de_uso>.executar(...)`.
 
 `entrada` e `saida` são **dependências injetadas**, como o relógio que vimos nos capítulos anteriores ou o repositório do Capítulo 16. Em uso real, são `input` e `print`. No teste, são uma sessão escrita de antemão:
 
@@ -244,6 +385,21 @@ def test_fluxo_completo_pelo_menu(app) -> None:
     assert "Pedido 1 criado: R$ 7000.00" in linhas
     assert "Pagamento do pedido 1 confirmado." in linhas
     assert "Pedido 1: enviado, 1 item(ns), R$ 7000.00" in linhas
+```
+
+O `_rodar` junta o menu, o roteiro e uma lista no lugar da tela, e a fixture `app` monta o sistema já com o catálogo inicial:
+
+```python title="tests/entrada/test_menu.py" linenums="1"
+def _rodar(app, *respostas: str) -> list[str]:
+    linhas: list[str] = []
+    Menu(app, entrada=Roteiro(*respostas), saida=linhas.append).executar()
+    return linhas
+
+@pytest.fixture
+def app():
+    app = montar_aplicacao("memoria", registrar=lambda linha: None)
+    preparar_produtos(app)
+    return app
 ```
 
 Cada dupla de respostas faz parte de uma ação: `"2", "1", "2"` é "colocar no carrinho" (opção 2), produto 1, quantidade 2. Sem nenhum teclado envolvido, o teste percorre o fluxo inteiro, do carrinho ao envio.
@@ -276,7 +432,19 @@ Erro: Carrinho vazio
 
 Os casos de uso lançaram as mesmas exceções de sempre. O menu só as traduziu. Guarde esta ideia, porque ela volta na próxima seção.
 
-O cliente é fixo (Maria) e o carrinho vive só durante a sessão. O catálogo inicial é cadastrado **somente se a loja estiver vazia**. Isso importa quando o menu roda com um arquivo SQLite: ao abrir de novo, os produtos já estão lá, e o menu não os duplica.
+O cliente é fixo (Maria) e o carrinho vive só durante a sessão. O catálogo inicial é cadastrado por esta função, **somente se a loja estiver vazia**:
+
+```python title="ecommerce/entrada/menu.py" linenums="1"
+def preparar_produtos(app: Aplicacao) -> None:
+    """Cadastra o catalogo inicial, mas so se a loja ainda estiver vazia."""
+    if app.listar_produtos.executar():
+        return
+    app.cadastrar_produto.executar("Notebook", 3500.0, 5, "Informática")
+    app.cadastrar_produto.executar("Mouse", 150.0, 20, "Informática")
+    app.cadastrar_produto.executar("Teclado", 250.0, 10, "Informática")
+```
+
+A condição do começo (`if app.listar_produtos.executar(): return`) importa quando o menu roda com um arquivo SQLite: ao abrir de novo, os produtos já estão lá, e o menu não os duplica.
 
 ---
 
@@ -285,9 +453,32 @@ O cliente é fixo (Maria) e o carrinho vive só durante a sessão. O catálogo i
 O cenário e o menu são duas formas de usar o sistema, e a pessoa não deveria precisar decorar dois programas. Na raiz do projeto, ao lado da pasta `ecommerce/`, fica o arquivo que **se executa**:
 
 ```python title="main.py" linenums="1"
-def main(argv=None, entrada=input, saida=print) -> None:
+"""Ponto de partida do programa: `python main.py` roda tudo.
+
+    python main.py                         todos os cenarios, com dados fixos
+    python main.py --cenario compra        so o cenario da compra
+    python main.py menu                    menu de terminal
+    python main.py menu --banco loja.db    menu com os dados guardados em arquivo
+"""
+
+import argparse
+from typing import Callable
+
+from ecommerce.composicao import montar_aplicacao
+from ecommerce.entrada.cenario import CENARIOS
+from ecommerce.entrada.menu import Menu, preparar_produtos
+
+
+def main(
+    argv: list[str] | None = None,
+    entrada: Callable[[str], str] = input,
+    saida: Callable[[str], None] = print,
+) -> None:
     parser = argparse.ArgumentParser(description="E-Commerce: cenarios fixos ou menu de terminal.")
-    parser.add_argument("modo", nargs="?", choices=["cenario", "menu"], default="cenario")
+    parser.add_argument(
+        "modo", nargs="?", choices=["cenario", "menu"], default="cenario",
+        help="o que executar (padrao: cenario)",
+    )
     parser.add_argument("--armazenamento", choices=["memoria", "sqlite"], default="sqlite")
     parser.add_argument("--banco", default=":memory:", help="arquivo SQLite (padrao: memoria)")
     parser.add_argument("--cenario", choices=[*CENARIOS, "todos"], default="todos")
@@ -305,6 +496,10 @@ def main(argv=None, entrada=input, saida=print) -> None:
         app = montar_aplicacao(args.armazenamento, args.banco)
         CENARIOS[nome](app, saida)
         saida("")
+
+
+if __name__ == "__main__":
+    main()
 ```
 
 Ele faz três coisas e nenhuma delas é regra de negócio: lê os argumentos, pede o sistema montado e entrega ao cenário ou ao menu. As combinações possíveis:
@@ -362,7 +557,23 @@ Opcao: 0
 Ate logo.
 ```
 
-O catálogo não foi duplicado (`preparar_produtos` só cadastra com a loja vazia), e o pedido 1 foi relido do banco com seus itens. Este é exatamente o fluxo que o teste `test_menu_com_arquivo_guarda_os_dados_entre_duas_execucoes` percorre, com um arquivo temporário.
+O catálogo não foi duplicado (`preparar_produtos` só cadastra com a loja vazia), e o pedido 1 foi relido do banco com seus itens. Este é exatamente o fluxo que o teste percorre, com um arquivo temporário. O `_rodar` do teste chama o `main` com um roteiro e devolve as linhas escritas:
+
+```python title="tests/test_main.py" linenums="1"
+def _rodar(*argv: str, entrada=None) -> list[str]:
+    linhas: list[str] = []
+    main(list(argv), entrada=entrada or Roteiro(), saida=linhas.append)
+    return linhas
+
+def test_menu_com_arquivo_guarda_os_dados_entre_duas_execucoes(tmp_path) -> None:
+    banco = str(tmp_path / "loja.db")
+    # Primeira execucao: poe um notebook no carrinho e finaliza a compra.
+    _rodar("menu", "--banco", banco, entrada=Roteiro("2", "1", "1", "3"))
+    # Segunda execucao: o programa e outro, mas o pedido e o catalogo continuam la.
+    linhas = _rodar("menu", "--banco", banco, entrada=Roteiro("1", "6", "1"))
+    assert "Pedido 1: criado, 1 item(ns), R$ 3500.00" in linhas
+    assert len([l for l in linhas if l.endswith(")") and "estoque" in l]) == 3
+```
 
 Mas repare no que **não** voltou: o carrinho de Maria. Ele vivia só na memória da primeira sessão. É a lacuna que a seção sobre persistência trata mais adiante.
 
@@ -440,13 +651,38 @@ Na entrega final, o seu Projeto Financeiro precisa persistir os dados **principa
 
 ## O primeiro cenário que dá errado
 
-O `main` do cenário tem um segundo caso, que você pode rodar agora:
+O `cenario.py` tem um segundo caso, que você pode rodar agora:
 
 ```bash
 $ python main.py --cenario ultima-unidade
 ```
 
-É a história de **Ana e Bia**: duas pessoas colocam no carrinho o último notebook em estoque, as duas finalizam a compra, e as duas pagam. O catálogo tem uma unidade só.
+É a história de **Ana e Bia**: duas pessoas colocam no carrinho o último notebook em estoque, as duas finalizam a compra, e as duas pagam. O catálogo tem uma unidade só. O código é o mesmo estilo do primeiro cenário:
+
+```python title="ecommerce/entrada/cenario.py" linenums="1"
+def cenario_ultima_unidade(app: Aplicacao, saida: Saida = print) -> None:
+    """Duas pessoas compram a ultima unidade: a segunda paga, e a baixa falha."""
+    saida("== Cenario 2: duas pessoas, uma unica unidade ==")
+    ultimo = app.cadastrar_produto.executar("Notebook", 3500.0, 1, "Informática")
+    ana = _cliente_com("Ana", "ana@email.com", (ultimo, 1))
+    bia = _cliente_com("Bia", "bia@email.com", (ultimo, 1))
+    pedido_da_ana = app.finalizar_compra.executar(ana)
+    pedido_da_bia = app.finalizar_compra.executar(bia)
+    saida("Ana e Bia finalizaram a compra do mesmo notebook. Estoque: 1.")
+
+    app.pagar_pedido.executar(pedido_da_ana.id, ana)
+    app.pagar_pedido.executar(pedido_da_bia.id, bia)
+    for pedido_id, nome in ((pedido_da_ana.id, "Ana"), (pedido_da_bia.id, "Bia")):
+        saida(f"Pedido de {nome}: {app.consultar_pedido.executar(pedido_id).status}")
+
+    _mostrar_estoque(app, saida, "Estoque depois")
+    _mostrar_auditoria(app, saida)
+
+
+CENARIOS = {"compra": cenario_compra, "ultima-unidade": cenario_ultima_unidade}
+```
+
+O dicionário `CENARIOS` é o que o `main.py` percorre para saber quais cenários existem.
 
 ```text
 == Cenario 2: duas pessoas, uma unica unidade ==
@@ -520,6 +756,28 @@ class BarramentoEmMemoria(BarramentoEventos):
 ```
 
 O comportamento **padrão** continua sendo propagar: quem criar um barramento sem `ao_falhar` não terá nenhuma falha engolida sem ter pedido. O isolamento é uma escolha explícita, e quem escolhe é a **raiz de composição**, que também decide o que fazer com a falha: registrar no log e na auditoria.
+
+Para isso, `montar_aplicacao` ganha um parâmetro, `registrar`: uma função que recebe um texto. Se ninguém passar nada, o padrão é escrever um *warning* no log do Python. Um auxiliar pequeno descobre o nome de um manipulador, que pode ser uma função ou um objeto com `__call__`:
+
+```python title="ecommerce/composicao.py" linenums="1"
+def _nome_de(manipulador: Manipulador) -> str:
+    return getattr(manipulador, "__name__", type(manipulador).__name__)
+
+
+def montar_aplicacao(
+    armazenamento: str = "sqlite",
+    caminho_banco: str = ":memory:",
+    registrar: Callable[[str], None] | None = None,
+) -> Aplicacao:
+    """Raiz de composicao: o unico lugar que conhece as tres camadas.
+
+    Escolher onde os dados ficam e uma decisao de montagem, nao de dominio.
+    """
+    if registrar is None:
+        registrar = logging.getLogger("ecommerce").warning
+```
+
+Dentro de `montar_aplicacao`, a função que registra a falha e a criação do barramento ficam assim:
 
 ```python title="ecommerce/composicao.py" linenums="1"
     def registrar_falha(evento: object, manipulador: Manipulador, erro: Exception) -> None:

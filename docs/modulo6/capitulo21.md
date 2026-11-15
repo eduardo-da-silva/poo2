@@ -171,9 +171,22 @@ class PagarPedido:
         self._barramento.publicar(PedidoPago(pedido, cliente))
 ```
 
-`DespacharPedido` ganha a mesma forma, e o `ServicoNotificacaoPedido` deixa de ser um colaborador dele:
+`DespacharPedido` ganha a mesma forma: o barramento entra no construtor no lugar do `ServicoNotificacaoPedido`, e o `executar` publica o fato no fim.
 
 ```python title="ecommerce/aplicacao/despachar_pedido.py" linenums="1"
+class DespacharPedido:
+    """Caso de uso: enviar um pedido pago e anunciar que ele saiu."""
+
+    def __init__(
+        self,
+        repositorio_pedido: RepositorioPedido,
+        expedidor: Expedidor,
+        barramento: BarramentoEventos,
+    ) -> None:
+        self._repositorio_pedido = repositorio_pedido
+        self._expedidor = expedidor
+        self._barramento = barramento
+
     def executar(self, pedido_id: int, cliente: Cliente) -> Entrega:
         pedido = self._repositorio_pedido.obter(pedido_id)
         entrega = self._expedidor.despachar(pedido)
@@ -211,7 +224,23 @@ class NotificarClienteDoEnvio:
         self._servico_notificacao.pedido_enviado(evento.pedido, evento.cliente)
 ```
 
-O `DarBaixaNoEstoque` mantém o que fazia, trocando `atualizar(pedido, cliente)` por `__call__(evento)`.
+O `DarBaixaNoEstoque` mantém o que fazia no capítulo anterior, trocando `atualizar(pedido, cliente)` por `__call__(evento)` (e lendo o pedido de dentro do evento):
+
+```python title="ecommerce/aplicacao/manipuladores/dar_baixa_no_estoque.py" linenums="1"
+class DarBaixaNoEstoque:
+    """Reage a PedidoPago tirando do estoque as unidades vendidas."""
+
+    def __init__(self, repositorio_produto: RepositorioProduto) -> None:
+        self._repositorio_produto = repositorio_produto
+
+    def __call__(self, evento: PedidoPago) -> None:
+        for item in evento.pedido.itens:
+            # Buscamos o produto de novo: o do item pode ser uma copia
+            # (no SQLite) e dois itens do mesmo produto nao podem se atropelar.
+            produto = self._repositorio_produto.obter(item.produto.id)
+            produto.dar_baixa(item.quantidade)
+            self._repositorio_produto.atualizar(produto)
+```
 
 E a auditoria pedida no começo do capítulo é **um manipulador só**, que serve aos dois fatos. Ela escreve num `RegistroAuditoria`, outra porta da aplicação, que a infraestrutura implementa:
 
@@ -227,6 +256,38 @@ class RegistrarAuditoria:
             f"{type(evento).__name__}: pedido {evento.pedido.id}, cliente {evento.cliente.nome}"
         )
 ```
+
+O `RegistroAuditoria` é uma porta da aplicação, com duas operações: guardar uma linha e devolver as linhas guardadas.
+
+```python title="ecommerce/aplicacao/registro_auditoria.py" linenums="1"
+class RegistroAuditoria(ABC):
+    """Porta: onde ficam guardadas as linhas de auditoria."""
+
+    @abstractmethod
+    def registrar(self, entrada: str) -> None:
+        ...
+
+    @abstractmethod
+    def entradas(self) -> list[str]:
+        ...
+```
+
+E a infraestrutura traz o adaptador, que por enquanto guarda tudo numa lista em memória:
+
+```python title="ecommerce/infraestrutura/registro_auditoria_em_memoria.py" linenums="1"
+class RegistroAuditoriaEmMemoria(RegistroAuditoria):
+
+    def __init__(self) -> None:
+        self._entradas: list[str] = []
+
+    def registrar(self, entrada: str) -> None:
+        self._entradas.append(entrada)
+
+    def entradas(self) -> list[str]:
+        return list(self._entradas)
+```
+
+Como o `entradas()` devolve uma **cópia** da lista, ninguém de fora consegue alterar a trilha.
 
 Repare que o próprio nome do evento (`type(evento).__name__`) entra na linha. É a vantagem de o aviso ter nome: o manipulador não precisa deduzir o que aconteceu.
 
@@ -245,6 +306,20 @@ Repare que o próprio nome do evento (`type(evento).__name__`) entra na linha. �
     barramento.inscrever(PedidoPago, RegistrarAuditoria(auditoria))
     barramento.inscrever(PedidoDespachado, NotificarClienteDoEnvio(servico_notificacao))
     barramento.inscrever(PedidoDespachado, RegistrarAuditoria(auditoria))
+```
+
+A bandeja `Aplicacao`, que a montagem devolve, ganha dois campos novos: o barramento e a auditoria. Assim, quem usa o sistema (os testes agora, o ponto de entrada no próximo capítulo) pode assinar um evento novo ou ler a trilha:
+
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="8-9"
+@dataclass
+class Aplicacao:
+    produtos: RepositorioProduto
+    cadastrar_produto: CadastrarProduto
+    finalizar_compra: FinalizarCompra
+    pagar_pedido: PagarPedido
+    despachar_pedido: DespacharPedido
+    barramento: BarramentoEventos
+    auditoria: RegistroAuditoria
 ```
 
 Cinco linhas dizem tudo o que o sistema faz **em reação** a um pedido. Quem quiser saber quem reage a `PedidoPago` olha para um lugar só.

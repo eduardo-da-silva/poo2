@@ -225,6 +225,32 @@ Quem decide que **estas** reações vão a **este** caso de uso é a raiz de com
 
 Essas linhas fazem o trabalho de antes e dão ao sistema uma propriedade nova: **acrescentar uma reação não exige abrir o `PagarPedido`**. Para a auditoria, bastaria um observador e uma linha de `adicionar_observador`.
 
+O sistema montado sai de `montar_aplicacao()` dentro de um objeto `Aplicacao`, uma bandeja com os casos de uso. Neste capítulo ela ganha um campo novo, `produtos`, para quem precisar **consultar** o estoque sem passar por um caso de uso (os testes, e depois o ponto de entrada do Capítulo 22):
+
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="3"
+@dataclass
+class Aplicacao:
+    produtos: RepositorioProduto
+    cadastrar_produto: CadastrarProduto
+    finalizar_compra: FinalizarCompra
+    pagar_pedido: PagarPedido
+    despachar_pedido: DespacharPedido
+```
+
+E o `return` da montagem entrega os casos de uso já ligados:
+
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="2"
+    return Aplicacao(
+        produtos=repositorio_produto,
+        cadastrar_produto=CadastrarProduto(repositorio_produto),
+        finalizar_compra=FinalizarCompra(repositorio_pedido),
+        pagar_pedido=pagar_pedido,
+        despachar_pedido=DespacharPedido(
+            repositorio_pedido, ExpedidorLojaCentral(), servico_notificacao
+        ),
+    )
+```
+
 O teste de ponta a ponta confere o resultado nas duas configurações de armazenamento:
 
 ```python title="tests/test_composicao.py" linenums="1"
@@ -253,6 +279,41 @@ $ pytest tests/
 ## O que o Observer não resolve
 
 Antes de comemorar, rode mentalmente o cenário que o gerente descreveu: duas pessoas compram a **última** unidade. A segunda paga, e a baixa não pode ser feita. O que acontece? Este teste, que já existe no capítulo, mostra:
+
+Os dois observadores de mentira que o teste usa, a lista que registra a ordem das chamadas e a fixture que monta o cenário (um produto, um `Cliente` com o carrinho cheio, o pedido finalizado e o caso de uso `PagarPedido`):
+
+```python title="tests/aplicacao/test_pagar_pedido_observadores.py" linenums="1"
+class ObservadorEspia(ObservadorDePagamento):
+    def __init__(self, nome: str, ordem: list[str]) -> None:
+        self.nome = nome
+        self.recebidos: list[tuple[object, object]] = []
+        self._ordem = ordem
+
+    def atualizar(self, pedido, cliente) -> None:
+        self._ordem.append(self.nome)
+        self.recebidos.append((pedido, cliente))
+
+class ObservadorQueFalha(ObservadorDePagamento):
+    def atualizar(self, pedido, cliente) -> None:
+        raise RuntimeError("falhei")
+
+@pytest.fixture
+def ordem() -> list[str]:
+    return []
+
+@pytest.fixture
+def cenario(infra):
+    produto = Produto("Notebook", 3500.0, 10, Categoria("Informática"))
+    infra.produtos.adicionar(produto)
+    maria = Cliente("Maria", "maria@email.com")
+    maria.carrinho = Carrinho()
+    maria.carrinho.adicionar_item(produto, 1)
+    pedido = FinalizarCompra(infra.pedidos).executar(maria)
+    caso = PagarPedido(infra.pedidos, CriadorPagamento())
+    return caso, pedido, maria
+```
+
+E o teste em si:
 
 ```python title="tests/aplicacao/test_pagar_pedido_observadores.py" linenums="1"
 def test_observador_que_falha_impede_os_seguintes(self, cenario, infra, ordem) -> None:

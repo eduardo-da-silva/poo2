@@ -43,6 +43,7 @@ Caso alguma resposta seja negativa, o capítulo deve ser ajustado.
 - [ ] O código é apresentado gradualmente?
 - [ ] O código é consistente com os capítulos anteriores?
 - [ ] Não existem exemplos artificiais apenas para demonstrar sintaxe?
+- [ ] Todo código novo ou alterado do snapshot (`code/`) aparece no texto, de modo que o leitor chegue ao código **lendo**? Só consultas e itens repetitivos (a maioria dos testes, trechos já mostrados em capítulos anteriores) podem ficar apenas no repositório. Nomes usados em um trecho (fixtures, classes auxiliares) precisam estar definidos no texto.
 
 ---
 
