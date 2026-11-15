@@ -2,12 +2,97 @@
 
 > Documento de planejamento do Módulo 6. Consultar junto com `.ai/rules/` e
 > `.ai/plans/decisoes-pos-modulo5.md`. Descreve **o que** escrever e **em que ordem**;
-> não substitui as regras de estilo. **Status: escrito em 2026-11-14** (Caps. 20–23, snapshots em `code/modulo6/`, índice, mapa e entrega final). Prazo da entrega final em aberto (`[DATA A DEFINIR]`); pesos são sugestão.
+> não substitui as regras de estilo. **Status (2026-11-15):** Caps. 20–23 escritos em 2026-11-14 (snapshots em `code/modulo6/`, índice, mapa e entrega final). **Revisão em curso:** um capítulo de ponto de entrada entra como novo Cap. 22 (ver "Revisão de 2026-11-15"); o Decorator passa a Cap. 23 e as falhas a Cap. 24. A renumeração e o novo capítulo **ainda não foram feitos**. Prazo da entrega final em aberto (`[DATA A DEFINIR]`); pesos são sugestão.
 
-**Capítulos:** 20 a 23 (o Módulo 5 terminou no Capítulo 19)
+**Capítulos:** 20 a 24 após a revisão (20 a 23 até hoje; o Módulo 5 terminou no Capítulo 19)
 **Conceitos:** Observer (publisher/subscriber), eventos de domínio, Decorator, Command × evento, falha em reações
 **Entrega:** **entrega final** do Projeto Financeiro (`docs/modulo6/entrega.md`). Não há Módulo 7:
 a entrega final migrou para cá (ver `decisoes-pos-modulo5.md`).
+
+## Revisão de 2026-11-15 — um capítulo de ponto de entrada
+
+**Motivo.** O aluno nunca vê o sistema rodar de fora para dentro: há `__main__` soltos por arquivo e um demo em
+`composicao.py`, mas ninguém "usa" o sistema. Um capítulo de ponto de entrada fecha Ports & Adapters (até aqui só
+adaptadores de **saída**: SQLite, e-mail, barramento; faltam os de **entrada**), e dá ao Decorator e às falhas algo
+visível para mostrar. Posição: **depois do Cap. 21**, antes do Decorator.
+
+**Nova numeração** (o conteúdo dos antigos 22 e 23 não muda, só o número e o gancho):
+
+| Cap. | Título | Origem |
+|---|---|---|
+| 20 | Quem precisa saber? (Observer) | já escrito |
+| 21 | Fatos, não ordens (eventos de domínio) | já escrito; o "O que vem a seguir" muda (gancho: ninguém usa o sistema) |
+| **22** | **Colocando o sistema para rodar (pontos de entrada)** | **novo** |
+| 23 | Embrulhando comportamento (Decorator) | antigo 22 |
+| 24 | Quando a reação falha | antigo 23 |
+
+Cadeia de ganchos: 21 → "só os testes executam o sistema" → 22 → "queremos ver o que ele faz por dentro (log, tempo)" →
+23 → "e se uma reação falha? rode a última unidade" → 24 → entrega final (Capítulos 1 a 24).
+
+### Cap. 22 — Colocando o sistema para rodar (pontos de entrada)
+
+**Situação da Empresa:** a diretoria pede uma demonstração; o time descobre que só os testes executam o sistema.
+
+**Conceito:** *ponto de entrada* = adaptador de **entrada** (*driving adapter*): quem chama os casos de uso. A interface
+(terminal, TUI, GUI, REST) é um **detalhe**, como o banco e o ORM. Quarta camada: `ecommerce/entrada/`, que importa
+`dominio`, `aplicacao` e `composicao`, nunca `infraestrutura`; ninguém importa `entrada`.
+
+**Código (snapshot `code/modulo6/capitulo22/`, parte de `capitulo21`):**
+
+- `entrada/cenario.py` — o `main` com **dados fixos**: cadastra produtos, cria clientes, compra, paga e despacha; imprime estoque
+  antes/depois, notificações e a trilha de auditoria. Função `executar_cenario(app, saida)` testável; `argparse` com
+  `--armazenamento memoria|sqlite` e `--banco ARQUIVO`, mostrando a raiz de composição trocando peças sem tocar em caso de uso.
+  Por padrão usa `:memory:` (rodar duas vezes com arquivo duplicaria os produtos: material para o Nível 2).
+- `entrada/menu.py` — **menu de terminal** só com a biblioteca padrão (`input`/`print`), com `entrada` e `saida` **injetadas**
+  (DI de novo; o teste passa uma sessão roteirizada). Opções: listar produtos, pôr no carrinho, finalizar compra, pagar, despachar,
+  ver auditoria, sair. Cliente fixo (Maria), carrinho só na sessão. O menu **traduz exceções para a linguagem do meio**
+  (`PedidoNaoEncontradoError`, `ValueError`, `EstoqueInsuficienteError` viram mensagens), adiantando o mapeamento exceção → HTTP.
+- Dois casos de uso de **consulta** novos, para o menu não tocar em repositório: `ListarProdutos` e `ConsultarPedido`
+  (leitura também é caso de uso). Entram em `Aplicacao` e na composição.
+- Testes: cenário (saída esperada, memória e SQLite), menu (sessões roteirizadas, erros amigáveis, opção inválida), casos de
+  uso de consulta (nas duas implementações), arquitetura (`entrada` não importa `infraestrutura`; nenhuma outra camada importa
+  `entrada`). Meta aproximada: +15 sobre os 196 do Cap. 21; **confirmar rodando**.
+
+**Seção "E se fosse REST, GUI ou TUI?" (texto, não código testado):** esboço de ~30 linhas de FastAPI (`montar_aplicacao()`
+uma vez, endpoints `POST /produtos`, `GET /produtos`, `POST /pedidos`, `POST /pedidos/{id}/pagamento`, `POST /pedidos/{id}/despacho`)
+e uma frase para TUI/GUI ("a tela chama os mesmos casos de uso"). Quatro pontos de contato, cada um com a lacuna do sistema atual:
+(1) **quem é o cliente?** (hoje o `Cliente` não é persistido e os casos de uso recebem o objeto); (2) **serializar** `Pedido`/`Produto`
+(DTO/esquemas; o domínio não vira JSON sozinho); (3) **exceção → status HTTP** (404 / 422 / 409), a mesma tradução que o menu faz;
+(4) **conexão e threads** (`sqlite3` e `check_same_thread`; uma conexão por requisição). Nada em `dominio/` nem `aplicacao/` muda.
+`fastapi` **não** entra em `requirements.txt` do snapshot. Um capítulo bônus com REST de verdade só existiria assumindo o custo de
+persistir cliente e carrinho (ver abaixo).
+
+**Seção "O que ainda não está persistido" (explícita, pedido do professor):** tabela do que vai e do que não vai para o SQLite.
+
+| Persistido | Não persistido (só memória) |
+|---|---|
+| `Produto`, `Pedido`, `ItemPedido` | `Cliente`, `Carrinho`, `Pagamento`, `Entrega`, `Cupom`, registro de auditoria, eventos |
+
+Dizer com clareza: **isto é um recorte didático**. Um sistema real persiste **tudo**; o menu e o cenário já mostram a lacuna
+(reiniciar perde cliente, carrinho e auditoria; um pedido relido volta sem pagamento, entrega e cupom). Persistir o resto traz
+mais tabelas, mapeamento de hierarquias (`Pagamento` e `Entrega` são polimórficos), `Pedido` referenciando `Cliente` e migrações.
+Nesse ponto o SQL escrito à mão (um `INSERT`/`UPDATE`/`SELECT` e um mapeador por classe) vira trabalho repetitivo e propenso a
+erro, e **é aí que um ORM passa a compensar** (SQLAlchemy em mapeamento imperativo, mantendo o domínio limpo, como Caps. 17 e 19
+descrevem; migrações com Alembic). Critério prático: quando o número de classes/tabelas e de consultas cresce, ou quando
+migrações viram rotina. O ORM continua sendo só mais um adaptador do mesmo contrato.
+
+**Projeto Financeiro:** `cenario.py` com dados fixos e um menu de terminal; a entrega final passa a exigir um ponto de entrada.
+
+**Exercícios:** Nível 1 — nova opção no menu (por exemplo, cancelar pedido); Nível 2 — rodar o cenário duas vezes com
+`--banco loja.db` e explicar o que acontece e por quê (produtos duplicados, `Cliente` perdido); Nível 3 — implementar de
+verdade o esboço REST com FastAPI e listar o que foi preciso mudar fora das camadas internas; 🚀 Desafio — uma TUI (por exemplo
+Textual) ou uma janela Tk chamando os mesmos casos de uso.
+
+**Tarefas de renumeração (só ao escrever):**
+
+- Mover `code/modulo6/capitulo23` → `capitulo24` e depois `capitulo22` → `capitulo23`; criar o novo `capitulo22` a partir de `capitulo21`.
+  O novo Cap. 23 (Decorator) passa a partir do snapshot 22 e embrulha também `ListarProdutos`/`ConsultarPedido`. O Cap. 24 acrescenta ao `cenario.py`
+  o cenário da última unidade (Ana e Bia).
+- `docs/modulo6/capitulo22.md` → `capitulo23.md`, `capitulo23.md` → `capitulo24.md`; corrigir referências internas ("Capítulo 22/23", "Caps. 1 a 23", "20 a 23",
+  tabela de padrões, quadro do Cap. 24).
+- `mkdocs.yml`, `docs/index.md`, `docs/modulo6/{index,mapa-conhecimento,entrega}.md`, `docs/mapa-conceitos.md`, `.ai/rules/{05,07,08}`: ajustar números e
+  acrescentar o capítulo novo; entrega final: exigir ponto de entrada e acrescentar a pergunta "o que no seu sistema **não** está persistido, e o que seria preciso persistir (e ORM?)".
+- Cap. 21: trocar o "O que vem a seguir" (gancho passa a ser "como alguém usa o sistema?"). Memória do projeto.
 
 ## Arco narrativo
 
@@ -87,7 +172,8 @@ Entram como Nível 3/Desafio nos exercícios, ou ficam de fora. Não cobrir os 2
 ## Fora de escopo
 
 Mensageria real (RabbitMQ, Kafka), assíncrono (`asyncio`), event sourcing, CQRS completo, sagas,
-Unit of Work, framework web, ORM na prática.
+Unit of Work, ORM na prática. **Framework web:** apenas o esboço de REST do Cap. 22 (texto, não executado); implementação real
+fica como exercício ou capítulo bônus.
 
 ## Testes (meta, a confirmar na verificação)
 

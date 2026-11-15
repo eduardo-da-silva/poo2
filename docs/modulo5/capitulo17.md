@@ -34,6 +34,10 @@ Note o `preco_no_momento` do item: ele é uma **cópia** do preço no instante d
 
     Então limitamos o escopo **de propósito** e deixamos a dívida à vista: um pedido relido do banco volta sem `pagamento`, sem `entrega` e sem `cupom`. Preencher essa lacuna é o 🚀 Desafio no fim do capítulo.
 
+    Vale dizer com todas as letras: **isto é um recorte didático, e não um sistema completo**. Persistimos apenas `Produto`, `Pedido` e `ItemPedido`. Um sistema de verdade guardaria **tudo**: também `Cliente`, `Carrinho`, `Pagamento`, `Entrega` e `Cupom`, e o `Pedido` passaria a referenciar o `Cliente`. Cada classe a mais traz tabelas, mapeamento (inclusive de hierarquias, como as formas de pagamento) e migrações do esquema.
+
+    Com muitas classes persistidas, o SQL escrito à mão (um `INSERT`, um `UPDATE`, um `SELECT` e um mapeador para cada uma) fica repetitivo e fácil de errar. É nesse ponto que um **ORM** começa a compensar, e a seção "E o ORM?", mais adiante, mostra onde ele entraria sem mudar o domínio.
+
 ---
 
 ## O esquema
