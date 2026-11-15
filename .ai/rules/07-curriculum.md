@@ -332,9 +332,11 @@ Auditoria de pedidos.
 
 Notificações como manipuladores.
 
-Log e medição de tempo dos casos de uso.
+Cenário com dados fixos e menu de terminal (pontos de entrada); esboço de REST.
 
 Falha em reações (propagar × isolar).
+
+Bônus: catálogo de padrões que ficaram de fora.
 
 ---
 
@@ -346,13 +348,15 @@ Eventos de domínio.
 
 Barramento de eventos (publish/subscribe).
 
-Decorator.
-
 Comando × evento.
+
+Pontos de entrada (adaptadores de entrada); a interface é um detalhe.
+
+Persistência parcial e o papel de um ORM.
 
 Consistência eventual e idempotência.
 
-Padrões que "somem" em Python.
+Padrões que "somem" em Python; catálogo (Decorator, State, Adapter, Composite, Chain of Responsibility, Command com handler, Builder).
 
 ---
 
@@ -362,19 +366,21 @@ Alertas de meta estourada.
 
 Eventos de lançamento.
 
-Log e auditoria de importações.
+Cenário com dados fixos e menu (ou REST).
 
 Falha em alertas sem perder o lançamento.
 
+Um padrão do catálogo do bônus, escolhido e implementado pelo aluno.
+
 ---
 
-Ao final deste módulo o aluno saberá anunciar fatos como eventos imutáveis, reagir a eles por manipuladores ligados na raiz de composição, acrescentar log e medição com Decorator, distinguir comando de evento, e decidir conscientemente o que fazer quando uma reação falha. Mensageria real, assíncrono, event sourcing e CQRS completo ficam fora.
+Ao final deste módulo o aluno saberá anunciar fatos como eventos imutáveis, reagir a eles por manipuladores ligados na raiz de composição, distinguir comando de evento, expor o sistema por um ponto de entrada (cenário, menu) e decidir conscientemente o que fazer quando uma reação falha. Os demais padrões ficam em um capítulo bônus, para pesquisa. Mensageria real, assíncrono, event sourcing, CQRS completo e framework web (além de um esboço) ficam fora.
 
 ---
 
 Entrega final
 
-Ao final do Módulo 6 existe a página de **entrega final** do Projeto Financeiro (`docs/modulo6/entrega.md`, sem número de capítulo), cobrindo do Capítulo 1 ao 23. Diferente dos checkpoints dos Módulos 2 a 5, é avaliada pelo conjunto: código, testes, documento de decisões (padrões usados e recusados) e apresentação opcional. Pesos e prazo são propostas, a definir com o professor.
+Ao final do Módulo 6 existe a página de **entrega final** do Projeto Financeiro (`docs/modulo6/entrega.md`, sem número de capítulo), cobrindo do Capítulo 1 ao 23. Diferente dos checkpoints dos Módulos 2 a 5, é avaliada pelo conjunto: código com persistência e **uma interface** (cenário, menu ou REST), testes, documento de decisões (padrões usados e recusados), **um padrão do catálogo do bônus** escolhido e implementado pelo aluno (15% da nota, proposta) e apresentação opcional. Pesos e prazo são propostas, a definir com o professor.
 
 ---
 

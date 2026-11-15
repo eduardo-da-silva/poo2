@@ -1,339 +1,556 @@
-# Capítulo 22 — Embrulhando comportamento (Decorator)
+# Capítulo 22 — Colocando o sistema para rodar
 
 !!! info "Situação da Empresa"
 
-    Numa segunda-feira, o suporte recebeu três reclamações de "o site travou na hora de pagar". Ninguém conseguiu dizer se o pagamento demorou, se falhou ou se nem chegou ao sistema. Não havia registro de nada.
+    A diretoria pediu uma demonstração: "Quero ver uma compra acontecer, do carrinho ao envio. Pode ser agora de manhã?"
 
-    O gerente fez dois pedidos: "Quero um log de cada operação: quando começou, se terminou bem ou se deu erro. E quero saber **quanto tempo** cada uma levou."
+    O time hesitou. O sistema tem casos de uso, repositórios, eventos, mais de duzentos testes verdes. Mas, olhando a pasta, ninguém soube dizer **qual arquivo se executa** para mostrar uma compra. "A gente roda os testes", alguém sugeriu. A diretoria não achou graça.
 
-Esse pedido tem uma diferença importante em relação aos do capítulo anterior. Baixa de estoque e auditoria são **reações a um fato**. Log e medição de tempo não reagem a nada: eles acontecem **ao redor** de uma execução, antes dela, depois dela, e também quando ela falha.
+Construímos um sistema inteiro sem nunca o **usar**. Quem o exercita são os testes e alguns blocos `if __name__ == "__main__"` espalhados, cada um mostrando um pedaço. Falta o que existe em todo software: uma **porta de entrada**.
 
 ---
 
 ## O problema, concretamente
 
-O caminho mais curto é conhecido. Dentro de cada caso de uso:
+Quando o programa deixa de ser uma biblioteca e passa a ser algo que alguém **usa**, aparecem perguntas que os casos de uso não respondem:
 
-```python title="O caminho curto" linenums="1" hl_lines="2-3 7 9-10"
-    def executar(self, pedido_id, cliente, forma=FormaPagamento.PIX, **dados) -> None:
-        print("PagarPedido: inicio")
-        inicio = time.perf_counter()
-        try:
-            pedido = self._repositorio_pedido.obter(pedido_id)
-            pedido.confirmar_pagamento(self._criador_pagamento, forma, **dados)
-            self._repositorio_pedido.atualizar(pedido)
-            self._barramento.publicar(PedidoPago(pedido, cliente))
-        finally:
-            print(f"PagarPedido: {(time.perf_counter() - inicio) * 1000:.1f} ms")
-```
+- Quem decide **quais dados** entram: um script fixo, alguém digitando, uma requisição na rede?
+- Quem **monta** o sistema (a raiz de composição) e o entrega a esse alguém?
+- O que acontece com uma **exceção**: ela precisa virar uma mensagem que a pessoa entenda?
 
-Nas outras três classes seria igual. O código de pagamento (quatro linhas) ficou enterrado entre código de medição, e o mesmo bloco precisa ser copiado, e mantido, em todos os casos de uso. Se amanhã o log passar a ir para um arquivo, são quatro arquivos para editar.
+Os casos de uso foram escritos para não saber nada disso. `PagarPedido.executar(pedido_id, cliente)` não sabe se o `pedido_id` veio de um teclado, de um arquivo ou de uma URL.
 
 ---
 
 ## 🧠 Pense
 
-1. Por que um **evento** (Capítulo 21) não resolve este caso? Que partes do ciclo de vida de uma execução um evento `PedidoPago` consegue enxergar? E quais ele não enxerga?
-2. Se o log pudesse ser **colocado em volta** de um caso de uso, como uma capa, o caso de uso precisaria saber que está coberto?
+1. Se amanhã a diretoria pedir um site, depois um aplicativo de celular, quanto do sistema deveria mudar?
+2. Onde deve morar o código que lê o que a pessoa digitou e escreve o que ela vê: no domínio, na aplicação ou em um lugar novo?
 
 ---
 
-## A ideia: uma capa com o mesmo formato
+## O ponto de entrada
 
-Um evento só é publicado depois que o fato aconteceu: não vê o **início**, não vê a **falha**, não mede a **duração**. Para isso é preciso estar *entre* quem chama e o caso de uso.
+!!! important "💡 Conceito — Ponto de entrada (adaptador de entrada)"
 
-!!! important "💡 Conceito — Decorator"
+    Um **ponto de entrada** é o código que fica entre o mundo de fora e os casos de uso: ele recebe o que vem de uma interface (teclado, tela, requisição de rede), chama o caso de uso certo e devolve o resultado na linguagem dessa interface.
 
-    O **Decorator** (decorador) é um padrão em que um objeto **embrulha** outro de **mesma interface**. Quem chama o embrulho acha que está falando com o objeto original. O decorador faz algo antes e/ou depois, e **delega** o trabalho de verdade ao objeto embrulhado.
-
-    Como o decorador tem a mesma interface do que ele embrulha, ele pode ser embrulhado por outro decorador. É assim que as capas se **empilham**.
+    No vocabulário do Capítulo 19, é um **adaptador de entrada**. Até agora só tínhamos adaptadores de **saída**: SQLite, e-mail, SMS, o barramento. Eram coisas que o sistema **chama**. O ponto de entrada é o oposto: é quem **chama** o sistema.
 
 ```mermaid
 flowchart LR
-    Q[Quem chama] --> L[ComLog]
-    L --> T[ComTempo]
-    T --> P[PagarPedido]
+    subgraph ENT[Entrada: quem chama o sistema]
+        CEN[cenario.py]
+        MEN[menu.py]
+        OUT[REST, GUI, TUI]
+    end
+
+    subgraph SIS[O sistema]
+        UC[Casos de uso] --> DOM[Domínio]
+    end
+
+    subgraph INF[Saída: o que o sistema chama]
+        SQL[SQLite]
+        NOT[E-mail · SMS]
+        BAR[Barramento]
+    end
+
+    CEN --> UC
+    MEN --> UC
+    OUT -.-> UC
+    SQL --> UC
+    NOT --> UC
+    BAR --> UC
 ```
 
-Os três têm um método `executar`. Quem chama `executar` no `ComLog` não sabe quantas capas existem nem o que há no centro.
+Leia as setas como nos capítulos anteriores: nenhuma sai do centro para fora. A entrada aponta para os casos de uso, e a infraestrutura continua apontando para os contratos que a aplicação define. A interface é um **detalhe**, como o banco e o ORM: pode-se trocar sem mexer no que está no centro.
 
-Para dizer "mesma interface", damos nome ao formato comum dos casos de uso. É um `Protocol`, como a `FabricaNotificacao` do Capítulo 19:
+---
 
-```python title="ecommerce/aplicacao/caso_de_uso.py" linenums="1"
-class CasoDeUso(Protocol):
-    """O formato comum dos casos de uso: algo que se executa e devolve um resultado."""
+## Uma quarta camada
 
-    def executar(self, *args: Any, **kwargs: Any) -> Any:
-        ...
+O código de entrada ganha uma pasta própria, ao lado das outras:
+
+```text
+ecommerce/
+├── dominio/
+├── aplicacao/
+├── infraestrutura/
+├── entrada/            ← novo
+│   ├── cenario.py
+│   └── menu.py
+└── composicao.py
+```
+
+A regra de quem pode importar quem fica assim:
+
+| Camada | Pode importar | Não pode importar |
+|---|---|---|
+| `dominio/` | ninguém | todas as outras |
+| `aplicacao/` | `dominio/` | `infraestrutura/`, `entrada/` |
+| `infraestrutura/` | `dominio/`, `aplicacao/` | `entrada/` |
+| `entrada/` | `dominio/`, `aplicacao/` e a **raiz de composição** | `infraestrutura/` |
+
+Uma novidade merece atenção: a entrada **não conhece a infraestrutura**. Quem escolhe SQLite ou memória é a raiz de composição, e a entrada só pede o sistema montado. Dois testes novos de arquitetura guardam isso:
+
+```python title="tests/test_arquitetura.py" linenums="1"
+def test_entrada_nao_conhece_a_infraestrutura() -> None:
+    # A entrada usa a raiz de composicao, que e quem conhece as implementacoes.
+    assert "infraestrutura" not in _camadas_importadas("entrada")
+
+
+def test_nenhuma_camada_interna_importa_a_entrada() -> None:
+    for camada in ("dominio", "aplicacao", "infraestrutura"):
+        assert "entrada" not in _camadas_importadas(camada), camada
 ```
 
 ---
 
-## Os dois decoradores
+## Consultar também é um caso de uso
 
-O primeiro registra o início, o fim e a falha:
+Para mostrar uma compra, a entrada precisa **ler** o sistema: listar produtos, ver o status de um pedido. Seria tentador chamar o repositório direto, mas isso faria a entrada conhecer um contrato do domínio que os casos de uso existem para esconder. Duas consultas simples resolvem:
 
-```python title="ecommerce/aplicacao/decoradores.py" linenums="1"
-class ComLog:
-    """Embrulha um caso de uso e registra quando ele comeca, termina ou falha."""
+```python title="ecommerce/aplicacao/consultar_pedido.py" linenums="1"
+class ConsultarPedido:
+    """Caso de uso de consulta: em que pe esta um pedido."""
 
-    def __init__(
-        self, caso_de_uso: CasoDeUso, nome: str, registrar: Callable[[str], None]
-    ) -> None:
-        self._caso_de_uso = caso_de_uso
-        self._nome = nome
-        self._registrar = registrar
+    def __init__(self, repositorio_pedido: RepositorioPedido) -> None:
+        self._repositorio_pedido = repositorio_pedido
 
-    def executar(self, *args: Any, **kwargs: Any) -> Any:
-        self._registrar(f"{self._nome}: inicio")
-        try:
-            resultado = self._caso_de_uso.executar(*args, **kwargs)
-        except Exception as erro:
-            self._registrar(f"{self._nome}: falhou ({type(erro).__name__}: {erro})")
-            raise
-        self._registrar(f"{self._nome}: concluido")
-        return resultado
+    def executar(self, pedido_id: int) -> Pedido:
+        return self._repositorio_pedido.obter(pedido_id)
 ```
 
-Três detalhes fazem a diferença entre um decorador correto e um que causa dano:
+`ListarProdutos` tem a mesma forma. A raiz de composição passa a entregar os dois em `Aplicacao`, junto dos casos de uso que já existiam.
 
-- Os argumentos passam **intactos** (`*args, **kwargs`) e o **resultado** volta intacto. O decorador não pode alterar o contrato do que embrulha.
-- Na falha, o erro é **relançado** (`raise`). Um decorador que engole a exceção esconderia do chamador que o caso de uso falhou.
-- O decorador não conhece o caso de uso concreto: só o formato `CasoDeUso`.
+---
 
-O segundo mede o tempo:
+## O cenário fixo
 
-```python title="ecommerce/aplicacao/decoradores.py" linenums="1"
-class ComTempo:
-    """Embrulha um caso de uso e registra quanto tempo ele levou, mesmo se falhar."""
+O primeiro ponto de entrada é o mais simples: um script que conta uma história, sempre a mesma, com **dados fixos**. Ele serve para demonstrar, para depurar e para ver o sistema funcionando antes de existir qualquer interface.
+
+```python title="ecommerce/entrada/cenario.py" linenums="1"
+def cenario_compra(app: Aplicacao, saida: Saida = print) -> None:
+    """Uma compra do inicio ao fim, com dados fixos."""
+    saida("== Cenario 1: uma compra do inicio ao fim ==")
+    notebook = app.cadastrar_produto.executar("Notebook", 3500.0, 5, "Informática")
+    mouse = app.cadastrar_produto.executar("Mouse", 150.0, 20, "Informática")
+    _mostrar_estoque(app, saida, "Estoque antes")
+
+    maria = _cliente_com("Maria", "maria@email.com", (notebook, 1), (mouse, 2))
+    pedido = app.finalizar_compra.executar(maria)
+    saida(f"Maria finalizou a compra: pedido {pedido.id}, R$ {pedido.calcular_total():.2f}")
+
+    app.pagar_pedido.executar(pedido.id, maria)
+    saida(f"Status apos pagar: {app.consultar_pedido.executar(pedido.id).status}")
+    app.despachar_pedido.executar(pedido.id, maria)
+    saida(f"Status apos despachar: {app.consultar_pedido.executar(pedido.id).status}")
+
+    _mostrar_estoque(app, saida, "Estoque depois")
+    _mostrar_auditoria(app, saida)
+```
+
+Repare em dois detalhes. O cenário recebe o sistema **pronto** (`app`) e não o monta: quem monta é o `main`. E ele escreve por uma função `saida`, que por padrão é `print`. Isso permite que o teste passe uma lista no lugar e confira o que seria impresso.
+
+Para rodar:
+
+```bash
+$ python -m ecommerce.entrada.cenario --cenario compra
+```
+
+```text
+== Cenario 1: uma compra do inicio ao fim ==
+Estoque antes:
+  Notebook: 5
+  Mouse: 20
+Maria finalizou a compra: pedido 1, R$ 3800.00
+[E-MAIL -> maria@email.com] Ola, Maria. O pagamento do seu pedido foi confirmado. Total: R$ 3800.00.
+Status apos pagar: pago
+[E-MAIL -> maria@email.com] Ola, Maria. Seu pedido foi enviado. Codigo de rastreio: BR000001SE.
+Status apos despachar: enviado
+Estoque depois:
+  Notebook: 4
+  Mouse: 18
+Auditoria:
+  PedidoPago: pedido 1, cliente Maria
+  PedidoDespachado: pedido 1, cliente Maria
+```
+
+Tudo o que construímos nos últimos três módulos aparece nessa saída: o pedido guardado e relido, a notificação, a baixa de estoque, a trilha de auditoria. Cada linha é um caso de uso ou um manipulador de evento fazendo o seu trabalho.
+
+### A mesma história, outra montagem
+
+O `main` do cenário aceita argumentos, e é aqui que a raiz de composição mostra o seu valor:
+
+```bash
+$ python -m ecommerce.entrada.cenario --armazenamento memoria
+$ python -m ecommerce.entrada.cenario --armazenamento sqlite --banco loja.db
+```
+
+```python title="ecommerce/entrada/cenario.py" linenums="1"
+    nomes = list(CENARIOS) if args.cenario == "todos" else [args.cenario]
+    for nome in nomes:
+        app = montar_aplicacao(args.armazenamento, args.banco)
+        CENARIOS[nome](app)
+        print()
+```
+
+O cenário é o mesmo nos dois casos. Nenhuma linha dele sabe se os dados estão na memória ou em um arquivo SQLite. Quem escolhe é um argumento de linha de comando, e quem age sobre ele é a montagem.
+
+---
+
+## O menu de terminal
+
+O cenário conta uma história fixa. O segundo ponto de entrada deixa **a pessoa** conduzir: um menu no terminal, só com a biblioteca padrão.
+
+```python title="ecommerce/entrada/menu.py" linenums="1" hl_lines="3-4 7-8"
+class Menu:
+    """Menu de terminal: traduz o que a pessoa digita em chamadas aos casos de uso.
+
+    `entrada` e `saida` chegam de fora, como qualquer outra dependencia:
+    nos testes, uma sessao roteirizada; no terminal, `input` e `print`.
+    """
 
     def __init__(
         self,
-        caso_de_uso: CasoDeUso,
-        nome: str,
-        registrar: Callable[[str], None],
-        relogio: Callable[[], float] = time.perf_counter,
+        app: Aplicacao,
+        entrada: Callable[[str], str] = input,
+        saida: Callable[[str], None] = print,
     ) -> None:
-        self._caso_de_uso = caso_de_uso
-        self._nome = nome
-        self._registrar = registrar
-        self._relogio = relogio
+        ...
+```
 
-    def executar(self, *args: Any, **kwargs: Any) -> Any:
-        inicio = self._relogio()
+`entrada` e `saida` são **dependências injetadas**, como o relógio que vimos nos capítulos anteriores ou o repositório do Capítulo 16. Em uso real, são `input` e `print`. No teste, são uma sessão escrita de antemão:
+
+```python title="tests/entrada/test_menu.py" linenums="1"
+class Roteiro:
+    """Uma sessao de terminal escrita de antemao: cada chamada devolve a proxima resposta."""
+
+    def __init__(self, *respostas: str) -> None:
+        self._respostas = iter([*respostas, "0"])
+
+    def __call__(self, pergunta: str) -> str:
+        return next(self._respostas)
+
+
+def test_fluxo_completo_pelo_menu(app) -> None:
+    linhas = _rodar(app, "2", "1", "2", "3", "4", "1", "5", "1", "6", "1")
+    assert "2 x Notebook no carrinho." in linhas
+    assert "Pedido 1 criado: R$ 7000.00" in linhas
+    assert "Pagamento do pedido 1 confirmado." in linhas
+    assert "Pedido 1: enviado, 1 item(ns), R$ 7000.00" in linhas
+```
+
+Cada dupla de respostas faz parte de uma ação: `"2", "1", "2"` é "colocar no carrinho" (opção 2), produto 1, quantidade 2. Sem nenhum teclado envolvido, o teste percorre o fluxo inteiro, do carrinho ao envio.
+
+### Traduzindo erros
+
+O terceiro ponto importante do menu é o que ele faz com as exceções. Um `PedidoNaoEncontradoError` com um traceback de dez linhas não ajuda quem digitou o número errado. A entrada é a **fronteira** do sistema, e é nela que os erros viram a linguagem do meio:
+
+```python title="ecommerce/entrada/menu.py" linenums="1"
+    def _executar_com_seguranca(self, acao: Callable[[], None]) -> None:
+        # Fronteira do sistema: as excecoes viram mensagens na linguagem do terminal.
         try:
-            return self._caso_de_uso.executar(*args, **kwargs)
-        finally:
-            milissegundos = (self._relogio() - inicio) * 1000
-            self._registrar(f"{self._nome}: {milissegundos:.1f} ms")
+            acao()
+        except (ValueError, PedidoNaoEncontradoError, ProdutoNaoEncontradoError) as erro:
+            self._saida(f"Erro: {erro}")
 ```
 
-O `finally` garante a medição também quando há exceção, e o erro continua subindo. O **relógio** é injetado: por padrão é `time.perf_counter`, mas o teste passa um relógio falso, que devolve sempre os mesmos valores. Sem isso, o teste dependeria da velocidade da máquina. É a injeção de dependências do Módulo 4, aplicada a algo tão banal quanto o tempo.
-
-`registrar` é só uma função que recebe um texto. Para a aplicação, "onde o log vai parar" é um detalhe de quem monta o sistema.
-
----
-
-## Empilhando e montando
-
-Na raiz de composição, um pequeno auxiliar embrulha o caso de uso com as duas capas:
-
-```python title="ecommerce/composicao.py" linenums="1"
-def _observado(caso_de_uso: CasoDeUso, nome: str, registrar: Callable[[str], None]) -> CasoDeUso:
-    """Embrulha o caso de uso com log e medicao de tempo, sem que ele saiba."""
-    return ComLog(ComTempo(caso_de_uso, nome, registrar), nome, registrar)
-```
-
-E `montar_aplicacao` passa cada caso de uso por ele:
-
-```python title="ecommerce/composicao.py" linenums="1" hl_lines="1-4"
-        pagar_pedido=_observado(
-            PagarPedido(repositorio_pedido, CriadorPagamento(), barramento),
-            "PagarPedido",
-            registrar,
-        ),
-```
-
-`PagarPedido` não mudou em uma linha. Quem usa `app.pagar_pedido.executar(...)` também não. O ganho apareceu na **montagem**. Rodando o fluxo completo, com o log configurado para mostrar mensagens informativas, o resultado é:
+Uma sessão com erros, vista de dentro (o menu das opções foi omitido):
 
 ```text
-PagarPedido: inicio
-PagarPedido: 0.6 ms
-PagarPedido: concluido
+Opcao: 4
+Id do pedido: 99
+Erro: Pedido 99 nao encontrado
+Opcao: 4
+Id do pedido: abc
+Erro: digite um numero inteiro
+Opcao: 3
+Erro: Carrinho vazio
 ```
 
-Repare na ordem: início, tempo, conclusão. O `ComLog` está por **fora**: ele escreve "início" antes de chamar o `ComTempo`, e "concluído" depois que o `ComTempo` terminou e registrou a duração. Se invertêssemos as capas, `ComTempo(ComLog(...))`, o tempo medido incluiria a escrita do log, e a linha de duração apareceria depois da conclusão. Dois testes fixam essa diferença:
+Os casos de uso lançaram as mesmas exceções de sempre. O menu só as traduziu. Guarde esta ideia, porque ela volta na próxima seção.
 
-```python title="tests/aplicacao/test_decoradores.py" linenums="1"
-    # ComLog por fora, ComTempo por dentro
-    assert linhas == ["Soma: inicio", "Soma: 250.0 ms", "Soma: concluido"]
+Para experimentar:
 
-    # ComTempo por fora, ComLog por dentro
-    assert linhas == ["Soma: inicio", "Soma: concluido", "Soma: 250.0 ms"]
+```bash
+$ python -m ecommerce.entrada.menu
 ```
 
-A **ordem do empilhamento é uma decisão**, e a montagem é o lugar onde ela fica visível.
-
-!!! info "🏗️ Decisão de Projeto — decorador genérico ou um por caso de uso?"
-
-    `ComLog` e `ComTempo` aceitam **qualquer** caso de uso porque usam `*args` e `**kwargs`. É isso que permite escrevê-los uma vez só. O custo é que o verificador de tipos não confere se os argumentos de `executar` batem com os do caso de uso embrulhado.
-
-    A alternativa é um decorador por caso de uso, com a assinatura exata, como `PagarPedidoComLog`. É mais seguro e muito mais repetitivo. Para comportamento transversal, o genérico compensa. Se o decorador acrescentasse comportamento específico de um caso de uso, valeria o específico.
+O cliente é fixo (Maria) e o carrinho vive só durante a sessão. O catálogo inicial é cadastrado **somente se a loja estiver vazia**. Isso importa quando o menu roda com um arquivo SQLite: ao abrir de novo, os produtos já estão lá, e o menu não os duplica.
 
 ---
 
-## Decorator, herança ou evento?
+## E se fosse REST, GUI ou TUI?
 
-Agora há três formas de "acrescentar algo ao que um caso de uso faz". Cada uma serve a uma situação:
+Um menu de terminal é o ponto de entrada mais simples possível. Em muitos projetos, a interface é uma **API REST**, uma **janela** ou uma **tela de terminal mais elaborada** (uma TUI). A boa notícia é que nada em `dominio/` nem em `aplicacao/` precisaria mudar. Veja como um esboço de REST com FastAPI se pareceria. É apenas um esboço: **não está no código do capítulo, não é executado e não tem testes**.
 
-| | Evento (Cap. 21) | Decorator (este capítulo) | Herança |
-|---|---|---|---|
-| Quando atua | **Depois** do fato | **Antes, depois e durante** a execução | Dentro da própria classe |
-| Vê a falha? | Não (só existe se houve sucesso) | Sim | Sim |
-| Quem decide que acontece | Quem assina, na montagem | Quem monta, na montagem | A classe, no código |
-| Dá para empilhar? | Sim, assinando mais manipuladores | Sim, embrulhando de novo | Mal: combinações viram subclasses |
-| Exemplo | Baixa de estoque, auditoria | Log, medição de tempo, tentativa repetida | `PagarPedidoComLog(PagarPedido)` |
+```python title="entrada/api.py (esboço, nao executado)" linenums="1"
+app = FastAPI()
+casos = montar_aplicacao("sqlite", "loja.db")        # montado uma vez, na partida
 
-Uma regra de bolso:
 
-- *"Quando X acontecer, faça Y"* → **evento**.
-- *"Toda vez que X for executado, faça algo em volta"* → **decorator**.
-- Herança, para isso, quase nunca: com três comportamentos transversais (log, tempo, repetição), seriam oito combinações possíveis de subclasses.
+@app.get("/produtos")
+def listar_produtos():
+    return [
+        {"id": p.id, "nome": p.nome, "preco": p.preco, "estoque": p.quantidade_estoque}
+        for p in casos.listar_produtos.executar()
+    ]
 
-O mesmo vale para repositórios: um `RepositorioPedido` que registra cada consulta pode ser um decorador de `RepositorioPedido`, com a mesma interface, embrulhando o SQLite ou a memória. É o Exercício de Nível 2.
 
----
+@app.post("/pedidos/{pedido_id}/pagamento", status_code=204)
+def pagar(pedido_id: int):
+    casos.pagar_pedido.executar(pedido_id, cliente_da_requisicao())   # ?
 
-## Comando e evento: a intenção e o fato
 
-O Capítulo 18 explicou que nossos casos de uso são *parentes* do padrão **Command**, mas que não carregam dados. Agora que existem eventos, a diferença fica nítida, porque comando e evento são **dois lados do mesmo acontecimento**:
+@app.exception_handler(PedidoNaoEncontradoError)
+def pedido_nao_encontrado(requisicao, erro):
+    return JSONResponse(status_code=404, content={"erro": str(erro)})
+```
 
-| | Comando | Evento |
+A estrutura é a mesma do menu: chamar o caso de uso e traduzir as exceções. Para uma **GUI** ou uma **TUI**, a ideia também não muda: a tela chama os mesmos casos de uso. Mas o esboço deixa quatro perguntas em aberto, e cada uma aponta para uma lacuna do nosso sistema:
+
+| Ponto de contato | O que a interface precisa | O que o sistema tem hoje |
 |---|---|---|
-| Expressa | Uma **intenção**: "quero pagar o pedido 12" | Um **fato**: "o pedido 12 foi pago" |
-| Nome | Imperativo: `PagarPedido` | Passado: `PedidoPago` |
-| Tem destino | **Um** só: quem executa | **Zero, um ou vários** que assinam |
-| Pode ser recusado | Sim: o pagamento pode falhar | Não: já aconteceu |
-| Quem conhece quem | Quem envia conhece quem executa | Quem publica não conhece ninguém |
+| **Quem é o cliente?** | Identificar quem faz a requisição | O `Cliente` **não é persistido**, e os casos de uso recebem o objeto, não um identificador (a linha com `?` acima) |
+| **Serializar a resposta** | Transformar `Pedido` ou `Produto` em JSON | O domínio não vira JSON sozinho. É preciso montar um formato de resposta à parte (um DTO), para não vazar a estrutura interna |
+| **Exceção em status HTTP** | `PedidoNaoEncontradoError` vira 404, `ValueError` vira 422 | A mesma tradução que o menu já faz, só que para outro vocabulário |
+| **Conexão e threads** | Uma conexão por requisição, ou um pool | O `sqlite3` recusa usar uma conexão em outra *thread*; um servidor web usa várias |
 
-Um comando entra no sistema; um evento sai dele. O comando é o que o usuário quer; o evento é o que o sistema anuncia depois de decidir.
-
-A forma fiel do padrão separaria os **dados** da **execução**. Não vamos refatorar o projeto para isso, mas vale ver como seria o `PagarPedido`:
-
-```python title="Como seria a forma fiel (esboço)" linenums="1"
-@dataclass(frozen=True)
-class PagarPedidoComando:
-    pedido_id: int
-    cliente: Cliente
-    forma: FormaPagamento = FormaPagamento.PIX
-
-
-class PagarPedidoHandler:
-    def __init__(self, repositorio_pedido, criador_pagamento, barramento) -> None: ...
-
-    def executar(self, comando: PagarPedidoComando) -> None: ...
-```
-
-O comando é um objeto de dados, como um evento; o *handler* é o caso de uso, que recebe o comando em vez de parâmetros soltos. Há uma vantagem: todo handler passa a ter uma assinatura uniforme, `executar(comando)`, o que simplificaria decoradores como os deste capítulo. Para nosso sistema, o desenho atual, com parâmetros em `executar`, é suficiente. O importante é reconhecer o vocabulário quando ele aparecer em outros projetos.
+Os dois últimos itens são o que a camada de entrada resolve. Os dois primeiros mostram que **o domínio ainda é um recorte**, o que nos leva à seção seguinte.
 
 ---
 
-## Testes
+## O que ainda não está persistido
 
-Cada decorador é testado com um caso de uso de mentira e uma lista no lugar do log:
+Desde o Capítulo 17 o sistema guarda dados em SQLite. Mas guarda **apenas uma parte** deles:
 
-```python title="tests/aplicacao/test_decoradores.py" linenums="1"
-def test_registra_a_falha_e_relanca_o_erro(self) -> None:
-    linhas: list[str] = []
-    caso = ComLog(CasoQueFalha(), "Falha", linhas.append)
-    with pytest.raises(ValueError):
-        caso.executar()
-    assert linhas == ["Falha: inicio", "Falha: falhou (ValueError: deu ruim)"]
+| Persistido em SQLite | Só em memória (some quando o programa termina) |
+|---|---|
+| `Produto` | `Cliente` |
+| `Pedido` | `Carrinho` |
+| `ItemPedido` | `Pagamento`, `Entrega`, `Cupom` |
+| | O registro de auditoria |
+| | Os eventos |
+
+O cenário e o menu tornam essa lacuna fácil de enxergar. Reinicie o menu e o catálogo continua lá, porque os produtos estão no arquivo. Mas o cliente e o carrinho recomeçam do zero. Um pedido relido do banco volta **sem pagamento, sem entrega e sem cupom**, e a auditoria do dia anterior se perdeu.
+
+!!! warning "⚠️ Isto é um recorte didático, e não um sistema completo"
+
+    Persistimos apenas o suficiente para ensinar Repository, mapeamento e camadas. Um sistema real precisaria persistir **tudo**: também o `Cliente`, o `Carrinho`, o `Pagamento` (com a forma escolhida e os dados dela), a `Entrega`, o `Cupom`, a auditoria e até os eventos. O `Pedido` passaria a referenciar o `Cliente`.
+
+    Isso traz custos concretos: mais tabelas, o mapeamento de hierarquias (cada forma de pagamento e cada meio de entrega é uma subclasse), chaves estrangeiras, e a **evolução do esquema** conforme o sistema muda (as migrações).
+
+Escrever tudo isso à mão, como fizemos para dois repositórios, significa um `INSERT`, um `UPDATE`, um `SELECT` e um mapeador para **cada classe**. Com meia dúzia de tabelas, vira trabalho repetitivo e fácil de errar. É nesse ponto que um **ORM** (como o SQLAlchemy) passa a compensar: ele gera o SQL e administra o mapeamento, e uma ferramenta de migração (como o Alembic) cuida da evolução do esquema.
+
+A regra que vimos nos Capítulos 17 e 19 continua valendo: o ORM seria **mais um adaptador** do mesmo contrato de repositório, dentro de `infraestrutura/`, de preferência em mapeamento *imperativo* (que registra as classes sem alterá-las), para o domínio seguir sem importar a biblioteca. Um critério prático para decidir: quando o número de classes e de consultas cresce, ou quando mudar o esquema vira rotina.
+
+Na entrega final, o seu Projeto Financeiro precisa persistir os dados **principais** do seu domínio. O documento de decisões deve dizer o que ficou de fora e o que seria preciso para completá-lo.
+
+---
+
+## O primeiro cenário que dá errado
+
+O `main` do cenário tem um segundo caso, que você pode rodar agora:
+
+```bash
+$ python -m ecommerce.entrada.cenario --cenario ultima-unidade
 ```
 
-E um relógio falso fixa a medição em números exatos:
+É a história de **Ana e Bia**: duas pessoas colocam no carrinho o último notebook em estoque, as duas finalizam a compra, e as duas pagam. O catálogo tem uma unidade só.
 
-```python title="tests/aplicacao/test_decoradores.py" linenums="1"
-class RelogioFalso:
-    """Devolve 1.0 na primeira leitura e 1.25 na segunda: 250 ms de diferenca."""
-
-    def __init__(self) -> None:
-        self._leituras = iter([1.0, 1.25])
-
-    def __call__(self) -> float:
-        return next(self._leituras)
+```text
+== Cenario 2: duas pessoas, uma unica unidade ==
+Ana e Bia finalizaram a compra do mesmo notebook. Estoque: 1.
+[E-MAIL -> ana@email.com] Ola, Ana. O pagamento do seu pedido foi confirmado. Total: R$ 3500.00.
+[E-MAIL -> bia@email.com] Ola, Bia. O pagamento do seu pedido foi confirmado. Total: R$ 3500.00.
+Pedido de Ana: pago
+Pedido de Bia: pago
+Estoque depois:
+  Notebook: 0
+Auditoria:
+  PedidoPago: pedido 1, cliente Ana
+  FALHA: DarBaixaNoEstoque nao tratou PedidoPago (EstoqueInsuficienteError: Estoque de Notebook: restam 0, solicitado 1)
+  PedidoPago: pedido 2, cliente Bia
 ```
 
-No nível da montagem, o teste passa uma lista como `registrar` e confere que os casos de uso reais deixam linhas de log **sem saber disso**, inclusive quando falham:
+Duas pessoas pagaram por um produto que só existia uma vez, e o sistema registrou os dois pagamentos. A linha de **FALHA** na auditoria é a pista: quando o pedido da Bia foi pago, a reação `DarBaixaNoEstoque` tentou tirar uma unidade que não existia mais.
+
+Antes de entender por que essa falha não derrubou o resto, vale ver o que **aconteceria** sem o cuidado que a montagem já tem. No Capítulo 21, o barramento propaga o erro de um manipulador, e o fluxo seria este:
+
+| Passo | O que acontece | Estado depois |
+|---|---|---|
+| 1 | O pedido da Bia é confirmado e **guardado como pago** | Pedido: pago |
+| 2 | `NotificarClienteDoPagamento` avisa Bia: "pagamento confirmado" | Bia foi avisada de que está tudo certo |
+| 3 | `DarBaixaNoEstoque` tenta tirar uma unidade e lança `EstoqueInsuficienteError` | Estoque: 0, e a baixa não foi feita |
+| 4 | O erro **sobe** pelo barramento e pelo `PagarPedido`, e chega a quem chamou | Bia vê uma mensagem de erro |
+| 5 | `RegistrarAuditoria` **nunca roda** | Nenhuma trilha do pagamento de Bia |
+
+O sistema contaria **três versões** da mesma história: o banco diz "pago", a notificação diz "confirmado", e a tela diz "erro". O problema é que o erro de uma *reação* seria tratado como erro do *fato*.
+
+### Três posturas diante de uma reação que falha
+
+Não existe uma resposta única. Existem três posturas, cada uma para um tipo de situação:
+
+| Postura | O que faz | Quando usar |
+|---|---|---|
+| **Propagar** | O erro sobe, os manipuladores seguintes não rodam | Quando a reação **faz parte** da operação: se falhou, o fato não deveria valer |
+| **Isolar e registrar** | Cada manipulador falha sozinho; o erro é anotado; os outros continuam | Quando o fato **já é verdade** e as reações são independentes entre si |
+| **Repetir ou compensar** | Tentar de novo mais tarde, ou desfazer o efeito | Quando a reação precisa acontecer de qualquer jeito. Exige cuidados extras, e fica fora deste curso |
+
+Um pagamento confirmado é um **fato consumado**: o dinheiro já saiu da conta. A notificação, a baixa e a auditoria são reações a ele. A segunda postura é a que se encaixa, e é a que o cenário acima mostra funcionando.
+
+### Isolar: o barramento aprende a falhar
+
+A implementação é pequena. O barramento ganha uma função opcional, `ao_falhar`, chamada quando um manipulador lança uma exceção:
+
+```python title="ecommerce/infraestrutura/barramento_em_memoria.py" linenums="1" hl_lines="1 10-11 17-23"
+AoFalhar = Callable[[object, Manipulador, Exception], None]
+
+
+class BarramentoEmMemoria(BarramentoEventos):
+    """Entrega cada evento, na hora e no mesmo processo, a quem se inscreveu no seu tipo.
+
+    Sem `ao_falhar`, o erro de um manipulador sobe para quem publicou e os manipuladores
+    seguintes nao rodam. Com `ao_falhar`, o erro e entregue a essa funcao e os
+    seguintes continuam: uma reacao que falha nao derruba as outras.
+    """
+
+    def __init__(self, ao_falhar: AoFalhar | None = None) -> None:
+        self._manipuladores: dict[type, list[Manipulador]] = {}
+        self._ao_falhar = ao_falhar
+
+    def publicar(self, evento: object) -> None:
+        for manipulador in list(self._manipuladores.get(type(evento), [])):
+            try:
+                manipulador(evento)
+            except Exception as erro:
+                if self._ao_falhar is None:
+                    raise
+                self._ao_falhar(evento, manipulador, erro)
+```
+
+O comportamento **padrão** continua sendo propagar: quem criar um barramento sem `ao_falhar` não terá nenhuma falha engolida sem ter pedido. O isolamento é uma escolha explícita, e quem escolhe é a **raiz de composição**, que também decide o que fazer com a falha: registrar no log e na auditoria.
+
+```python title="ecommerce/composicao.py" linenums="1"
+    def registrar_falha(evento: object, manipulador: Manipulador, erro: Exception) -> None:
+        # O fato ja aconteceu: a falha de uma reacao nao desfaz o pagamento.
+        # Fica registrada para alguem olhar depois.
+        mensagem = (
+            f"FALHA: {_nome_de(manipulador)} nao tratou {type(evento).__name__} "
+            f"({type(erro).__name__}: {erro})"
+        )
+        auditoria.registrar(mensagem)
+        registrar(mensagem)
+
+    barramento = BarramentoEmMemoria(ao_falhar=registrar_falha)
+```
+
+Por padrão, `registrar` escreve um *warning* no log do Python, e por isso você verá a mesma mensagem de falha aparecer no terminal, além de na auditoria.
+
+O teste de ponta a ponta cobre o cenário nas duas configurações de armazenamento:
 
 ```python title="tests/test_composicao.py" linenums="1"
-    with pytest.raises(Exception):
-        app.pagar_pedido.executar(99, maria)
+    app.pagar_pedido.executar(pedido_da_ana.id, ana)
+    app.pagar_pedido.executar(pedido_da_bia.id, bia)  # a ultima unidade ja foi
 
-    assert any(linha.startswith("PagarPedido: falhou") for linha in linhas)
+    assert app.produtos.obter(ultimo.id).quantidade_estoque == 0
+    entradas = app.auditoria.entradas()
+    assert f"PedidoPago: pedido {pedido_da_bia.id}, cliente Bia" in entradas
+    falhas = [e for e in entradas if e.startswith("FALHA")]
+    assert len(falhas) == 1
+    assert "DarBaixaNoEstoque" in falhas[0]
+```
+
+E o barramento é testado, sozinho, nas duas posturas:
+
+```python title="tests/infraestrutura/test_barramento_em_memoria.py" linenums="1"
+def test_sem_ao_falhar_o_erro_sobe_e_os_seguintes_nao_rodam() -> None: ...
+
+def test_com_ao_falhar_os_seguintes_continuam() -> None: ...
+
+def test_ao_falhar_recebe_o_evento_o_manipulador_e_o_erro() -> None: ...
 ```
 
 ```bash
 $ pytest tests/
 ```
 
-??? tip "204 testes passando"
+??? tip "230 testes passando"
 
-    Os 196 do capítulo anterior continuam verdes. Entraram seis testes dos decoradores (início e fim, falha e relançamento, duração, duração com falha, e os dois empilhamentos) e dois de ponta a ponta na raiz de composição.
+    Os 196 do Capítulo 21 continuam verdes. Entraram os testes das duas consultas, dos dois cenários, do menu (sessões roteirizadas, erros traduzidos, opção inválida), dos dois testes de arquitetura da camada de entrada e os de falha de reações (quatro do barramento e o de ponta a ponta, que roda com memória e com SQLite).
 
----
+### O que ainda não está resolvido
 
-!!! warning "⚠️ Erro comum — o decorador que engole o erro"
+Isolar a falha impediu que o erro contaminasse tudo. Mas o problema de fundo continua: **o pagamento e a baixa não acontecem juntos**. Existe uma janela em que o pedido está pago e o estoque ainda não baixou, e, no caso da Bia, ela nunca se fecha sozinha. Isso liga com o Capítulo 17: cada repositório guarda suas mudanças em uma transação própria, e o pagamento foi confirmado (`COMMIT`) antes de o primeiro manipulador ser chamado. É o que se chama de **consistência eventual**: por um tempo, as partes do sistema não concordam, e algo precisa trazê-las de volta à concordância.
 
-    Um `except Exception: pass` dentro do decorador (ou um `except` que registra e não relança) transforma uma falha em sucesso silencioso. Quem chamou acha que o pagamento foi feito. O decorador **observa** a falha e a deixa passar.
+Três observações para fechar:
 
-!!! warning "⚠️ Erro comum — o decorador que muda o contrato"
+- **A falha deve ser vista.** A linha `FALHA` só ajuda se alguém a lê. Num sistema real, ela dispararia um alerta ou entraria numa lista de pendências para reprocessar.
+- **Repetir não é de graça.** Se alguém reprocessar o evento da Bia depois de repor o estoque, o `DarBaixaNoEstoque` **não é idempotente**: rodado duas vezes sobre o mesmo evento, dá baixa duas vezes. Repetir com segurança exige que o manipulador reconheça que já tratou aquele evento.
+- **O erro de verdade está antes.** O problema da Bia não é um manipulador: é o sistema ter aceitado **vender o que não tinha**. Nem `Carrinho` nem `FinalizarCompra` verificam o estoque. Um registro de falha é um remendo; a regra "não aceite pedidos sem estoque" pertence ao domínio, no momento da compra.
 
-    Se `ComLog.executar` devolvesse `None` em vez do resultado do caso de uso embrulhado, `DespacharPedido`, que devolve uma `Entrega`, quebraria só quando o log fosse ligado. O decorador precisa devolver exatamente o que recebeu.
+!!! warning "⚠️ Erro comum — isolar para esconder"
 
-!!! warning "⚠️ Erro comum — acessar o que o decorador não tem"
+    Isolar a falha e registrá-la em um lugar que ninguém olha é o mesmo que ignorá-la. A decisão de isolar só é boa **junto com** a decisão de quem vai ver o registro e o que fazer com ele.
 
-    O embrulho só tem o método `executar`. Um código que precisasse de algo próprio de `PagarPedido` (um atributo, um método auxiliar) e recebesse o decorador no lugar dele **não encontraria**. Se aparecer essa necessidade, o formato `CasoDeUso` está pequeno demais, ou a necessidade pertence a outro lugar.
+!!! warning "⚠️ Erro comum — usar eventos para o que precisa ser atômico"
+
+    Se duas coisas **precisam** acontecer juntas, ou nenhuma (por exemplo, debitar uma conta e creditar outra), elas não devem ser ligadas por um evento. Evento é para o que vem **depois** de um fato consumado. O que precisa ser atômico pertence à mesma transação, dentro do mesmo caso de uso.
 
 ---
 
 ## 🧩 Aplicando ao Projeto Financeiro
 
-1. Crie o decorador `ComLog` (ou reaproveite a ideia) para os casos de uso do seu sistema financeiro, em especial `ImportarExtrato`, que costuma ser a operação mais lenta.
-2. Empilhe com um `ComTempo` e escolha a ordem. Escreva o teste que mostra a diferença entre as duas ordens.
-3. Faça a **auditoria de importações**: um decorador que registre quantos lançamentos foram importados. Ele precisa do resultado do caso de uso, não só do início e do fim. O que muda no decorador?
+1. Crie um **cenário com dados fixos** para o seu sistema: algumas categorias, um punhado de lançamentos, uma meta que estoura. Ele deve imprimir o que o sistema fez.
+2. Crie um **ponto de entrada interativo**: um menu de terminal como o deste capítulo (ou, se preferir, um esboço de REST). A interface deve ficar fora das camadas internas e só chamar os casos de uso.
+3. Traduza as exceções do seu sistema para mensagens na linguagem da interface que você escolheu.
+4. Provoque uma falha: faça o alerta de meta estourada lançar uma exceção. O que acontece hoje com o registro do lançamento? Escolha uma postura (propagar ou isolar) e **justifique por escrito**. Se isolar, onde o erro fica registrado e quem vai olhar?
+5. Faça uma lista do que o seu sistema **persiste** e do que **não persiste**. O que precisaria entrar para ficar completo?
 
-Documente: o que seu sistema financeiro passou a mostrar que antes ficava invisível?
+Documente: o que a interface precisou saber que os casos de uso não sabiam? Você precisou mudar algo nas camadas internas para encaixá-la?
 
 ---
 
 ## 🎯 Exercícios
 
-**Nível 1.** Escreva um decorador `ComRepeticao(caso, tentativas)` que, se o caso de uso lançar uma exceção, tente de novo até `tentativas` vezes antes de desistir. Em que tipo de caso de uso isso seria perigoso? (Pense em `PagarPedido`.)
+**Nível 1.** Acrescente a opção "Cancelar pedido" ao menu. Isso exige um caso de uso novo. Em que camada ele fica, e em que camada fica a mudança no menu? Quantos arquivos você tocou?
 
-**Nível 2.** Crie `RepositorioPedidoComLog`, um decorador de `RepositorioPedido` com a mesma interface, que registre cada `obter` e `atualizar`. O que muda em relação ao decorador de caso de uso? Ele passa pela suíte de contrato do Capítulo 17?
+**Nível 2.** Rode o cenário duas vezes com `--armazenamento sqlite --banco loja.db`. O que acontece com o catálogo? Por quê? E o que o menu faz de diferente para evitar o mesmo problema?
 
-**🚀 Desafio.** Refatore apenas o `DespacharPedido` para a forma comando + handler (`DespacharPedidoComando` e `DespacharPedidoHandler`). Quais arquivos mudaram? O que os decoradores deste capítulo ganharam ou perderam com essa mudança?
+**Nível 3.** Corrija a causa do problema da Bia: faça `FinalizarCompra` recusar um pedido cujo item excede o estoque (lançando `EstoqueInsuficienteError`). O que acontece com duas pessoas que finalizam a compra da **última unidade** antes de qualquer pagamento? A verificação na compra resolve esse caso? Se não, o que seria necessário (uma reserva)?
+
+**🚀 Desafio.** Implemente de verdade o esboço de REST com FastAPI (ou uma TUI com uma biblioteca como a Textual, ou uma janela com Tkinter). Liste tudo o que você precisou mudar **fora** da nova camada de entrada para fazê-lo funcionar.
 
 ---
 
 ## 📌 Resumo
 
-- Log e medição de tempo não são reações a um fato: acontecem **ao redor** da execução, inclusive quando ela falha
-- O **Decorator** embrulha um objeto de mesma interface e delega a ele; as capas se empilham
-- `CasoDeUso` é o formato comum (`executar`) que permite aos decoradores embrulhar qualquer caso de uso
-- Um bom decorador repassa argumentos e resultado intactos e **relança** os erros
-- A **ordem do empilhamento** importa e é decidida na raiz de composição
-- *"Quando X acontecer, faça Y"* é evento; *"toda vez que X executar, faça algo em volta"* é decorator; herança quase nunca serve para isso
-- Comando é a **intenção** (imperativo, um destino, pode ser recusado); evento é o **fato** (passado, vários interessados, já aconteceu)
+- Um sistema sem **ponto de entrada** só é exercitado por testes; o ponto de entrada é o **adaptador de entrada**: quem chama os casos de uso
+- A interface (terminal, tela, REST) é um **detalhe**, como o banco e o ORM
+- `entrada/` é uma quarta camada: importa domínio, aplicação e a raiz de composição, nunca a infraestrutura; ninguém importa a entrada
+- **Consultar** também é um caso de uso (`ListarProdutos`, `ConsultarPedido`)
+- O **cenário** tem dados fixos e serve para demonstrar; o **menu** deixa a pessoa conduzir, com `entrada` e `saida` injetadas, o que o torna testável
+- A entrada é a fronteira: é nela que as **exceções viram mensagens** na linguagem da interface
+- Um esboço de REST mostra quatro pontos de contato: quem é o cliente, serializar a resposta, exceção em status HTTP, conexão e *threads*
+- Persistimos **apenas uma parte** dos dados; um sistema real persistiria tudo, e com muitas classes um **ORM** começa a compensar
+- Uma reação que falha, se o erro subir, faz o **fato** parecer ter falhado; há três posturas: propagar, isolar e registrar, repetir ou compensar
+- Fato e reações não são atômicos: o sistema fica, por um tempo, em **consistência eventual**; repetir exige manipuladores **idempotentes**
+- A causa real do problema da Bia é a regra de estoque ausente na compra
 
 ## O que mudou no sistema
 
-- ✔ Todo caso de uso deixa log de início, fim ou falha e o tempo que levou, sem ser editado
-- ✔ O relógio é injetado, e o tempo é testável com valores exatos
-- ✔ O vocabulário comando × evento está esclarecido
-- ❌ Ainda não sabemos o que acontece quando **um manipulador de evento** falha: o erro sobe até quem chamou, e os seguintes não rodam
+- ✔ O sistema tem pontos de entrada: um cenário com dados fixos e um menu de terminal
+- ✔ Escolher memória ou SQLite é um argumento de linha de comando, e a entrada não conhece a infraestrutura
+- ✔ A regra de dependência cobre a quarta camada, verificada por testes
+- ✔ A falha de uma reação não derruba as outras nem faz o pagamento parecer ter falhado; ela fica registrada
+- ❌ Só uma parte dos dados é persistida: `Cliente`, `Carrinho`, `Pagamento`, `Entrega`, `Cupom` e a auditoria somem ao reiniciar
+- ❌ Nada impede a venda de um produto sem estoque
+- ❌ `DarBaixaNoEstoque` não é idempotente
+- ❌ Ninguém é avisado das linhas de `FALHA`; elas só existem no registro
 
 ## O que vem a seguir
 
-O sistema anuncia fatos, reage a eles e se deixa observar. Falta encarar o pior cenário que apareceu no Capítulo 20 e ficou como dívida: duas pessoas compram a **última** unidade, a segunda paga, e a baixa de estoque lança uma exceção. O pagamento está confirmado e guardado, mas o erro sobe para quem chamou, e a auditoria, que vinha depois, não rodou. O próximo capítulo trata de **reações que falham**, e fecha o módulo olhando para todos os padrões do curso.
+O curso termina aqui, e o sistema funciona: ele guarda, se organiza, anuncia fatos, reage a eles e pode ser usado. No caminho, deixamos de lado alguns padrões de projeto que não encontraram uma dor para resolver, como o Decorator, o State e o Adapter. O próximo capítulo é um **bônus**: um catálogo desses padrões, mostrando onde cada um poderia entrar no E-Commerce e no seu Projeto Financeiro, sem entrar em detalhes de código.
+
+Ele também faz parte da [entrega final](entrega.md): você vai escolher um deles, pesquisar e implementar no seu projeto.

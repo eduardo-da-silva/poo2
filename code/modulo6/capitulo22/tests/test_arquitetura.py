@@ -33,3 +33,13 @@ def test_nao_ha_modulos_soltos_alem_da_raiz_de_composicao() -> None:
         if arquivo.name in ("__init__.py", "composicao.py"):
             continue
         raise AssertionError(f"Modulo solto fora das camadas: {arquivo.name}")
+
+
+def test_entrada_nao_conhece_a_infraestrutura() -> None:
+    # A entrada usa a raiz de composicao, que e quem conhece as implementacoes.
+    assert "infraestrutura" not in _camadas_importadas("entrada")
+
+
+def test_nenhuma_camada_interna_importa_a_entrada() -> None:
+    for camada in ("dominio", "aplicacao", "infraestrutura"):
+        assert "entrada" not in _camadas_importadas(camada), camada

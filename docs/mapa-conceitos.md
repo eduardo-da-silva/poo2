@@ -76,7 +76,7 @@ graph TD
     EVT --> OBS[Observer]
     EVT --> EVD[Evento de domínio]
     EVT --> BAR[Barramento de eventos]
-    EVT --> DEC[Decorator]
+    EVT --> PENT[Pontos de entrada]
     EVT --> FAL[Falhas e consistência]
 
     ABS --> INT
@@ -91,7 +91,7 @@ graph TD
     UC --> OBS
     OBS --> EVD
     EVD --> BAR
-    UC --> DEC
+    PENT --> UC
 ```
 
 ---
@@ -326,20 +326,21 @@ O domínio não conhece ninguém. A abstração pertence a quem a usa, e os deta
 - Evento de domínio
 - Barramento de eventos (publish/subscribe)
 - Manipulador (*handler*)
-- Decorator
-- Comportamento transversal (log, tempo)
 - Comando × evento
+- Ponto de entrada (adaptador de entrada) e interface como detalhe
 - Falha em reações: propagar, isolar, repetir
 - Consistência eventual e idempotência
+- Persistência parcial e o papel de um ORM
+- Catálogo de padrões (bônus)
 
 ### Ideia central
 
-Quem faz anuncia o que aconteceu, no passado, sem saber quem se importa. Quem se importa assina, e é ligado numa montagem única. O que precisa acontecer *em volta* de uma operação (log, medição de tempo) embrulha a operação, sem entrar nela.
+Quem faz anuncia o que aconteceu, no passado, sem saber quem se importa. Quem se importa assina, e é ligado numa montagem única. Quem usa o sistema chega por uma porta de entrada (terminal, REST, tela) que só chama os casos de uso: a interface é um detalhe.
 
 | Conceito | Pergunta que responde |
 |---|---|
 | **Evento** | O que aconteceu, e que dados quem reage precisa saber? |
-| **Decorator** | O que deve acontecer em volta de toda execução, inclusive quando ela falha? |
+| **Ponto de entrada** | Quem chama os casos de uso, e como os erros chegam à pessoa? |
 | **Comando × evento** | Isto é uma intenção (pode ser recusada) ou um fato (já aconteceu)? |
 
 **Estudado principalmente:** Módulo 6.
@@ -393,7 +394,7 @@ Uma maneira de contar a história da disciplina é:
         ↓
 11. Quem faz precisa conhecer quem reage?
         ↓
-   Eventos, barramento e Decorator
+   Eventos, barramento e pontos de entrada
 ```
 
 ---
@@ -438,7 +439,7 @@ Ao revisar POO II, tente responder sem consultar o material:
 28. Que problema o Observer resolve, e que limites a versão simples dele tem?
 29. O que diferencia um evento de domínio de uma chamada de método?
 30. Por que o nome de um evento vai no passado?
-31. Quando usar um evento, um decorator ou herança para acrescentar comportamento?
+31. O que é um ponto de entrada, e por que a interface é um detalhe?
 32. Qual a diferença entre um comando e um evento?
 33. Se um manipulador de evento falha, o que deveria acontecer com o fato que o originou?
 34. Por que o pagamento e a baixa de estoque não são atômicos no nosso sistema, e o que isso significa?
@@ -454,7 +455,7 @@ Ao revisar POO II, tente responder sem consultar o material:
 | **3 — Estratégias** | Como representar comportamentos que variam? | Interfaces, contratos, polimorfismo, Strategy, Open/Closed |
 | **4 — Criando Objetos** | Como controlar criação e dependências? | Factories, Factory Method, Template Method, DI, raiz de composição |
 | **5 — Organização do Sistema** | Quem pode conhecer quem? | Repository, persistência, camadas, casos de uso, DIP, teste de arquitetura |
-| **6 — Eventos** | Quem faz precisa conhecer quem reage? | Observer, eventos de domínio, barramento, Decorator, comando × evento, falha em reações |
+| **6 — Eventos** | Quem faz precisa conhecer quem reage? | Observer, eventos de domínio, barramento, comando × evento, pontos de entrada, falha em reações |
 
 ---
 

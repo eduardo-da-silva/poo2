@@ -326,6 +326,19 @@ O evento com barramento é o mesmo Observer com **um intermediário e um nome**.
 
     A alternativa, comum em projetos maiores, é a **própria entidade registrar** o evento (`pedido.eventos_pendentes`), e o caso de uso publicá-los depois de guardar. Ela garante que nenhum caminho que altere o pedido esqueça de anunciar o fato. Em troca, a entidade ganha uma lista de eventos para administrar. Para o tamanho do nosso domínio, a opção simples basta.
 
+!!! info "📖 Nomenclatura — comando e evento"
+
+    O Capítulo 18 disse que nossos casos de uso são *parentes* do padrão **Command**. Agora que existem eventos, a diferença fica nítida, porque comando e evento são dois lados do mesmo acontecimento:
+
+    | | Comando | Evento |
+    |---|---|---|
+    | Expressa | Uma **intenção**: "quero pagar o pedido 12" | Um **fato**: "o pedido 12 foi pago" |
+    | Nome | Imperativo: `PagarPedido` | Passado: `PedidoPago` |
+    | Destino | **Um** só: quem executa | **Zero, um ou vários** que assinam |
+    | Pode ser recusado | Sim: o pagamento pode falhar | Não: já aconteceu |
+
+    Um comando entra no sistema; um evento sai dele. A forma fiel do padrão Command separaria os **dados** da **execução** (`PagarPedidoComando` e um *handler*). Não refatoramos o projeto para isso, mas o catálogo do bônus (Capítulo 23) volta ao assunto.
+
 !!! warning "⚠️ Erro comum — publicar antes de guardar"
 
     Se o `PagarPedido` publicasse `PedidoPago` **antes** de `atualizar`, um manipulador que relesse o pedido pelo repositório o encontraria ainda como não pago. Um evento só pode ser publicado depois que o fato que ele descreve estiver guardado.
@@ -374,8 +387,10 @@ Documente: o que o evento precisou carregar para os manipuladores conseguirem tr
 - ✔ Uma reação nova entra sem abrir nenhum caso de uso
 - ✔ A regra de dependência continua verificada por testes
 - ❌ Um manipulador que falha ainda derruba os seguintes e faz o `executar` parecer ter falhado
-- ❌ Para saber o que acontece em cada `executar`, é preciso ler o código (não há log nem medição)
+- ❌ Só os testes executam o sistema: não há nenhuma forma de **usá-lo** de fora
 
 ## O que vem a seguir
 
-Com os eventos no lugar, o `PagarPedido` ficou limpo. Mas o gerente voltou com dois pedidos de natureza diferente: querem **log** de cada operação do sistema e a **medição de tempo** de cada uma. Isso não é uma *reação* a um fato: é algo que deve acontecer **ao redor** de toda execução de caso de uso. Colocar `print` dentro de cada um traria de volta o problema que acabamos de resolver. O próximo capítulo apresenta o **Decorator**, que acrescenta comportamento a um caso de uso sem abri-lo.
+Com os eventos no lugar, o `PagarPedido` ficou limpo, e o sistema tem tudo o que um domínio precisa: regras, variações, criação, persistência, camadas, reações. Mas quando a diretoria pediu para **ver uma compra acontecer**, o time descobriu um buraco: só os testes executam o sistema. Não existe um arquivo que se rode, nem um menu, nem uma tela.
+
+O próximo capítulo constrói a **porta de entrada**: um cenário com dados fixos e um menu de terminal, e mostra como a mesma ideia serviria a uma API REST. É também onde o sistema enfrenta o primeiro cenário que dá errado, e onde a falha de uma reação precisa ser tratada.

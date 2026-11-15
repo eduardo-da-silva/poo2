@@ -100,29 +100,3 @@ def test_log_de_caso_de_uso_que_falha_registra_o_erro() -> None:
         app.pagar_pedido.executar(99, maria)
 
     assert any(linha.startswith("PagarPedido: falhou") for linha in linhas)
-
-
-@pytest.mark.parametrize("armazenamento", ["memoria", "sqlite"])
-def test_falha_na_baixa_de_estoque_nao_desfaz_o_pagamento_nem_impede_as_outras_reacoes(
-    armazenamento: str,
-) -> None:
-    app = montar_aplicacao(armazenamento, registrar=lambda linha: None)
-    ultimo = app.cadastrar_produto.executar("Notebook", 3500.0, 1, "Informática")
-    ana = Cliente("Ana", "ana@email.com")
-    bia = Cliente("Bia", "bia@email.com")
-    for cliente in (ana, bia):
-        cliente.carrinho = Carrinho()
-        cliente.carrinho.adicionar_item(ultimo, 1)
-    pedido_da_ana = app.finalizar_compra.executar(ana)
-    pedido_da_bia = app.finalizar_compra.executar(bia)
-
-    app.pagar_pedido.executar(pedido_da_ana.id, ana)
-    app.pagar_pedido.executar(pedido_da_bia.id, bia)  # a ultima unidade ja foi
-
-    assert app.produtos.obter(ultimo.id).quantidade_estoque == 0
-    entradas = app.auditoria.entradas()
-    assert f"PedidoPago: pedido {pedido_da_bia.id}, cliente Bia" in entradas
-    falhas = [e for e in entradas if e.startswith("FALHA")]
-    assert len(falhas) == 1
-    assert "DarBaixaNoEstoque" in falhas[0]
-    assert "EstoqueInsuficienteError" in falhas[0]

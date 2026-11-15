@@ -4,11 +4,11 @@ from dataclasses import dataclass
 from typing import Callable
 
 from ecommerce.aplicacao.cadastrar_produto import CadastrarProduto
-from ecommerce.aplicacao.caso_de_uso import CasoDeUso
-from ecommerce.aplicacao.decoradores import ComLog, ComTempo
-from ecommerce.aplicacao.barramento_eventos import BarramentoEventos
+from ecommerce.aplicacao.barramento_eventos import BarramentoEventos, Manipulador
+from ecommerce.aplicacao.consultar_pedido import ConsultarPedido
 from ecommerce.aplicacao.despachar_pedido import DespacharPedido
 from ecommerce.aplicacao.finalizar_compra import FinalizarCompra
+from ecommerce.aplicacao.listar_produtos import ListarProdutos
 from ecommerce.aplicacao.manipuladores.dar_baixa_no_estoque import DarBaixaNoEstoque
 from ecommerce.aplicacao.manipuladores.notificar_cliente import (
     NotificarClienteDoEnvio,
@@ -35,17 +35,18 @@ from ecommerce.infraestrutura.repositorio_produto_sqlite import RepositorioProdu
 @dataclass
 class Aplicacao:
     produtos: RepositorioProduto
-    cadastrar_produto: CasoDeUso
-    finalizar_compra: CasoDeUso
-    pagar_pedido: CasoDeUso
-    despachar_pedido: CasoDeUso
+    cadastrar_produto: CadastrarProduto
+    finalizar_compra: FinalizarCompra
+    pagar_pedido: PagarPedido
+    despachar_pedido: DespacharPedido
+    listar_produtos: ListarProdutos
+    consultar_pedido: ConsultarPedido
     barramento: BarramentoEventos
     auditoria: RegistroAuditoria
 
 
-def _observado(caso_de_uso: CasoDeUso, nome: str, registrar: Callable[[str], None]) -> CasoDeUso:
-    """Embrulha o caso de uso com log e medicao de tempo, sem que ele saiba."""
-    return ComLog(ComTempo(caso_de_uso, nome, registrar), nome, registrar)
+def _nome_de(manipulador: Manipulador) -> str:
+    return getattr(manipulador, "__name__", type(manipulador).__name__)
 
 
 def montar_aplicacao(
@@ -58,7 +59,7 @@ def montar_aplicacao(
     Escolher onde os dados ficam e uma decisao de montagem, nao de dominio.
     """
     if registrar is None:
-        registrar = logging.getLogger("ecommerce").info
+        registrar = logging.getLogger("ecommerce").warning
     if armazenamento == "memoria":
         repositorio_produto = RepositorioProdutoMemoria()
         repositorio_pedido = RepositorioPedidoMemoria()
@@ -70,8 +71,19 @@ def montar_aplicacao(
     else:
         raise ValueError(f"Armazenamento desconhecido: {armazenamento}")
     servico_notificacao = ServicoNotificacaoPedido(CriadorNotificacao())
-    barramento = BarramentoEmMemoria()
     auditoria = RegistroAuditoriaEmMemoria()
+
+    def registrar_falha(evento: object, manipulador: Manipulador, erro: Exception) -> None:
+        # O fato ja aconteceu: a falha de uma reacao nao desfaz o pagamento.
+        # Fica registrada para alguem olhar depois.
+        mensagem = (
+            f"FALHA: {_nome_de(manipulador)} nao tratou {type(evento).__name__} "
+            f"({type(erro).__name__}: {erro})"
+        )
+        auditoria.registrar(mensagem)
+        registrar(mensagem)
+
+    barramento = BarramentoEmMemoria(ao_falhar=registrar_falha)
 
     # Quem reage a cada fato e decidido aqui, na montagem. Os casos de uso so anunciam.
     barramento.inscrever(PedidoPago, NotificarClienteDoPagamento(servico_notificacao))
@@ -82,29 +94,18 @@ def montar_aplicacao(
 
     return Aplicacao(
         produtos=repositorio_produto,
-        cadastrar_produto=_observado(
-            CadastrarProduto(repositorio_produto), "CadastrarProduto", registrar
-        ),
-        finalizar_compra=_observado(
-            FinalizarCompra(repositorio_pedido), "FinalizarCompra", registrar
-        ),
-        pagar_pedido=_observado(
-            PagarPedido(repositorio_pedido, CriadorPagamento(), barramento),
-            "PagarPedido",
-            registrar,
-        ),
-        despachar_pedido=_observado(
-            DespacharPedido(repositorio_pedido, ExpedidorLojaCentral(), barramento),
-            "DespacharPedido",
-            registrar,
-        ),
+        cadastrar_produto=CadastrarProduto(repositorio_produto),
+        finalizar_compra=FinalizarCompra(repositorio_pedido),
+        pagar_pedido=PagarPedido(repositorio_pedido, CriadorPagamento(), barramento),
+        despachar_pedido=DespacharPedido(repositorio_pedido, ExpedidorLojaCentral(), barramento),
+        listar_produtos=ListarProdutos(repositorio_produto),
+        consultar_pedido=ConsultarPedido(repositorio_pedido),
         barramento=barramento,
         auditoria=auditoria,
     )
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(message)s")
     from ecommerce.dominio.carrinho import Carrinho
     from ecommerce.dominio.cliente import Cliente
 

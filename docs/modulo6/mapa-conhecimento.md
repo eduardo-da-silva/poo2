@@ -23,11 +23,14 @@ No Módulo 5, a pergunta era **quem pode conhecer quem**. No Módulo 6 ela ganha
     notificar · dar baixa no estoque · registrar auditoria
     ```
 
-### Decorator
+### Pontos de entrada
 
-- **Decorator** — um objeto que embrulha outro **de mesma interface**, faz algo antes e/ou depois e delega o trabalho. Decoradores se empilham, e a **ordem do empilhamento** é uma decisão.
-- **Comportamento transversal** — o que acontece *em volta* de várias operações (log, tempo, repetição), e não dentro de uma delas.
-- **Decorator × evento × herança** — evento reage a um fato **depois** de consumado; decorator envolve uma execução inteira, inclusive a falha; herança, para isso, gera combinações demais.
+- **Ponto de entrada (adaptador de entrada)** — o código que fica entre o mundo de fora (teclado, tela, rede) e os casos de uso. É o oposto dos adaptadores de saída (banco, e-mail): é quem **chama** o sistema.
+- **Quarta camada (`entrada/`)** — importa domínio, aplicação e a raiz de composição, nunca a infraestrutura; ninguém importa a entrada.
+- **A interface é um detalhe** — terminal, REST, GUI ou TUI podem ser trocados sem mexer no centro do sistema.
+- **A fronteira traduz exceções** — o que o caso de uso lança vira mensagem, ou status HTTP, na linguagem do meio.
+- **Consulta também é caso de uso** — `ListarProdutos`, `ConsultarPedido`.
+- **Entradas injetadas** — o menu recebe `entrada` e `saida` de fora, e o teste passa uma sessão roteirizada.
 
 ### Comando e evento
 
@@ -45,16 +48,20 @@ No Módulo 5, a pergunta era **quem pode conhecer quem**. No Módulo 6 ela ganha
 - **Idempotência** — repetir o tratamento de um evento não pode ter efeito duplicado.
 - **Atomicidade** — o que precisa acontecer junto, ou nada, pertence à mesma transação, e não a um evento.
 
+### Persistência parcial
+
+O sistema persiste **apenas uma parte** dos dados (`Produto`, `Pedido`, `ItemPedido`). Um sistema real persistiria tudo, e com muitas classes um **ORM** começa a compensar, como mais um adaptador do mesmo contrato.
+
 ### SOLID
 
 O módulo reforça dois princípios:
 
 - **SRP**: `PagarPedido` voltou a ter uma só razão para mudar, pagar.
-- **OCP**: acrescentar uma reação, um log ou uma medição de tempo é **estender** o sistema pela montagem, sem editar o que já funciona.
+- **OCP**: acrescentar uma reação é **estender** o sistema pela montagem, sem editar o que já funciona.
 
-### Padrões que "somem" em Python
+### Bônus: o catálogo de padrões
 
-Strategy, Observer, Command e Factory podem se reduzir a uma função ou a um objeto chamável. O Singleton é um alerta, e a raiz de composição entrega o que ele prometia sem a parte nociva.
+Decorator, State, Adapter, Composite, Chain of Responsibility, Command com handler e Builder ficaram de fora do caminho principal por falta de uma dor que os pedisse. O Capítulo 23 os apresenta como um mapa de pesquisa, e a entrega final pede que o aluno escolha um. Em Python, muitos se reduzem a funções, listas e argumentos nomeados; o Singleton é um alerta, e a raiz de composição entrega o que ele prometia.
 
 ## O mapa acumulado
 
@@ -71,7 +78,7 @@ graph TD
     OBS --> EVT[Eventos de domínio]
     EVT --> BAR[Barramento de eventos]
     DIP --> BAR
-    UC --> DEC[Decorator]
+    UC --> ENT[Pontos de entrada]
     BAR --> FAL[Falhas em reações]
     FAL --> EVE[Consistência eventual]
     EVT --> CMD[Comando × evento]
@@ -118,4 +125,4 @@ Módulo 6
 Isolar quem faz de quem reage
 ```
 
-O sistema agora tem uma estrutura que diz o que é cada coisa, uma regra verificada sobre quem depende de quem, e um mecanismo para crescer **por adição**: reações, log e medição entram pela montagem, sem abrir o que já existe. É o encerramento do percurso do curso, e o ponto de partida para a [entrega final](entrega.md).
+O sistema agora tem uma estrutura que diz o que é cada coisa, uma regra verificada sobre quem depende de quem, um mecanismo para crescer **por adição** (reações entram pela montagem, sem abrir o que já existe) e uma porta pela qual alguém pode usá-lo. É o encerramento do percurso do curso, e o ponto de partida para a [entrega final](entrega.md).

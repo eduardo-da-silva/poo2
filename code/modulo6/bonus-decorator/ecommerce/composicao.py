@@ -6,7 +6,7 @@ from typing import Callable
 from ecommerce.aplicacao.cadastrar_produto import CadastrarProduto
 from ecommerce.aplicacao.caso_de_uso import CasoDeUso
 from ecommerce.aplicacao.decoradores import ComLog, ComTempo
-from ecommerce.aplicacao.barramento_eventos import BarramentoEventos, Manipulador
+from ecommerce.aplicacao.barramento_eventos import BarramentoEventos
 from ecommerce.aplicacao.despachar_pedido import DespacharPedido
 from ecommerce.aplicacao.finalizar_compra import FinalizarCompra
 from ecommerce.aplicacao.manipuladores.dar_baixa_no_estoque import DarBaixaNoEstoque
@@ -48,10 +48,6 @@ def _observado(caso_de_uso: CasoDeUso, nome: str, registrar: Callable[[str], Non
     return ComLog(ComTempo(caso_de_uso, nome, registrar), nome, registrar)
 
 
-def _nome_de(manipulador: Manipulador) -> str:
-    return getattr(manipulador, "__name__", type(manipulador).__name__)
-
-
 def montar_aplicacao(
     armazenamento: str = "sqlite",
     caminho_banco: str = ":memory:",
@@ -74,19 +70,8 @@ def montar_aplicacao(
     else:
         raise ValueError(f"Armazenamento desconhecido: {armazenamento}")
     servico_notificacao = ServicoNotificacaoPedido(CriadorNotificacao())
+    barramento = BarramentoEmMemoria()
     auditoria = RegistroAuditoriaEmMemoria()
-
-    def registrar_falha(evento: object, manipulador: Manipulador, erro: Exception) -> None:
-        # O fato ja aconteceu: a falha de uma reacao nao desfaz o pagamento.
-        # Fica registrada para alguem olhar depois.
-        mensagem = (
-            f"FALHA: {_nome_de(manipulador)} nao tratou {type(evento).__name__} "
-            f"({type(erro).__name__}: {erro})"
-        )
-        auditoria.registrar(mensagem)
-        registrar(mensagem)
-
-    barramento = BarramentoEmMemoria(ao_falhar=registrar_falha)
 
     # Quem reage a cada fato e decidido aqui, na montagem. Os casos de uso so anunciam.
     barramento.inscrever(PedidoPago, NotificarClienteDoPagamento(servico_notificacao))

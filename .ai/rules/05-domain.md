@@ -1315,7 +1315,7 @@ Pedido enviado.
 
 Cupom aplicado.
 
-No Módulo 6, dois deles viram eventos de domínio de fato: `PedidoPago` e `PedidoDespachado` (objetos imutáveis, na camada de domínio, com nome no passado). Reagem a eles: notificação ao cliente, baixa de estoque (`Produto.dar_baixa`, que lança `EstoqueInsuficienteError`) e auditoria. Os demais eventos listados acima continuam apenas como possibilidade.
+No Módulo 6, dois deles viram eventos de domínio de fato: `PedidoPago` e `PedidoDespachado` (objetos imutáveis, na camada de domínio, com nome no passado). Reagem a eles: notificação ao cliente, baixa de estoque (`Produto.dar_baixa`, que lança `EstoqueInsuficienteError`) e auditoria. Os demais eventos listados acima continuam apenas como possibilidade. O sistema só persiste `Produto`, `Pedido` e `ItemPedido` em SQLite (recorte didático, dito explicitamente no Cap. 17 e no Cap. 22).
 
 ---
 

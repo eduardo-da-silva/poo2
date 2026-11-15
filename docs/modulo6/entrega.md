@@ -1,6 +1,6 @@
 # Entrega Final do Projeto
 
-O Módulo 6 fecha o curso. Em seis módulos, o seu Projeto Financeiro passou de um conjunto de classes soltas a um sistema com domínio protegido, variações isoladas, criação controlada, camadas, persistência e reações a acontecimentos. A cada módulo houve um checkpoint. Esta é a entrega **final**: ela avalia o projeto como um todo, do Capítulo 1 ao 23.
+O Módulo 6 fecha o curso. Em seis módulos, o seu Projeto Financeiro passou de um conjunto de classes soltas a um sistema com domínio protegido, variações isoladas, criação controlada, camadas, persistência e reações a acontecimentos. A cada módulo houve um checkpoint. Esta é a entrega **final**: ela avalia o projeto como um todo, do Capítulo 1 ao 22, mais **um padrão à sua escolha** no catálogo do bônus (Capítulo 23).
 
 Diferente dos checkpoints, aqui a pergunta não é "o que foi pedido neste módulo?", e sim: **o seu sistema, como está, é um sistema que consegue envelhecer bem?**
 
@@ -15,8 +15,8 @@ Diferente dos checkpoints, aqui a pergunta não é "o que foi pedido neste módu
 - ✔ **Persistência** em SQLite dos dados principais do seu domínio: ao reiniciar o programa, os dados continuam lá (Capítulos 16 e 17)
 - ✔ Um **ponto de entrada**: pode ser um cenário com dados fixos, um menu de terminal ou uma API REST (Capítulo 22)
 - ✔ **Eventos de domínio** publicados por um barramento, com pelo menos **dois manipuladores** independentes (Capítulos 20 e 21)
-- ✔ Pelo menos **um decorator** de comportamento transversal, como log ou medição de tempo (Capítulo 22)
-- ✔ Uma **decisão consciente** sobre o que acontece quando uma reação falha (Capítulo 23)
+- ✔ Uma **decisão consciente** sobre o que acontece quando uma reação falha (Capítulo 22)
+- ✔ **Um padrão do catálogo do bônus**, escolhido, pesquisado e implementado por você, para resolver uma dor real do seu projeto (Capítulo 23)
 
 Se algum desses itens ainda não existe, volte ao capítulo correspondente antes de entregar.
 
@@ -29,6 +29,7 @@ Se algum desses itens ainda não existe, volte ao capítulo correspondente antes
     - testes das regras de domínio (invariantes, transições);
     - uma suíte de contrato de repositório que roda contra **todas** as implementações;
     - testes de arquitetura com no mínimo duas regras de dependência;
+    - testes do **padrão do bônus** que você escolheu;
     - testes de quem **publica** um evento e de cada **manipulador** separadamente;
     - pelo menos um teste em que uma reação **falha**, mostrando o que o sistema faz.
 3. **Um documento de decisões** (`README.md` ou similar) respondendo, com justificativa:
@@ -41,7 +42,14 @@ Se algum desses itens ainda não existe, volte ao capítulo correspondente antes
     - Qual interface você escolheu (cenário, menu ou REST) e por quê? O que mudaria nas camadas internas se você trocasse por outra?
     - Se o sistema passasse a usar **mensageria de verdade** (uma fila externa), quais arquivos mudariam? Quais não?
     - O que você mudaria, se começasse de novo?
-4. **Apresentação curta** (opcional, a combinar com o professor): cinco a dez minutos mostrando o caminho de um lançamento ou pedido pelo sistema, do início ao último manipulador.
+4. **O padrão do bônus** (15% da nota), escolhido **na lista do catálogo do Capítulo 23**: Decorator, State, Adapter, Composite, Chain of Responsibility, Command com handler ou Builder. Outro padrão só com aprovação prévia do professor. O Singleton não entra, porque no curso ele é um alerta. A pesquisa fica por sua conta, e o que se avalia é o raciocínio, não o padrão em si:
+    - **A dor é real?** Descreva, no seu projeto, o problema que existia antes do padrão e como o código ficou depois.
+    - **A implementação está correta e testada?**
+    - **O que você pesquisou?** Indique as fontes, o que adaptou ao seu caso e o **custo** que o padrão trouxe (mais classes, mais indireção, o que ficou mais difícil).
+    - **Por que ele e não outro da lista?** Cite pelo menos um padrão que você considerou e descartou.
+
+    Aplicar um padrão onde não havia problema, só para pontuar, vale menos do que escolher um que resolve algo e explicar bem.
+5. **Apresentação curta** (opcional, a combinar com o professor): cinco a dez minutos mostrando o caminho de um lançamento ou pedido pelo sistema, do início ao último manipulador.
 
 Como nos checkpoints, não existe uma única resposta certa. O que será avaliado é se a decisão foi **consciente**, se o código é **consistente** com ela, e se você consegue **explicá-la**.
 
@@ -53,12 +61,13 @@ Nota de 0 a 10, distribuída pelos critérios abaixo. Os pesos são uma proposta
 
 | Critério | Peso | O que é avaliado |
 |---|---|---|
-| Domínio e regras de negócio | 1,0 | Entidades coesas; invariantes protegidas; estados com transições válidas |
-| Variações e criação | 1,5 | Contratos para o que varia; factories; dependências injetadas; raiz de composição única |
-| Persistência e camadas | 2,0 | Repositório com contrato e mais de uma implementação; casos de uso; domínio sem import de infraestrutura; DIP |
-| Eventos e comportamento transversal | 1,5 | Eventos como fatos imutáveis; barramento; manipuladores independentes; decorator; falha tratada de forma consciente |
+| Domínio e regras de negócio | 0,5 | Entidades coesas; invariantes protegidas; estados com transições válidas |
+| Variações e criação | 1,0 | Contratos para o que varia; factories; dependências injetadas; raiz de composição única |
+| Persistência e camadas | 1,5 | Repositório com contrato e mais de uma implementação; casos de uso; domínio sem import de infraestrutura; DIP |
+| Eventos | 1,5 | Eventos como fatos imutáveis; barramento; manipuladores independentes; falha de uma reação tratada de forma consciente |
 | Testes automatizados | 1,5 | Contrato rodando em todas as implementações; testes de arquitetura; publicadores e manipuladores testados separadamente |
 | Interface (ponto de entrada) | 1,0 | Funciona e é demonstrável; só chama casos de uso; fora das camadas internas; erros traduzidos para a linguagem do meio |
+| **Padrão do bônus** (pesquisado e implementado) | 1,5 | Dor real no projeto; implementação correta e testada; fontes, adaptação e custo explicados; escolha justificada frente a outro padrão |
 | Documento de decisões | 1,0 | Perguntas respondidas e justificadas; padrões usados **e recusados** com argumento |
 | Organização e legibilidade | 0,5 | Estrutura de pacotes, nomes, sem responsabilidades misturadas |
 

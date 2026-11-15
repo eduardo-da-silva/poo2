@@ -181,7 +181,7 @@ class Produto:
             raise ValueError("Quantidade deve ser positiva")
         if quantidade > self.quantidade_estoque:
             raise EstoqueInsuficienteError(
-                f"Estoque de {self.nome}: restam {self.quantidade_estoque}, pedido {quantidade}"
+                f"Estoque de {self.nome}: restam {self.quantidade_estoque}, solicitado {quantidade}"
             )
         self.quantidade_estoque -= quantidade
 ```
@@ -273,7 +273,7 @@ Três coisas aparecem ao mesmo tempo:
 - os observadores **seguintes não rodam**: a falha de um derruba os outros;
 - o pedido **está pago**, mesmo assim. O pagamento foi confirmado e guardado antes de os observadores serem avisados.
 
-Deixamos isso registrado em teste porque é uma dívida conhecida. O Capítulo 23 volta a ela.
+Deixamos isso registrado em teste porque é uma dívida conhecida. O Capítulo 22 volta a ela.
 
 !!! warning "⚠️ Erro comum — depender da ordem dos observadores"
 

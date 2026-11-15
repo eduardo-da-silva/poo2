@@ -846,13 +846,13 @@ Baixa de estoque quando o pedido é pago (`Produto.dar_baixa`, `EstoqueInsuficie
 
 `PedidoPago` e `PedidoDespachado` (imutáveis, no domínio); porta `BarramentoEventos` na aplicação e `BarramentoEmMemoria` na infraestrutura; manipuladores em `aplicacao/manipuladores/` (notificação, estoque, auditoria); `RegistroAuditoria`. A prova: uma reação nova entra só pela composição. Decisão: o caso de uso publica, depois de guardar. Gancho: log e tempo não são reações a um fato.
 
-## Aula 22 — Embrulhando comportamento (Decorator)
+## Aula 22 — Colocando o sistema para rodar (pontos de entrada)
 
-`CasoDeUso` (Protocol), `ComLog` e `ComTempo` (relógio injetado), empilhamento e ordem; decorator × evento × herança; comando × evento (forma fiel comando + handler, apenas esboçada). Gancho: e se um manipulador falhar?
+Quarta camada `entrada/` (importa domínio, aplicação e composição; nunca infraestrutura). `cenario.py` (dados fixos, `--armazenamento`, `--banco`, `--cenario`) e `menu.py` (terminal, `entrada` e `saida` injetadas, exceções traduzidas). Consultas como casos de uso (`ListarProdutos`, `ConsultarPedido`). Esboço de REST (texto, não executado) com quatro pontos de contato. Seção explícita: só uma parte dos dados é persistida; um sistema real persistiria tudo e um ORM começaria a compensar. Cenário da última unidade (Ana e Bia): falha em reação, três posturas, `BarramentoEmMemoria(ao_falhar=...)`, consistência eventual, idempotência. Gancho: padrões que ficaram de fora (bônus).
 
-## Aula 23 — Quando a reação falha
+## Aula 23 — Bônus: padrões que ficaram de fora
 
-Cenário Ana e Bia (última unidade). Posturas: propagar, isolar e registrar, repetir/compensar. `BarramentoEmMemoria(ao_falhar=...)`; a raiz de composição escolhe. Consistência eventual, idempotência, atomicidade. Padrões que "somem" em Python; quadro dos padrões do curso; o que ficou de fora (State, Adapter, Composite, Chain). Fecha o curso e prepara a entrega final.
+Catálogo (sem muito código): Decorator, State, Adapter, Composite, Chain of Responsibility, Command com handler, Builder; alerta sobre o Singleton; padrões que "somem" em Python; quadro dos padrões do curso; como pesquisar. Na entrega final, o aluno escolhe um padrão do catálogo, pesquisa, implementa, testa e justifica (15% da nota, proposta). Código de referência do Decorator em `code/modulo6/bonus-decorator/`.
 
 ---
 
@@ -874,7 +874,15 @@ Repository (e Data Mapper).
 
 ↓
 
-Observer, eventos (publish/subscribe) e Decorator.
+Observer e eventos (publish/subscribe).
+
+↓
+
+Pontos de entrada (adaptadores de entrada).
+
+↓
+
+Bônus: Decorator, State, Adapter, Composite, Chain of Responsibility, Command, Builder.
 
 Nunca antecipar padrões.
 

@@ -73,4 +73,4 @@ Use o menu lateral para acessar o conteúdo de cada módulo. O curso está organ
 - [Módulo 3 — Estratégias](modulo3/index.md) — descontos, cupons e frete com o padrão Strategy
 - [Módulo 4 — Criando Objetos](modulo4/index.md) — formas de pagamento, entrega e notificações com Factory e Injeção de Dependências
 - [Módulo 5 — Organização do Sistema](modulo5/index.md) — repositórios, persistência com SQLite, casos de uso, camadas e Inversão de Dependências
-- [Módulo 6 — Eventos](modulo6/index.md) — Observer, eventos de domínio, Decorator e reações que falham; fecha com a entrega final
+- [Módulo 6 — Eventos](modulo6/index.md) — Observer, eventos de domínio, pontos de entrada (menu e REST), reações que falham e um catálogo de padrões; fecha com a entrega final

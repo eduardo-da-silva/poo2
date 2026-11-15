@@ -34,7 +34,7 @@ class Produto:
             raise ValueError("Quantidade deve ser positiva")
         if quantidade > self.quantidade_estoque:
             raise EstoqueInsuficienteError(
-                f"Estoque de {self.nome}: restam {self.quantidade_estoque}, pedido {quantidade}"
+                f"Estoque de {self.nome}: restam {self.quantidade_estoque}, solicitado {quantidade}"
             )
         self.quantidade_estoque -= quantidade
 
