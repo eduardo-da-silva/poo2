@@ -2,7 +2,7 @@
 
 > **Do objeto ao design de software**
 
-Ao longo dos cinco primeiros módulos, vários conceitos apareceram em momentos diferentes. Alguns foram apresentados diretamente; outros foram utilizados na prática antes de receberem uma definição formal.
+Ao longo dos seis módulos, vários conceitos apareceram em momentos diferentes. Alguns foram apresentados diretamente; outros foram utilizados na prática antes de receberem uma definição formal.
 
 Este mapa reúne esses conceitos em uma visão única.
 
@@ -24,6 +24,7 @@ graph TD
     POO --> PAT[6. Design Patterns]
     POO --> DEP[7. Dependências e Composição]
     POO --> ARQ[8. Organização do Sistema]
+    POO --> EVT[9. Eventos e Comportamento Transversal]
 
     FUND --> CL[Classe]
     FUND --> OB[Objeto]
@@ -72,6 +73,12 @@ graph TD
     ARQ --> UC[Casos de uso]
     ARQ --> TARQ[Teste de arquitetura]
 
+    EVT --> OBS[Observer]
+    EVT --> EVD[Evento de domínio]
+    EVT --> BAR[Barramento de eventos]
+    EVT --> DEC[Decorator]
+    EVT --> FAL[Falhas e consistência]
+
     ABS --> INT
     INT --> POL
     POL --> STR
@@ -81,6 +88,10 @@ graph TD
     DIP --> CAM
     REPO --> PERS
     CAM --> UC
+    UC --> OBS
+    OBS --> EVD
+    EVD --> BAR
+    UC --> DEC
 ```
 
 ---
@@ -200,7 +211,7 @@ SOLID não é uma coleção de Design Patterns.
 
 São **princípios de projeto** que ajudam a avaliar e orientar a estrutura do software.
 
-**Estudado principalmente:** Módulos 3 a 5, com diferentes princípios aparecendo conforme os problemas de design surgiram. O Módulo 5 fecha o **D** (Inversão de Dependências): a abstração pertence a quem a usa.
+**Estudado principalmente:** Módulos 3 a 6, com diferentes princípios aparecendo conforme os problemas de design surgiram. O Módulo 5 fecha o **D** (Inversão de Dependências): a abstração pertence a quem a usa. O Módulo 6 reforça o **SRP** (um caso de uso volta a ter uma razão para mudar) e o **OCP** (reações, log e medição entram pela montagem, sem editar o que já funciona).
 
 ---
 
@@ -307,6 +318,34 @@ O domínio não conhece ninguém. A abstração pertence a quem a usa, e os deta
 
 ---
 
+# 9. Eventos e Comportamento Transversal
+
+**Pergunta:** *Quem faz uma coisa precisa conhecer quem reage a ela?*
+
+- Observer
+- Evento de domínio
+- Barramento de eventos (publish/subscribe)
+- Manipulador (*handler*)
+- Decorator
+- Comportamento transversal (log, tempo)
+- Comando × evento
+- Falha em reações: propagar, isolar, repetir
+- Consistência eventual e idempotência
+
+### Ideia central
+
+Quem faz anuncia o que aconteceu, no passado, sem saber quem se importa. Quem se importa assina, e é ligado numa montagem única. O que precisa acontecer *em volta* de uma operação (log, medição de tempo) embrulha a operação, sem entrar nela.
+
+| Conceito | Pergunta que responde |
+|---|---|
+| **Evento** | O que aconteceu, e que dados quem reage precisa saber? |
+| **Decorator** | O que deve acontecer em volta de toda execução, inclusive quando ela falha? |
+| **Comando × evento** | Isto é uma intenção (pode ser recusada) ou um fato (já aconteceu)? |
+
+**Estudado principalmente:** Módulo 6.
+
+---
+
 # Como os blocos se conectam
 
 Uma maneira de contar a história da disciplina é:
@@ -351,6 +390,10 @@ Uma maneira de contar a história da disciplina é:
 10. Onde os objetos vivem e quem pode conhecer quem?
         ↓
    Repositórios, camadas e Inversão de Dependências
+        ↓
+11. Quem faz precisa conhecer quem reage?
+        ↓
+   Eventos, barramento e Decorator
 ```
 
 ---
@@ -392,6 +435,13 @@ Ao revisar POO II, tente responder sem consultar o material:
 25. O que significa dizer que a abstração pertence a quem a usa?
 26. Qual a diferença entre Inversão de Dependências, Injeção de Dependências e raiz de composição?
 27. O que mudaria no sistema ao trocar o SQLite por um ORM, e o que não mudaria?
+28. Que problema o Observer resolve, e que limites a versão simples dele tem?
+29. O que diferencia um evento de domínio de uma chamada de método?
+30. Por que o nome de um evento vai no passado?
+31. Quando usar um evento, um decorator ou herança para acrescentar comportamento?
+32. Qual a diferença entre um comando e um evento?
+33. Se um manipulador de evento falha, o que deveria acontecer com o fato que o originou?
+34. Por que o pagamento e a baixa de estoque não são atômicos no nosso sistema, e o que isso significa?
 
 ---
 
@@ -404,11 +454,12 @@ Ao revisar POO II, tente responder sem consultar o material:
 | **3 — Estratégias** | Como representar comportamentos que variam? | Interfaces, contratos, polimorfismo, Strategy, Open/Closed |
 | **4 — Criando Objetos** | Como controlar criação e dependências? | Factories, Factory Method, Template Method, DI, raiz de composição |
 | **5 — Organização do Sistema** | Quem pode conhecer quem? | Repository, persistência, camadas, casos de uso, DIP, teste de arquitetura |
+| **6 — Eventos** | Quem faz precisa conhecer quem reage? | Observer, eventos de domínio, barramento, Decorator, comando × evento, falha em reações |
 
 ---
 
 ## E agora?
 
-Este mapa representa **o que foi consolidado até o final do Módulo 5**.
+Este mapa representa **o que foi consolidado até o final do Módulo 6**, o último da disciplina.
 
-Os próximos módulos podem acrescentar novos conceitos ao mapa sem apagar os anteriores. A ideia é que, ao final da disciplina, este documento seja a visão geral de tudo o que foi estudado em POO II.
+Ele é a visão geral de tudo o que foi estudado em POO II. Use-o para revisar e para preparar a [entrega final](modulo6/entrega.md).

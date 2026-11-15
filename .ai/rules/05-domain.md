@@ -1315,7 +1315,7 @@ Pedido enviado.
 
 Cupom aplicado.
 
-Esses eventos futuramente poderão justificar padrões de projeto.
+No Módulo 6, dois deles viram eventos de domínio de fato: `PedidoPago` e `PedidoDespachado` (objetos imutáveis, na camada de domínio, com nome no passado). Reagem a eles: notificação ao cliente, baixa de estoque (`Produto.dar_baixa`, que lança `EstoqueInsuficienteError`) e auditoria. Os demais eventos listados acima continuam apenas como possibilidade.
 
 ---
 

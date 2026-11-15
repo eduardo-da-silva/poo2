@@ -2,7 +2,7 @@
 
 > Documento de planejamento do Módulo 6. Consultar junto com `.ai/rules/` e
 > `.ai/plans/decisoes-pos-modulo5.md`. Descreve **o que** escrever e **em que ordem**;
-> não substitui as regras de estilo. **Status: plano para revisão, nada escrito ainda.**
+> não substitui as regras de estilo. **Status: escrito em 2026-11-14** (Caps. 20–23, snapshots em `code/modulo6/`, índice, mapa e entrega final). Prazo da entrega final em aberto (`[DATA A DEFINIR]`); pesos são sugestão.
 
 **Capítulos:** 20 a 23 (o Módulo 5 terminou no Capítulo 19)
 **Conceitos:** Observer (publisher/subscriber), eventos de domínio, Decorator, Command × evento, falha em reações
@@ -91,7 +91,7 @@ Unit of Work, framework web, ORM na prática.
 
 ## Testes (meta, a confirmar na verificação)
 
-Parte-se de 165 (fim do M5). Cap. 20 ≈ 172, Cap. 21 ≈ 184, Cap. 22 ≈ 192, Cap. 23 ≈ 198.
+Parte-se de 165 (fim do M5). **Verificado:** Cap. 20 = 191, Cap. 21 = 196, Cap. 22 = 204, Cap. 23 = 210.
 Cada capítulo com snapshot em `code/modulo6/capituloNN/` (cumulativo; o 20 parte de `code/modulo5/capitulo19/`).
 
 ## Projeto Financeiro (paralelo)
@@ -117,10 +117,21 @@ curta opcional. **A definir com o professor:** peso, formato de apresentação e
 - `docs/modulo5/entrega.md` e `docs/modulo{2,3,4}/entrega.md`: trocar "não substitui a entrega final do Módulo 7".
 - `docs/modulo6/mapa-conhecimento.md` e atualização de `docs/mapa-conceitos.md`.
 
-## Perguntas em aberto
+## Perguntas em aberto (resolvidas em 2026-11-14)
 
-1. Cap. 20 e 21 separados (Observer clássico, depois barramento) ou fundidos? O plano os separa
-   porque o Observer clássico mostra a estrutura; fundir economiza um capítulo.
-2. Decorator e comando/handler no mesmo capítulo (22) é muito? Se sim, Command vira só nota no Cap. 21.
-3. Falha em manipuladores merece capítulo próprio (23) ou fecha o 21?
-4. Formato e peso da entrega final.
+1. Caps. 20 e 21 ficaram **separados** (Observer clássico, depois barramento). A baixa de estoque nasce como observador no Cap. 20; a auditoria é a "prova" do Cap. 21 (uma reação nova só pela composição).
+2. Decorator e comando × evento ficaram **no mesmo capítulo** (22); o comando é só esboçado, sem refatorar os casos de uso.
+3. Falha em manipuladores tem **capítulo próprio** (23), que também fecha o curso com o quadro de padrões.
+4. Entrega final: pesos propostos (domínio 1,0; variações e criação 1,5; persistência e camadas 2,0; eventos e transversal 2,0; testes 1,5; documento 1,5; organização 0,5) e sugestão de valer o dobro de um checkpoint. **Prazo em aberto.**
+
+## Desvios em relação ao plano original
+
+- A baixa de estoque entrou já no Cap. 20 (como observador), e não no Cap. 21.
+- `Aplicacao` (composição) passou a expor `produtos`, `barramento` e `auditoria`, para testes e demonstrações.
+- `BarramentoEmMemoria(ao_falhar=...)`: propaga por padrão; a composição isola e registra (log + auditoria).
+- Facade foi mantido no roadmap (decisão de 2026-11-14): `ServicoPedido` é reconhecido como Facade no Cap. 15.
+
+## Pendências
+
+- Pontos fracos conhecidos, listados como exercício: nada impede vender produto sem estoque (Cap. 23, Nível 2); `DarBaixaNoEstoque` não é idempotente (Nível 3).
+- `site/` não foi regenerado por mim (o `zensical serve` do usuário reconstrói); build limpo em cópia: 11,7 s, sem avisos.

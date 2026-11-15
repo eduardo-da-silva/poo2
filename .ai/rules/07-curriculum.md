@@ -150,7 +150,7 @@ Ao final deste módulo o aluno compreenderá como objetos colaboram. O Módulo 2
 
 Checkpoint de entrega
 
-Ao final do Módulo 2 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo2/entrega.md`, sem número de capítulo), cobrindo tudo pedido do Capítulo 1 ao 7. Não substitui a entrega final do Módulo 7 — é um checkpoint formativo, avaliado, no meio do curso.
+Ao final do Módulo 2 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo2/entrega.md`, sem número de capítulo), cobrindo tudo pedido do Capítulo 1 ao 7. Não substitui a entrega final do Módulo 6 — é um checkpoint formativo, avaliado, no meio do curso.
 
 ---
 
@@ -205,7 +205,7 @@ Ao final deste módulo o aluno saberá substituir condicionais por polimorfismo 
 
 Checkpoint de entrega
 
-Ao final do Módulo 3 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo3/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 8 ao 11. Mesmo formato do checkpoint do Módulo 2 — formativo, avaliado, não substitui a entrega final do Módulo 7.
+Ao final do Módulo 3 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo3/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 8 ao 11. Mesmo formato do checkpoint do Módulo 2 — formativo, avaliado, não substitui a entrega final do Módulo 6.
 
 ---
 
@@ -256,7 +256,7 @@ Ao final deste módulo o aluno saberá isolar a criação de objetos em factorie
 
 Checkpoint de entrega
 
-Ao final do Módulo 4 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo4/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 12 ao 15. Mesmo formato dos checkpoints dos Módulos 2 e 3 — formativo, avaliado, não substitui a entrega final do Módulo 7.
+Ao final do Módulo 4 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo4/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 12 ao 15. Mesmo formato dos checkpoints dos Módulos 2 e 3 — formativo, avaliado, não substitui a entrega final do Módulo 6.
 
 ---
 
@@ -309,7 +309,7 @@ Ao final deste módulo o aluno saberá guardar objetos de domínio atrás de rep
 
 Checkpoint de entrega
 
-Ao final do Módulo 5 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo5/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 16 ao 19. Mesmo formato dos checkpoints anteriores — formativo, avaliado, não substitui a entrega final do Módulo 7.
+Ao final do Módulo 5 existe uma página de entrega intermediária do Projeto Financeiro (`docs/modulo5/entrega.md`, sem número de capítulo), cobrindo o que foi pedido do Capítulo 16 ao 19. Mesmo formato dos checkpoints anteriores — formativo, avaliado, não substitui a entrega final do Módulo 6.
 
 ---
 
@@ -318,19 +318,23 @@ Ao final do Módulo 5 existe uma página de entrega intermediária do Projeto Fi
 
 Objetivo.
 
-Reduzir acoplamento.
+Reduzir acoplamento entre quem causa um acontecimento e quem reage a ele, e acrescentar comportamento transversal sem editar o que já funciona.
+
+Este é o **último módulo** do curso. Não há Módulo 7: refatoração, SOLID e code smells foram tratados ao longo dos módulos anteriores, e a entrega final do Projeto Financeiro acontece aqui.
 
 ---
 
 Projeto
 
-Notificações.
+Baixa de estoque quando o pedido é pago.
 
-Logs.
+Auditoria de pedidos.
 
-Auditoria.
+Notificações como manipuladores.
 
-Estoque.
+Log e medição de tempo dos casos de uso.
+
+Falha em reações (propagar × isolar).
 
 ---
 
@@ -338,66 +342,39 @@ Conceitos
 
 Observer.
 
-Publisher.
+Eventos de domínio.
 
-Eventos.
+Barramento de eventos (publish/subscribe).
 
-Callbacks.
+Decorator.
 
----
+Comando × evento.
 
-Projeto Financeiro
+Consistência eventual e idempotência.
 
-Alertas.
-
-Metas.
-
-Notificações.
-
----
-
-# Módulo 7
-## Refatoração
-
-Objetivo.
-
-Mostrar a evolução completa do software.
-
----
-
-Projeto
-
-Refatorações.
-
-Melhorias.
-
-Otimizações.
-
-Testes.
-
-Documentação.
-
----
-
-Conceitos
-
-SOLID.
-
-Code Smells.
-
-Refatoração.
-
-Boas práticas.
+Padrões que "somem" em Python.
 
 ---
 
 Projeto Financeiro
 
-Entrega final.
+Alertas de meta estourada.
 
-Documentação.
+Eventos de lançamento.
 
-Apresentação.
+Log e auditoria de importações.
+
+Falha em alertas sem perder o lançamento.
+
+---
+
+Ao final deste módulo o aluno saberá anunciar fatos como eventos imutáveis, reagir a eles por manipuladores ligados na raiz de composição, acrescentar log e medição com Decorator, distinguir comando de evento, e decidir conscientemente o que fazer quando uma reação falha. Mensageria real, assíncrono, event sourcing e CQRS completo ficam fora.
+
+---
+
+Entrega final
+
+Ao final do Módulo 6 existe a página de **entrega final** do Projeto Financeiro (`docs/modulo6/entrega.md`, sem número de capítulo), cobrindo do Capítulo 1 ao 23. Diferente dos checkpoints dos Módulos 2 a 5, é avaliada pelo conjunto: código, testes, documento de decisões (padrões usados e recusados) e apresentação opcional. Pesos e prazo são propostas, a definir com o professor.
 
 ---
 

@@ -836,29 +836,45 @@ Contrato `Notificacao` / `FabricaNotificacao` sobe para a aplicação; `xfail` v
 
 ---
 
+# MÓDULO 6 — Eventos
+
+## Aula 20 — Quem precisa saber? (Observer)
+
+Baixa de estoque quando o pedido é pago (`Produto.dar_baixa`, `EstoqueInsuficienteError`). Observer clássico em `PagarPedido` (`ObservadorDePagamento`; observadores de notificação e estoque). Limites: lista por sujeito, observador preso ao sujeito, aviso sem nome, falha de um observador derruba os seguintes (teste que documenta a dívida). Projeto Financeiro: observador de meta estourada. Gancho: o aviso não diz o que aconteceu.
+
+## Aula 21 — Fatos, não ordens (eventos de domínio)
+
+`PedidoPago` e `PedidoDespachado` (imutáveis, no domínio); porta `BarramentoEventos` na aplicação e `BarramentoEmMemoria` na infraestrutura; manipuladores em `aplicacao/manipuladores/` (notificação, estoque, auditoria); `RegistroAuditoria`. A prova: uma reação nova entra só pela composição. Decisão: o caso de uso publica, depois de guardar. Gancho: log e tempo não são reações a um fato.
+
+## Aula 22 — Embrulhando comportamento (Decorator)
+
+`CasoDeUso` (Protocol), `ComLog` e `ComTempo` (relógio injetado), empilhamento e ordem; decorator × evento × herança; comando × evento (forma fiel comando + handler, apenas esboçada). Gancho: e se um manipulador falhar?
+
+## Aula 23 — Quando a reação falha
+
+Cenário Ana e Bia (última unidade). Posturas: propagar, isolar e registrar, repetir/compensar. `BarramentoEmMemoria(ao_falhar=...)`; a raiz de composição escolhe. Consistência eventual, idempotência, atomicidade. Padrões que "somem" em Python; quadro dos padrões do curso; o que ficou de fora (State, Adapter, Composite, Chain). Fecha o curso e prepara a entrega final.
+
+---
+
 # Ordem dos padrões
-
-Factory.
-
-↓
 
 Strategy.
 
 ↓
 
-Observer.
+Simple Factory, Template Method e Factory Method.
 
 ↓
 
-Repository.
+Facade e Dependency Injection.
 
 ↓
 
-Facade.
+Repository (e Data Mapper).
 
 ↓
 
-Dependency Injection.
+Observer, eventos (publish/subscribe) e Decorator.
 
 Nunca antecipar padrões.
 
