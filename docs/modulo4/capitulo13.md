@@ -110,6 +110,8 @@ class EntregaTransportadora(Entrega):
 
 `etiqueta()` fica na base porque é igual para todo mundo — muda só o `prazo_estimado()`, que cada subclasse responde do seu jeito. Mesma ideia do `confirmar()` de `Pagamento` no capítulo anterior.
 
+As classes também expõem seus dados por propriedades somente leitura (`pedido`, `modalidade`, `transportadora`), omitidas acima por serem triviais; estão no código do capítulo.
+
 ---
 
 ## O Expedidor e o factory method

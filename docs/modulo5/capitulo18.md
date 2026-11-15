@@ -174,7 +174,59 @@ class PagarPedido:
 
 O corpo é o mesmo ciclo que já conhecíamos — obter, agir, atualizar, notificar. O que mudou é **quem carrega o quê**: `PagarPedido` recebe só o que precisa para pagar. Sem expedidor.
 
-Os outros três seguem o mesmo molde:
+Os outros três seguem o mesmo molde. Em código:
+
+```python title="ecommerce/aplicacao/cadastrar_produto.py" linenums="1"
+class CadastrarProduto:
+    """Caso de uso: colocar um produto novo no catalogo."""
+
+    def __init__(self, repositorio_produto: RepositorioProduto) -> None:
+        self._repositorio_produto = repositorio_produto
+
+    def executar(
+        self, nome: str, preco: float, quantidade_estoque: int, categoria: str
+    ) -> Produto:
+        produto = Produto(nome, preco, quantidade_estoque, Categoria(categoria))
+        self._repositorio_produto.adicionar(produto)
+        return produto
+```
+
+```python title="ecommerce/aplicacao/finalizar_compra.py" linenums="1"
+class FinalizarCompra:
+    """Caso de uso: transformar o carrinho do cliente em um pedido guardado."""
+
+    def __init__(self, repositorio_pedido: RepositorioPedido) -> None:
+        self._repositorio_pedido = repositorio_pedido
+
+    def executar(self, cliente: Cliente) -> Pedido:
+        pedido = cliente.finalizar_compra()
+        self._repositorio_pedido.adicionar(pedido)
+        return pedido
+```
+
+```python title="ecommerce/aplicacao/despachar_pedido.py" linenums="1"
+class DespacharPedido:
+    """Caso de uso: enviar um pedido pago e avisar o cliente."""
+
+    def __init__(
+        self,
+        repositorio_pedido: RepositorioPedido,
+        expedidor: Expedidor,
+        servico_notificacao: ServicoNotificacaoPedido,
+    ) -> None:
+        self._repositorio_pedido = repositorio_pedido
+        self._expedidor = expedidor
+        self._servico_notificacao = servico_notificacao
+
+    def executar(self, pedido_id: int, cliente: Cliente) -> Entrega:
+        pedido = self._repositorio_pedido.obter(pedido_id)
+        entrega = self._expedidor.despachar(pedido)
+        self._repositorio_pedido.atualizar(pedido)
+        self._servico_notificacao.pedido_enviado(pedido, cliente)
+        return entrega
+```
+
+Resumindo quem coordena o quê:
 
 | Caso de uso | Colaboradores | O que coordena |
 |---|---|---|
@@ -223,7 +275,18 @@ def montar_aplicacao(caminho_banco: str = ":memory:") -> Aplicacao:
     )
 ```
 
-`Aplicacao` é só um pacote que agrupa os quatro casos de uso prontos. Quem usa o sistema (uma tela, um script, um teste) chama:
+`Aplicacao` é só um pacote que agrupa os quatro casos de uso prontos:
+
+```python title="ecommerce/composicao.py" linenums="1"
+@dataclass
+class Aplicacao:
+    cadastrar_produto: CadastrarProduto
+    finalizar_compra: FinalizarCompra
+    pagar_pedido: PagarPedido
+    despachar_pedido: DespacharPedido
+```
+
+Quem usa o sistema (uma tela, um script, um teste) recebe esse pacote e chama:
 
 ```python
 app = montar_aplicacao()

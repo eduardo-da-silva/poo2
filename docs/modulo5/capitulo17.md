@@ -140,6 +140,32 @@ Os pontos que merecem atenção:
 - `with self._conexao:` abre uma **transação**: se algo falhar no meio, nada é gravado pela metade.
 - `_reconstituir` é o ponto onde a **linha vira objeto** (veja a seguir).
 
+Além de `adicionar` e `obter`, o repositório tem `listar` e `atualizar`, no mesmo estilo (um `SELECT` de todas as linhas, e um `UPDATE` que falha se o produto nunca foi guardado):
+
+```python title="ecommerce/repositorio_produto_sqlite.py" linenums="1"
+    def listar(self) -> list[Produto]:
+        linhas = self._conexao.execute(
+            "SELECT id, nome, preco, quantidade_estoque, categoria FROM produto ORDER BY id"
+        ).fetchall()
+        return [self._reconstituir(linha) for linha in linhas]
+
+    def atualizar(self, produto: Produto) -> None:
+        with self._conexao:
+            cursor = self._conexao.execute(
+                "UPDATE produto SET nome = ?, preco = ?, quantidade_estoque = ?, categoria = ? "
+                "WHERE id = ?",
+                (
+                    produto.nome,
+                    produto.preco,
+                    produto.quantidade_estoque,
+                    produto.categoria.nome,
+                    produto.id,
+                ),
+            )
+        if cursor.rowcount == 0:
+            raise ProdutoNaoEncontradoError("Produto nunca foi adicionado")
+```
+
 ```python title="ecommerce/repositorio_produto_sqlite.py" linenums="1"
     @staticmethod
     def _reconstituir(linha: tuple) -> Produto:
@@ -269,7 +295,23 @@ E `atualizar` regrava o status e os itens:
 
 Apagar e regravar os itens é a opção mais simples e correta para o tamanho do nosso problema. Em um sistema com milhões de itens, mereceria uma estratégia diferente.
 
-Para reler, o repositório lê as linhas, monta os `ItemPedido` (buscando cada produto) e chama `Pedido.reconstituir`:
+Para reler, o `obter` busca a linha do pedido (ou falha com o erro do domínio) e o `listar` lê todas. Os dois entregam o resultado a `_reconstituir`, que é quem remonta o objeto:
+
+```python title="ecommerce/repositorio_pedido_sqlite.py" linenums="1"
+    def obter(self, id: int) -> Pedido:
+        linha = self._conexao.execute(
+            "SELECT id, status FROM pedido WHERE id = ?", (id,)
+        ).fetchone()
+        if linha is None:
+            raise PedidoNaoEncontradoError(f"Pedido {id} nao encontrado")
+        return self._reconstituir(*linha)
+
+    def listar(self) -> list[Pedido]:
+        linhas = self._conexao.execute("SELECT id, status FROM pedido ORDER BY id").fetchall()
+        return [self._reconstituir(*linha) for linha in linhas]
+```
+
+E `_reconstituir` lê as linhas dos itens, monta os `ItemPedido` (buscando cada produto) e chama `Pedido.reconstituir`:
 
 ```python title="ecommerce/repositorio_pedido_sqlite.py" linenums="1"
     def _reconstituir(self, id: int, status: str) -> Pedido:

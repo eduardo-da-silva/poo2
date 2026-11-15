@@ -214,32 +214,31 @@ class DarBaixaNoEstoque(ObservadorDePagamento):
 
 Quem decide que **estas** reações vão a **este** caso de uso é a raiz de composição:
 
-```python title="ecommerce/composicao.py" linenums="1" hl_lines="4-5"
+A função inteira, com o que mudou neste capítulo destacado: o `PagarPedido` deixa de receber a notificação, ganha os dois observadores, e o `return` passa a entregar também `produtos`:
+
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="18-21 24 27"
+def montar_aplicacao(armazenamento: str = "sqlite", caminho_banco: str = ":memory:") -> Aplicacao:
+    """Raiz de composicao: o unico lugar que conhece as tres camadas.
+
+    Escolher onde os dados ficam e uma decisao de montagem, nao de dominio.
+    """
+    if armazenamento == "memoria":
+        repositorio_produto = RepositorioProdutoMemoria()
+        repositorio_pedido = RepositorioPedidoMemoria()
+    elif armazenamento == "sqlite":
+        conexao = sqlite3.connect(caminho_banco)
+        criar_esquema(conexao)
+        repositorio_produto = RepositorioProdutoSQLite(conexao)
+        repositorio_pedido = RepositorioPedidoSQLite(conexao, repositorio_produto)
+    else:
+        raise ValueError(f"Armazenamento desconhecido: {armazenamento}")
     servico_notificacao = ServicoNotificacaoPedido(CriadorNotificacao())
 
     # Quem reage a um pagamento e decidido aqui, na montagem, e nao dentro do caso de uso.
     pagar_pedido = PagarPedido(repositorio_pedido, CriadorPagamento())
     pagar_pedido.adicionar_observador(NotificarClienteDoPagamento(servico_notificacao))
     pagar_pedido.adicionar_observador(DarBaixaNoEstoque(repositorio_produto))
-```
 
-Essas linhas fazem o trabalho de antes e dão ao sistema uma propriedade nova: **acrescentar uma reação não exige abrir o `PagarPedido`**. Para a auditoria, bastaria um observador e uma linha de `adicionar_observador`.
-
-O sistema montado sai de `montar_aplicacao()` dentro de um objeto `Aplicacao`, uma bandeja com os casos de uso. Neste capítulo ela ganha um campo novo, `produtos`, para quem precisar **consultar** o estoque sem passar por um caso de uso (os testes, e depois o ponto de entrada do Capítulo 22):
-
-```python title="ecommerce/composicao.py" linenums="1" hl_lines="3"
-@dataclass
-class Aplicacao:
-    produtos: RepositorioProduto
-    cadastrar_produto: CadastrarProduto
-    finalizar_compra: FinalizarCompra
-    pagar_pedido: PagarPedido
-    despachar_pedido: DespacharPedido
-```
-
-E o `return` da montagem entrega os casos de uso já ligados:
-
-```python title="ecommerce/composicao.py" linenums="1" hl_lines="2"
     return Aplicacao(
         produtos=repositorio_produto,
         cadastrar_produto=CadastrarProduto(repositorio_produto),
@@ -249,6 +248,20 @@ E o `return` da montagem entrega os casos de uso já ligados:
             repositorio_pedido, ExpedidorLojaCentral(), servico_notificacao
         ),
     )
+```
+
+As linhas de `adicionar_observador` fazem o trabalho de antes e dão ao sistema uma propriedade nova: **acrescentar uma reação não exige abrir o `PagarPedido`**. Para a auditoria, bastaria um observador e uma linha de `adicionar_observador`.
+
+O sistema montado sai de `montar_aplicacao()` dentro de um objeto `Aplicacao`, uma bandeja com os casos de uso (o `return` acima a preenche). Neste capítulo ela ganha um campo novo, `produtos`, para quem precisar **consultar** o estoque sem passar por um caso de uso (os testes, e depois o ponto de entrada do Capítulo 22):
+
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="3"
+@dataclass
+class Aplicacao:
+    produtos: RepositorioProduto
+    cadastrar_produto: CadastrarProduto
+    finalizar_compra: FinalizarCompra
+    pagar_pedido: PagarPedido
+    despachar_pedido: DespacharPedido
 ```
 
 O teste de ponta a ponta confere o resultado nas duas configurações de armazenamento:

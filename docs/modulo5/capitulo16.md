@@ -68,7 +68,28 @@ class Pedido:
         self._id = id
 ```
 
-O `id` começa como `None`: um pedido recém-criado ainda não foi guardado em lugar nenhum, portanto ainda não tem número. Quem o atribui é **quem guarda** o pedido — o mesmo lugar que garante que dois pedidos nunca recebam o mesmo número. O `Produto` ganha exatamente a mesma estrutura.
+O `id` começa como `None`: um pedido recém-criado ainda não foi guardado em lugar nenhum, portanto ainda não tem número. Quem o atribui é **quem guarda** o pedido — o mesmo lugar que garante que dois pedidos nunca recebam o mesmo número. O `Produto` ganha exatamente a mesma estrutura:
+
+```python title="ecommerce/produto.py" linenums="1" hl_lines="8 10-18"
+    def __init__(
+        self, nome: str, preco: float, quantidade_estoque: int, categoria: Categoria
+    ) -> None:
+        self.nome = nome
+        self.preco = preco
+        self.quantidade_estoque = quantidade_estoque
+        self.categoria = categoria
+        self._id: int | None = None
+
+    @property
+    def id(self) -> int | None:
+        return self._id
+
+    def atribuir_id(self, id: int) -> None:
+        # A identidade e definida uma unica vez, por quem guarda o produto.
+        if self._id is not None:
+            raise ValueError("Produto ja possui identidade")
+        self._id = id
+```
 
 !!! info "🏗️ Decisão de Projeto — quem decide o `id`?"
 
@@ -141,7 +162,7 @@ class RepositorioPedido(ABC):
 
 Quatro operações, todas no vocabulário do domínio. Pedir um pedido que não existe é um erro específico do domínio — `PedidoNaoEncontradoError` — e não um `KeyError` ou algo que vaze a forma como guardamos os dados.
 
-`RepositorioProduto` segue o mesmo desenho, com `ProdutoNaoEncontradoError`.
+`RepositorioProduto` segue o mesmo desenho, com `ProdutoNaoEncontradoError`: as mesmas quatro operações (`adicionar`, `obter`, `listar`, `atualizar`), trocando `Pedido` por `Produto`. Por ser uma repetição direta, o código está só em `repositorio_produto.py`, na pasta do capítulo.
 
 !!! warning "⚠️ Erro comum — um repositório que devolve linhas"
 
@@ -178,6 +199,8 @@ class RepositorioPedidoMemoria(RepositorioPedido):
             raise PedidoNaoEncontradoError("Pedido nunca foi adicionado")
         self._pedidos[pedido.id] = pedido
 ```
+
+O `RepositorioProdutoMemoria` é a mesma classe, com um dicionário de produtos (`repositorio_produto_memoria.py`, na pasta do capítulo).
 
 Quem hoje guarda os pedidos? Um `dict`. Amanhã, outra coisa — e o resto do sistema não vai perceber.
 

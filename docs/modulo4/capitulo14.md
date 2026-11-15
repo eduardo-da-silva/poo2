@@ -76,7 +76,15 @@ class CriadorNotificacao:
         raise ValueError(f"Canal de notificacao desconhecido: {canal}")
 ```
 
-`CanalNotificacao` é um enum (`EMAIL`, `SMS`). Adicionar "push" no futuro é: criar `NotificacaoPush`, adicionar um caso aqui, escrever os testes da factory. Nada mais no sistema muda.
+`CanalNotificacao` é um enum, o identificador do canal:
+
+```python title="ecommerce/canal_notificacao.py" linenums="1"
+class CanalNotificacao(Enum):
+    EMAIL = "email"
+    SMS = "sms"
+```
+
+Adicionar "push" no futuro é: criar `NotificacaoPush`, adicionar um caso aqui, escrever os testes da factory. Nada mais no sistema muda.
 
 !!! info "🏗️ Decisão de Projeto — por que não Factory Method, já que "funcionou" com entrega?"
 

@@ -295,7 +295,22 @@ Repare que o próprio nome do evento (`type(evento).__name__`) entra na linha. �
 
 ## A raiz de composição liga tudo
 
-```python title="ecommerce/composicao.py" linenums="1"
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="17-18 20-25 31-34"
+def montar_aplicacao(armazenamento: str = "sqlite", caminho_banco: str = ":memory:") -> Aplicacao:
+    """Raiz de composicao: o unico lugar que conhece as tres camadas.
+
+    Escolher onde os dados ficam e uma decisao de montagem, nao de dominio.
+    """
+    if armazenamento == "memoria":
+        repositorio_produto = RepositorioProdutoMemoria()
+        repositorio_pedido = RepositorioPedidoMemoria()
+    elif armazenamento == "sqlite":
+        conexao = sqlite3.connect(caminho_banco)
+        criar_esquema(conexao)
+        repositorio_produto = RepositorioProdutoSQLite(conexao)
+        repositorio_pedido = RepositorioPedidoSQLite(conexao, repositorio_produto)
+    else:
+        raise ValueError(f"Armazenamento desconhecido: {armazenamento}")
     servico_notificacao = ServicoNotificacaoPedido(CriadorNotificacao())
     barramento = BarramentoEmMemoria()
     auditoria = RegistroAuditoriaEmMemoria()
@@ -306,6 +321,16 @@ Repare que o próprio nome do evento (`type(evento).__name__`) entra na linha. �
     barramento.inscrever(PedidoPago, RegistrarAuditoria(auditoria))
     barramento.inscrever(PedidoDespachado, NotificarClienteDoEnvio(servico_notificacao))
     barramento.inscrever(PedidoDespachado, RegistrarAuditoria(auditoria))
+
+    return Aplicacao(
+        produtos=repositorio_produto,
+        cadastrar_produto=CadastrarProduto(repositorio_produto),
+        finalizar_compra=FinalizarCompra(repositorio_pedido),
+        pagar_pedido=PagarPedido(repositorio_pedido, CriadorPagamento(), barramento),
+        despachar_pedido=DespacharPedido(repositorio_pedido, ExpedidorLojaCentral(), barramento),
+        barramento=barramento,
+        auditoria=auditoria,
+    )
 ```
 
 A bandeja `Aplicacao`, que a montagem devolve, ganha dois campos novos: o barramento e a auditoria. Assim, quem usa o sistema (os testes agora, o ponto de entrada no próximo capítulo) pode assinar um evento novo ou ler a trilha:

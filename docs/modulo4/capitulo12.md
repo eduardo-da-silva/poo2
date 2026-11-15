@@ -126,7 +126,14 @@ class Pagamento(ABC):
 
 Duas decisões aqui merecem explicação.
 
-Primeiro, `SituacaoPagamento` é um **enum** (`PENDENTE`, `CONFIRMADO`, `RECUSADO`), não um booleano `_confirmado`. Um boleto pode ser *recusado* por vencimento — são três estados possíveis, não dois. A regra vale desde o Módulo 2: estado do domínio se representa com enum, não com flags.
+Primeiro, `SituacaoPagamento` é um **enum**, não um booleano `_confirmado`. Um boleto pode ser *recusado* por vencimento — são três estados possíveis, não dois. A regra vale desde o Módulo 2: estado do domínio se representa com enum, não com flags.
+
+```python title="ecommerce/situacao_pagamento.py" linenums="1"
+class SituacaoPagamento(Enum):
+    PENDENTE = "pendente"
+    CONFIRMADO = "confirmado"
+    RECUSADO = "recusado"
+```
 
 Segundo, `confirmar()` não é abstrato. Ele contém a parte **comum** a todas as formas — a checagem de "já confirmado" — e delega a parte que **varia** para `_processar()`, que cada forma implementa do seu jeito. Assim nenhuma subclasse repete o guard.
 
@@ -171,7 +178,7 @@ class PagamentoCartao(Pagamento):
         return SituacaoPagamento.CONFIRMADO
 ```
 
-Cada forma carrega só os dados que fazem sentido para ela, e confirma do seu jeito. `PagamentoCartao` ainda ganhou um comportamento próprio — `valor_parcela()` — que não existiria numa classe genérica.
+Cada forma carrega só os dados que fazem sentido para ela (e os expõe por propriedades somente leitura: `chave`, `linha_digitavel`, `vencimento`, `bandeira`, `parcelas`), e confirma do seu jeito. `PagamentoCartao` ainda ganhou um comportamento próprio — `valor_parcela()` — que não existiria numa classe genérica.
 
 ---
 
@@ -208,7 +215,16 @@ class CriadorPagamento:
         raise ValueError(f"Forma de pagamento desconhecida: {forma}")
 ```
 
-`FormaPagamento` é um enum (`PIX`, `BOLETO`, `CARTAO_CREDITO`) — o identificador que a factory usa para decidir. O `if/elif` **não sumiu**: ele foi para o lugar certo. A diferença é que agora existe **um único ponto** no sistema que conhece os construtores concretos, e esse ponto tem uma responsabilidade só: criar pagamento.
+`FormaPagamento` é um enum — o identificador que a factory usa para decidir:
+
+```python title="ecommerce/forma_pagamento.py" linenums="1"
+class FormaPagamento(Enum):
+    PIX = "pix"
+    BOLETO = "boleto"
+    CARTAO_CREDITO = "cartao_credito"
+```
+
+Quem pede o pagamento diz **qual** forma quer, e não precisa saber qual classe a implementa. O `if/elif` **não sumiu**: ele foi para o lugar certo. A diferença é que agora existe **um único ponto** no sistema que conhece os construtores concretos, e esse ponto tem uma responsabilidade só: criar pagamento.
 
 !!! warning "⚠️ Erro comum — a factory que faz mais do que criar"
 

@@ -174,7 +174,7 @@ O DIP é um **princípio de design** (a direção das dependências). A DI é um
 
 Com as camadas e as dependências no lugar certo, escolher onde os dados ficam deixa de ser assunto do sistema e vira assunto de quem monta o sistema. A raiz de composição ganha um parâmetro:
 
-```python title="ecommerce/composicao.py" linenums="1" hl_lines="1 7-14"
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="1 6-15"
 def montar_aplicacao(armazenamento: str = "sqlite", caminho_banco: str = ":memory:") -> Aplicacao:
     """Raiz de composicao: o unico lugar que conhece as tres camadas.
 
@@ -190,7 +190,16 @@ def montar_aplicacao(armazenamento: str = "sqlite", caminho_banco: str = ":memor
         repositorio_pedido = RepositorioPedidoSQLite(conexao, repositorio_produto)
     else:
         raise ValueError(f"Armazenamento desconhecido: {armazenamento}")
-    # ... restante igual ...
+    servico_notificacao = ServicoNotificacaoPedido(CriadorNotificacao())
+
+    return Aplicacao(
+        cadastrar_produto=CadastrarProduto(repositorio_produto),
+        finalizar_compra=FinalizarCompra(repositorio_pedido),
+        pagar_pedido=PagarPedido(repositorio_pedido, CriadorPagamento(), servico_notificacao),
+        despachar_pedido=DespacharPedido(
+            repositorio_pedido, ExpedidorLojaCentral(), servico_notificacao
+        ),
+    )
 ```
 
 E um único teste mostra que o **mesmo fluxo** de compra funciona nas duas configurações, sem tocar em caso de uso nenhum:

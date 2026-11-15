@@ -762,8 +762,11 @@ Para isso, `montar_aplicacao` ganha um parâmetro, `registrar`: uma função que
 ```python title="ecommerce/composicao.py" linenums="1"
 def _nome_de(manipulador: Manipulador) -> str:
     return getattr(manipulador, "__name__", type(manipulador).__name__)
+```
 
+E a função inteira, com o que mudou destacado. Repare nas duas partes novas: a função que **registra a falha** (no log e na auditoria) e o barramento criado com `ao_falhar=registrar_falha`. O resto é o que já vinha dos capítulos anteriores, mais as duas consultas no `return`:
 
+```python title="ecommerce/composicao.py" linenums="1" hl_lines="4 10-11 25-30 32-33 35 50-51"
 def montar_aplicacao(
     armazenamento: str = "sqlite",
     caminho_banco: str = ":memory:",
@@ -775,11 +778,19 @@ def montar_aplicacao(
     """
     if registrar is None:
         registrar = logging.getLogger("ecommerce").warning
-```
+    if armazenamento == "memoria":
+        repositorio_produto = RepositorioProdutoMemoria()
+        repositorio_pedido = RepositorioPedidoMemoria()
+    elif armazenamento == "sqlite":
+        conexao = sqlite3.connect(caminho_banco)
+        criar_esquema(conexao)
+        repositorio_produto = RepositorioProdutoSQLite(conexao)
+        repositorio_pedido = RepositorioPedidoSQLite(conexao, repositorio_produto)
+    else:
+        raise ValueError(f"Armazenamento desconhecido: {armazenamento}")
+    servico_notificacao = ServicoNotificacaoPedido(CriadorNotificacao())
+    auditoria = RegistroAuditoriaEmMemoria()
 
-Dentro de `montar_aplicacao`, a função que registra a falha e a criação do barramento ficam assim:
-
-```python title="ecommerce/composicao.py" linenums="1"
     def registrar_falha(evento: object, manipulador: Manipulador, erro: Exception) -> None:
         # O fato ja aconteceu: a falha de uma reacao nao desfaz o pagamento.
         # Fica registrada para alguem olhar depois.
@@ -791,6 +802,25 @@ Dentro de `montar_aplicacao`, a função que registra a falha e a criação do b
         registrar(mensagem)
 
     barramento = BarramentoEmMemoria(ao_falhar=registrar_falha)
+
+    # Quem reage a cada fato e decidido aqui, na montagem. Os casos de uso so anunciam.
+    barramento.inscrever(PedidoPago, NotificarClienteDoPagamento(servico_notificacao))
+    barramento.inscrever(PedidoPago, DarBaixaNoEstoque(repositorio_produto))
+    barramento.inscrever(PedidoPago, RegistrarAuditoria(auditoria))
+    barramento.inscrever(PedidoDespachado, NotificarClienteDoEnvio(servico_notificacao))
+    barramento.inscrever(PedidoDespachado, RegistrarAuditoria(auditoria))
+
+    return Aplicacao(
+        produtos=repositorio_produto,
+        cadastrar_produto=CadastrarProduto(repositorio_produto),
+        finalizar_compra=FinalizarCompra(repositorio_pedido),
+        pagar_pedido=PagarPedido(repositorio_pedido, CriadorPagamento(), barramento),
+        despachar_pedido=DespacharPedido(repositorio_pedido, ExpedidorLojaCentral(), barramento),
+        listar_produtos=ListarProdutos(repositorio_produto),
+        consultar_pedido=ConsultarPedido(repositorio_pedido),
+        barramento=barramento,
+        auditoria=auditoria,
+    )
 ```
 
 Por padrão, `registrar` escreve um *warning* no log do Python, e por isso você verá a mesma mensagem de falha aparecer no terminal, além de na auditoria.
