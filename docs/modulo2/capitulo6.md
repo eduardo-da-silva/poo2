@@ -31,7 +31,7 @@ class StatusPedido:
     ENTREGUE = "entregue"
     CANCELADO = "cancelado"
 
-    _TRANSIcoES_VALIDAS = {
+    _TRANSICOES_VALIDAS = {
         CRIADO: [PAGO, CANCELADO],
         PAGO: [ENVIADO, CANCELADO],
         ENVIADO: [ENTREGUE],
@@ -41,7 +41,7 @@ class StatusPedido:
 
     @classmethod
     def transicao_valida(cls, de: str, para: str) -> bool:
-        return para in cls._TRANSIcoES_VALIDAS.get(de, [])
+        return para in cls._TRANSICOES_VALIDAS.get(de, [])
 ```
 
 ??? question "Por que não usar um `Enum` do Python?"

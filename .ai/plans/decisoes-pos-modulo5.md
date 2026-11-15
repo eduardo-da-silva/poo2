@@ -47,9 +47,7 @@ Não cobrir os 23 padrões do GoF.
 
 ## Pendências técnicas
 
-- `code/**/status_pedido.py`: atributo `_TRANSIcoES_VALIDAS` (provável typo, "c" minúsculo). Conferir
-  se vem dos módulos anteriores antes de corrigir (afeta snapshots de vários capítulos).
+- ~~`_TRANSIcoES_VALIDAS` em `status_pedido.py`~~ **Corrigido em 2026-11-15** para `_TRANSICOES_VALIDAS` em todos os snapshots (Módulos 2 a 6) e no Cap. 6. Todas as suítes passam.
 - `site/` não foi regenerado com `mkdocs build` (mkdocs não instalado neste ambiente).
-- Rodar as suítes de `code/modulo5/capitulo16..19` (pytest não instalado no Python do sistema; os
-  números do plano — 137 / 154 / 160+1 xfail / 165 — vêm da verificação anterior).
+- ~~Rodar as suítes de `code/modulo5/capitulo16..19`~~ Rodadas em 2026-11-15 (137 / 154 / 160+1 xfail / 165), junto com as dos demais módulos.
 - `slides/avaliacao-01-revisao.html` está solto, fora do `mkdocs.yml`.
