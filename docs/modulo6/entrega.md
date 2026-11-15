@@ -12,6 +12,8 @@ Diferente dos checkpoints, aqui a pergunta não é "o que foi pedido neste módu
 - ✔ **Variações de comportamento** isoladas em contratos, com ao menos uma aplicação de Strategy (Capítulos 8 a 11)
 - ✔ **Criação** controlada por factories e dependências **injetadas**, com raiz de composição (Capítulos 12 a 15)
 - ✔ **Repositórios** em pelo menos duas implementações (memória e SQLite), **casos de uso** e **três camadas** com a regra de dependência verificada por teste (Capítulos 16 a 19)
+- ✔ **Persistência** em SQLite dos dados principais do seu domínio: ao reiniciar o programa, os dados continuam lá (Capítulos 16 e 17)
+- ✔ Um **ponto de entrada**: pode ser um cenário com dados fixos, um menu de terminal ou uma API REST (Capítulo 22)
 - ✔ **Eventos de domínio** publicados por um barramento, com pelo menos **dois manipuladores** independentes (Capítulos 20 e 21)
 - ✔ Pelo menos **um decorator** de comportamento transversal, como log ou medição de tempo (Capítulo 22)
 - ✔ Uma **decisão consciente** sobre o que acontece quando uma reação falha (Capítulo 23)
@@ -22,7 +24,7 @@ Se algum desses itens ainda não existe, volte ao capítulo correspondente antes
 
 ## O que deve ser entregue
 
-1. **Código-fonte** organizado como pacote Python, com as três camadas visíveis (`dominio/`, `aplicacao/`, `infraestrutura/`) e a raiz de composição fora delas.
+1. **Código-fonte** organizado como pacote Python, com as três camadas visíveis (`dominio/`, `aplicacao/`, `infraestrutura/`) e a raiz de composição fora delas, mais **uma interface** para usar o sistema: cenário fixo, menu de terminal ou REST. A interface fica fora das camadas internas e só chama os casos de uso. O sistema precisa **persistir** os dados principais em SQLite, e isso deve ser possível de demonstrar rodando o programa duas vezes.
 2. **Testes automatizados** (`pytest`), todos passando, cobrindo casos de sucesso e de erro. Devem incluir:
     - testes das regras de domínio (invariantes, transições);
     - uma suíte de contrato de repositório que roda contra **todas** as implementações;
@@ -35,6 +37,8 @@ Se algum desses itens ainda não existe, volte ao capítulo correspondente antes
     - Que **fatos** o seu sistema anuncia? Por que esses e não outros? Os eventos carregam objetos ou identificadores?
     - Se uma reação a um evento falha, o que acontece? Você **propaga** ou **isola**? Como a falha é vista por alguém?
     - O que no seu sistema **precisa ser atômico**? Está dentro de uma única operação?
+    - O que no seu sistema **não está persistido**? O que seria preciso persistir para ele ser completo, e em que ponto valeria usar um **ORM**?
+    - Qual interface você escolheu (cenário, menu ou REST) e por quê? O que mudaria nas camadas internas se você trocasse por outra?
     - Se o sistema passasse a usar **mensageria de verdade** (uma fila externa), quais arquivos mudariam? Quais não?
     - O que você mudaria, se começasse de novo?
 4. **Apresentação curta** (opcional, a combinar com o professor): cinco a dez minutos mostrando o caminho de um lançamento ou pedido pelo sistema, do início ao último manipulador.
@@ -52,9 +56,10 @@ Nota de 0 a 10, distribuída pelos critérios abaixo. Os pesos são uma proposta
 | Domínio e regras de negócio | 1,0 | Entidades coesas; invariantes protegidas; estados com transições válidas |
 | Variações e criação | 1,5 | Contratos para o que varia; factories; dependências injetadas; raiz de composição única |
 | Persistência e camadas | 2,0 | Repositório com contrato e mais de uma implementação; casos de uso; domínio sem import de infraestrutura; DIP |
-| Eventos e comportamento transversal | 2,0 | Eventos como fatos imutáveis; barramento; manipuladores independentes; decorator; falha tratada de forma consciente |
+| Eventos e comportamento transversal | 1,5 | Eventos como fatos imutáveis; barramento; manipuladores independentes; decorator; falha tratada de forma consciente |
 | Testes automatizados | 1,5 | Contrato rodando em todas as implementações; testes de arquitetura; publicadores e manipuladores testados separadamente |
-| Documento de decisões | 1,5 | Perguntas respondidas e justificadas; padrões usados **e recusados** com argumento |
+| Interface (ponto de entrada) | 1,0 | Funciona e é demonstrável; só chama casos de uso; fora das camadas internas; erros traduzidos para a linguagem do meio |
+| Documento de decisões | 1,0 | Perguntas respondidas e justificadas; padrões usados **e recusados** com argumento |
 | Organização e legibilidade | 0,5 | Estrutura de pacotes, nomes, sem responsabilidades misturadas |
 
 !!! note "Sugestão de peso no conjunto do curso"
