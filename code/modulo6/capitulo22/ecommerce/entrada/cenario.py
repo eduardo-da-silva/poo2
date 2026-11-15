@@ -1,7 +1,6 @@
-import argparse
 from typing import Callable
 
-from ecommerce.composicao import Aplicacao, montar_aplicacao
+from ecommerce.composicao import Aplicacao
 from ecommerce.dominio.carrinho import Carrinho
 from ecommerce.dominio.cliente import Cliente
 from ecommerce.dominio.produto import Produto
@@ -69,21 +68,3 @@ def cenario_ultima_unidade(app: Aplicacao, saida: Saida = print) -> None:
 
 
 CENARIOS = {"compra": cenario_compra, "ultima-unidade": cenario_ultima_unidade}
-
-
-def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="Roda cenarios fixos do E-Commerce.")
-    parser.add_argument("--armazenamento", choices=["memoria", "sqlite"], default="sqlite")
-    parser.add_argument("--banco", default=":memory:", help="arquivo SQLite (padrao: memoria)")
-    parser.add_argument("--cenario", choices=[*CENARIOS, "todos"], default="todos")
-    args = parser.parse_args(argv)
-
-    nomes = list(CENARIOS) if args.cenario == "todos" else [args.cenario]
-    for nome in nomes:
-        app = montar_aplicacao(args.armazenamento, args.banco)
-        CENARIOS[nome](app)
-        print()
-
-
-if __name__ == "__main__":
-    main()

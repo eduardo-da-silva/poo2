@@ -125,6 +125,30 @@ class ConsultarPedido:
 
 ---
 
+## O sistema montado: `Aplicacao`
+
+A entrada não cria casos de uso nem repositórios. Ela recebe o sistema **pronto**, entregue pela raiz de composição. Desde o Capítulo 18, `montar_aplicacao()` devolve um objeto `Aplicacao`, que é só uma bandeja com tudo o que a entrada pode usar:
+
+```python title="ecommerce/composicao.py" linenums="1"
+@dataclass
+class Aplicacao:
+    produtos: RepositorioProduto
+    cadastrar_produto: CadastrarProduto
+    finalizar_compra: FinalizarCompra
+    pagar_pedido: PagarPedido
+    despachar_pedido: DespacharPedido
+    listar_produtos: ListarProdutos
+    consultar_pedido: ConsultarPedido
+    barramento: BarramentoEventos
+    auditoria: RegistroAuditoria
+```
+
+Os casos de uso (`finalizar_compra`, `pagar_pedido`...) são o que a entrada chama. `produtos`, `barramento` e `auditoria` ficam à mão para testes e demonstrações: o cenário usa a auditoria para mostrar o que aconteceu. A montagem em si, com o `if` entre memória e SQLite, os manipuladores inscritos no barramento e o tratamento de falhas, está toda em `montar_aplicacao()`. É o único lugar que conhece as três camadas.
+
+Daqui em diante, tudo o que a entrada faz é receber um `Aplicacao` e chamar o que está nele.
+
+---
+
 ## O cenário fixo
 
 O primeiro ponto de entrada é o mais simples: um script que conta uma história, sempre a mesma, com **dados fixos**. Ele serve para demonstrar, para depurar e para ver o sistema funcionando antes de existir qualquer interface.
@@ -150,12 +174,12 @@ def cenario_compra(app: Aplicacao, saida: Saida = print) -> None:
     _mostrar_auditoria(app, saida)
 ```
 
-Repare em dois detalhes. O cenário recebe o sistema **pronto** (`app`) e não o monta: quem monta é o `main`. E ele escreve por uma função `saida`, que por padrão é `print`. Isso permite que o teste passe uma lista no lugar e confira o que seria impresso.
+Repare em dois detalhes. O cenário recebe o sistema **pronto** (`app`) e não o monta: quem monta é o `main.py`, que veremos já. E ele escreve por uma função `saida`, que por padrão é `print`. Isso permite que o teste passe uma lista no lugar e confira o que seria impresso.
 
 Para rodar:
 
 ```bash
-$ python -m ecommerce.entrada.cenario --cenario compra
+$ python main.py --cenario compra
 ```
 
 ```text
@@ -177,25 +201,6 @@ Auditoria:
 ```
 
 Tudo o que construímos nos últimos três módulos aparece nessa saída: o pedido guardado e relido, a notificação, a baixa de estoque, a trilha de auditoria. Cada linha é um caso de uso ou um manipulador de evento fazendo o seu trabalho.
-
-### A mesma história, outra montagem
-
-O `main` do cenário aceita argumentos, e é aqui que a raiz de composição mostra o seu valor:
-
-```bash
-$ python -m ecommerce.entrada.cenario --armazenamento memoria
-$ python -m ecommerce.entrada.cenario --armazenamento sqlite --banco loja.db
-```
-
-```python title="ecommerce/entrada/cenario.py" linenums="1"
-    nomes = list(CENARIOS) if args.cenario == "todos" else [args.cenario]
-    for nome in nomes:
-        app = montar_aplicacao(args.armazenamento, args.banco)
-        CENARIOS[nome](app)
-        print()
-```
-
-O cenário é o mesmo nos dois casos. Nenhuma linha dele sabe se os dados estão na memória ou em um arquivo SQLite. Quem escolhe é um argumento de linha de comando, e quem age sobre ele é a montagem.
 
 ---
 
@@ -271,19 +276,103 @@ Erro: Carrinho vazio
 
 Os casos de uso lançaram as mesmas exceções de sempre. O menu só as traduziu. Guarde esta ideia, porque ela volta na próxima seção.
 
-Para experimentar:
+O cliente é fixo (Maria) e o carrinho vive só durante a sessão. O catálogo inicial é cadastrado **somente se a loja estiver vazia**. Isso importa quando o menu roda com um arquivo SQLite: ao abrir de novo, os produtos já estão lá, e o menu não os duplica.
 
-```bash
-$ python -m ecommerce.entrada.menu
+---
+
+## Um só ponto de partida: `main.py`
+
+O cenário e o menu são duas formas de usar o sistema, e a pessoa não deveria precisar decorar dois programas. Na raiz do projeto, ao lado da pasta `ecommerce/`, fica o arquivo que **se executa**:
+
+```python title="main.py" linenums="1"
+def main(argv=None, entrada=input, saida=print) -> None:
+    parser = argparse.ArgumentParser(description="E-Commerce: cenarios fixos ou menu de terminal.")
+    parser.add_argument("modo", nargs="?", choices=["cenario", "menu"], default="cenario")
+    parser.add_argument("--armazenamento", choices=["memoria", "sqlite"], default="sqlite")
+    parser.add_argument("--banco", default=":memory:", help="arquivo SQLite (padrao: memoria)")
+    parser.add_argument("--cenario", choices=[*CENARIOS, "todos"], default="todos")
+    args = parser.parse_args(argv)
+
+    if args.modo == "menu":
+        app = montar_aplicacao(args.armazenamento, args.banco)
+        preparar_produtos(app)
+        Menu(app, entrada, saida).executar()
+        return
+
+    nomes = list(CENARIOS) if args.cenario == "todos" else [args.cenario]
+    for nome in nomes:
+        # Cada cenario recebe um sistema novo, montado do zero.
+        app = montar_aplicacao(args.armazenamento, args.banco)
+        CENARIOS[nome](app, saida)
+        saida("")
 ```
 
-O cliente é fixo (Maria) e o carrinho vive só durante a sessão. O catálogo inicial é cadastrado **somente se a loja estiver vazia**. Isso importa quando o menu roda com um arquivo SQLite: ao abrir de novo, os produtos já estão lá, e o menu não os duplica.
+Ele faz três coisas e nenhuma delas é regra de negócio: lê os argumentos, pede o sistema montado e entrega ao cenário ou ao menu. As combinações possíveis:
+
+| Comando | O que faz |
+|---|---|
+| `python main.py` | Roda **todos** os cenários, com dados fixos, em SQLite na memória |
+| `python main.py --cenario compra` | Roda só a compra do início ao fim |
+| `python main.py --cenario ultima-unidade` | Roda só a história de Ana e Bia |
+| `python main.py --armazenamento memoria` | O mesmo, com repositórios em memória |
+| `python main.py menu` | Abre o menu de terminal |
+| `python main.py menu --banco loja.db` | Abre o menu guardando os dados em um arquivo |
+| `python main.py --help` | Lista tudo isso |
+
+A saída que você viu nas seções anteriores é a de `python main.py`, sem nenhum argumento. E o argumento `--armazenamento` é a raiz de composição trabalhando à vista: o cenário é o mesmo nos dois casos, e nenhuma linha dele sabe se os dados estão na memória ou em um arquivo.
+
+Como `entrada` e `saida` também chegam por parâmetro, o próprio `main` é testável sem teclado nem tela.
+
+### Rodando duas vezes sobre o mesmo arquivo
+
+Com `--banco`, o SQLite grava em um arquivo, e dá para ver os dados sobreviverem ao fim do programa. Na primeira execução, uma pessoa digita (o que ela escreve vem depois de `Opcao:`):
+
+```bash
+$ python main.py menu --banco loja.db
+```
+
+```text
+1. Listar produtos
+...
+Opcao: 2
+Id do produto: 1
+Quantidade: 1
+1 x Notebook no carrinho.
+Opcao: 3
+Pedido 1 criado: R$ 3500.00
+Opcao: 0
+Ate logo.
+```
+
+O programa terminou. Rodando de novo, o processo é outro, mas o catálogo e o pedido continuam no arquivo:
+
+```bash
+$ python main.py menu --banco loja.db
+```
+
+```text
+Opcao: 1
+1. Notebook - R$ 3500.00 (estoque 5)
+2. Mouse - R$ 150.00 (estoque 20)
+3. Teclado - R$ 250.00 (estoque 10)
+Opcao: 6
+Id do pedido: 1
+Pedido 1: criado, 1 item(ns), R$ 3500.00
+Opcao: 0
+Ate logo.
+```
+
+O catálogo não foi duplicado (`preparar_produtos` só cadastra com a loja vazia), e o pedido 1 foi relido do banco com seus itens. Este é exatamente o fluxo que o teste `test_menu_com_arquivo_guarda_os_dados_entre_duas_execucoes` percorre, com um arquivo temporário.
+
+Mas repare no que **não** voltou: o carrinho de Maria. Ele vivia só na memória da primeira sessão. É a lacuna que a seção sobre persistência trata mais adiante.
 
 ---
 
 ## E se fosse REST, GUI ou TUI?
 
-Um menu de terminal é o ponto de entrada mais simples possível. Em muitos projetos, a interface é uma **API REST**, uma **janela** ou uma **tela de terminal mais elaborada** (uma TUI). A boa notícia é que nada em `dominio/` nem em `aplicacao/` precisaria mudar. Veja como um esboço de REST com FastAPI se pareceria. É apenas um esboço: **não está no código do capítulo, não é executado e não tem testes**.
+Tudo o que vimos até aqui **roda e tem teste**: o cenário, o menu e o `main.py` são código real. O que vem agora é diferente: é só um **esboço**, escrito para mostrar o caminho.
+
+Um menu de terminal é o ponto de entrada mais simples possível. Em muitos projetos, a interface é uma **API REST**, uma **janela** ou uma **tela de terminal mais elaborada** (uma TUI). A boa notícia é que nada em `dominio/` nem em `aplicacao/` precisaria mudar. Veja como um esboço de REST com FastAPI se pareceria. **Este, sim, não está no código do capítulo, não é executado e não tem testes.**
 
 ```python title="entrada/api.py (esboço, nao executado)" linenums="1"
 app = FastAPI()
@@ -333,7 +422,7 @@ Desde o Capítulo 17 o sistema guarda dados em SQLite. Mas guarda **apenas uma p
 | | O registro de auditoria |
 | | Os eventos |
 
-O cenário e o menu tornam essa lacuna fácil de enxergar. Reinicie o menu e o catálogo continua lá, porque os produtos estão no arquivo. Mas o cliente e o carrinho recomeçam do zero. Um pedido relido do banco volta **sem pagamento, sem entrega e sem cupom**, e a auditoria do dia anterior se perdeu.
+O `main.py menu --banco loja.db` torna essa lacuna fácil de enxergar. Reinicie o menu e o catálogo e os pedidos continuam lá, porque estão no arquivo. Mas o cliente e o carrinho recomeçam do zero. Um pedido relido do banco volta **sem pagamento, sem entrega e sem cupom**, e a auditoria do dia anterior se perdeu.
 
 !!! warning "⚠️ Isto é um recorte didático, e não um sistema completo"
 
@@ -354,7 +443,7 @@ Na entrega final, o seu Projeto Financeiro precisa persistir os dados **principa
 O `main` do cenário tem um segundo caso, que você pode rodar agora:
 
 ```bash
-$ python -m ecommerce.entrada.cenario --cenario ultima-unidade
+$ python main.py --cenario ultima-unidade
 ```
 
 É a história de **Ana e Bia**: duas pessoas colocam no carrinho o último notebook em estoque, as duas finalizam a compra, e as duas pagam. O catálogo tem uma unidade só.
@@ -476,9 +565,9 @@ def test_ao_falhar_recebe_o_evento_o_manipulador_e_o_erro() -> None: ...
 $ pytest tests/
 ```
 
-??? tip "230 testes passando"
+??? tip "234 testes passando"
 
-    Os 196 do Capítulo 21 continuam verdes. Entraram os testes das duas consultas, dos dois cenários, do menu (sessões roteirizadas, erros traduzidos, opção inválida), dos dois testes de arquitetura da camada de entrada e os de falha de reações (quatro do barramento e o de ponta a ponta, que roda com memória e com SQLite).
+    Os 196 do Capítulo 21 continuam verdes. Entraram os testes das duas consultas, dos dois cenários, do menu (sessões roteirizadas, erros traduzidos, opção inválida), do `main.py` (inclusive o que roda o menu duas vezes sobre o mesmo arquivo SQLite), dos dois testes de arquitetura da camada de entrada e os de falha de reações (quatro do barramento e o de ponta a ponta, que roda com memória e com SQLite).
 
 ### O que ainda não está resolvido
 
@@ -502,7 +591,7 @@ Três observações para fechar:
 
 ## 🧩 Aplicando ao Projeto Financeiro
 
-1. Crie um **cenário com dados fixos** para o seu sistema: algumas categorias, um punhado de lançamentos, uma meta que estoura. Ele deve imprimir o que o sistema fez.
+1. Crie um **`main.py`** para o seu projeto, e um **cenário com dados fixos**: algumas categorias, um punhado de lançamentos, uma meta que estoura. Ele deve imprimir o que o sistema fez.
 2. Crie um **ponto de entrada interativo**: um menu de terminal como o deste capítulo (ou, se preferir, um esboço de REST). A interface deve ficar fora das camadas internas e só chamar os casos de uso.
 3. Traduza as exceções do seu sistema para mensagens na linguagem da interface que você escolheu.
 4. Provoque uma falha: faça o alerta de meta estourada lançar uma exceção. O que acontece hoje com o registro do lançamento? Escolha uma postura (propagar ou isolar) e **justifique por escrito**. Se isolar, onde o erro fica registrado e quem vai olhar?
@@ -516,7 +605,7 @@ Documente: o que a interface precisou saber que os casos de uso não sabiam? Voc
 
 **Nível 1.** Acrescente a opção "Cancelar pedido" ao menu. Isso exige um caso de uso novo. Em que camada ele fica, e em que camada fica a mudança no menu? Quantos arquivos você tocou?
 
-**Nível 2.** Rode o cenário duas vezes com `--armazenamento sqlite --banco loja.db`. O que acontece com o catálogo? Por quê? E o que o menu faz de diferente para evitar o mesmo problema?
+**Nível 2.** Rode `python main.py --banco loja.db` duas vezes seguidas. O que acontece com o catálogo? Por quê? E o que o `menu` faz de diferente para evitar o mesmo problema?
 
 **Nível 3.** Corrija a causa do problema da Bia: faça `FinalizarCompra` recusar um pedido cujo item excede o estoque (lançando `EstoqueInsuficienteError`). O que acontece com duas pessoas que finalizam a compra da **última unidade** antes de qualquer pagamento? A verificação na compra resolve esse caso? Se não, o que seria necessário (uma reserva)?
 
@@ -531,6 +620,7 @@ Documente: o que a interface precisou saber que os casos de uso não sabiam? Voc
 - `entrada/` é uma quarta camada: importa domínio, aplicação e a raiz de composição, nunca a infraestrutura; ninguém importa a entrada
 - **Consultar** também é um caso de uso (`ListarProdutos`, `ConsultarPedido`)
 - O **cenário** tem dados fixos e serve para demonstrar; o **menu** deixa a pessoa conduzir, com `entrada` e `saida` injetadas, o que o torna testável
+- O **`main.py`** é o único arquivo que se executa: lê os argumentos, pede o sistema montado e entrega ao cenário ou ao menu
 - A entrada é a fronteira: é nela que as **exceções viram mensagens** na linguagem da interface
 - Um esboço de REST mostra quatro pontos de contato: quem é o cliente, serializar a resposta, exceção em status HTTP, conexão e *threads*
 - Persistimos **apenas uma parte** dos dados; um sistema real persistiria tudo, e com muitas classes um **ORM** começa a compensar
@@ -540,8 +630,9 @@ Documente: o que a interface precisou saber que os casos de uso não sabiam? Voc
 
 ## O que mudou no sistema
 
-- ✔ O sistema tem pontos de entrada: um cenário com dados fixos e um menu de terminal
+- ✔ O sistema tem pontos de entrada, e `python main.py` roda tudo: cenários com dados fixos ou um menu de terminal
 - ✔ Escolher memória ou SQLite é um argumento de linha de comando, e a entrada não conhece a infraestrutura
+- ✔ Com um arquivo SQLite, produtos e pedidos sobrevivem entre duas execuções do programa
 - ✔ A regra de dependência cobre a quarta camada, verificada por testes
 - ✔ A falha de uma reação não derruba as outras nem faz o pagamento parecer ter falhado; ela fica registrada
 - ❌ Só uma parte dos dados é persistida: `Cliente`, `Carrinho`, `Pagamento`, `Entrega`, `Cupom` e a auditoria somem ao reiniciar

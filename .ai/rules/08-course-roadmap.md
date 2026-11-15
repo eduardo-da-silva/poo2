@@ -848,7 +848,7 @@ Baixa de estoque quando o pedido é pago (`Produto.dar_baixa`, `EstoqueInsuficie
 
 ## Aula 22 — Colocando o sistema para rodar (pontos de entrada)
 
-Quarta camada `entrada/` (importa domínio, aplicação e composição; nunca infraestrutura). `cenario.py` (dados fixos, `--armazenamento`, `--banco`, `--cenario`) e `menu.py` (terminal, `entrada` e `saida` injetadas, exceções traduzidas). Consultas como casos de uso (`ListarProdutos`, `ConsultarPedido`). Esboço de REST (texto, não executado) com quatro pontos de contato. Seção explícita: só uma parte dos dados é persistida; um sistema real persistiria tudo e um ORM começaria a compensar. Cenário da última unidade (Ana e Bia): falha em reação, três posturas, `BarramentoEmMemoria(ao_falhar=...)`, consistência eventual, idempotência. Gancho: padrões que ficaram de fora (bônus).
+Quarta camada `entrada/` (importa domínio, aplicação e composição; nunca infraestrutura). `cenario.py` (dados fixos) e `menu.py` (terminal, `entrada` e `saida` injetadas, exceções traduzidas), ambos acionados por um único `main.py` na raiz (`python main.py [cenario|menu] --armazenamento --banco --cenario`). Consultas como casos de uso (`ListarProdutos`, `ConsultarPedido`). Esboço de REST (texto, não executado) com quatro pontos de contato. Seção explícita: só uma parte dos dados é persistida; um sistema real persistiria tudo e um ORM começaria a compensar. Cenário da última unidade (Ana e Bia): falha em reação, três posturas, `BarramentoEmMemoria(ao_falhar=...)`, consistência eventual, idempotência. Gancho: padrões que ficaram de fora (bônus).
 
 ## Aula 23 — Bônus: padrões que ficaram de fora
 

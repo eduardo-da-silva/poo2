@@ -1,7 +1,6 @@
-import argparse
 from typing import Callable
 
-from ecommerce.composicao import Aplicacao, montar_aplicacao
+from ecommerce.composicao import Aplicacao
 from ecommerce.dominio.carrinho import Carrinho
 from ecommerce.dominio.cliente import Cliente
 from ecommerce.dominio.repositorio_pedido import PedidoNaoEncontradoError
@@ -128,18 +127,3 @@ def preparar_produtos(app: Aplicacao) -> None:
     app.cadastrar_produto.executar("Notebook", 3500.0, 5, "Informática")
     app.cadastrar_produto.executar("Mouse", 150.0, 20, "Informática")
     app.cadastrar_produto.executar("Teclado", 250.0, 10, "Informática")
-
-
-def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="Menu de terminal do E-Commerce.")
-    parser.add_argument("--armazenamento", choices=["memoria", "sqlite"], default="sqlite")
-    parser.add_argument("--banco", default=":memory:", help="arquivo SQLite (padrao: memoria)")
-    args = parser.parse_args(argv)
-
-    app = montar_aplicacao(args.armazenamento, args.banco)
-    preparar_produtos(app)
-    Menu(app).executar()
-
-
-if __name__ == "__main__":
-    main()

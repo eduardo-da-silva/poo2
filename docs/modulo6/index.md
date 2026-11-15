@@ -37,7 +37,7 @@ Ao final há a [entrega final](entrega.md) do Projeto Financeiro, com persistên
 
 !!! tip "Código do módulo"
 
-    O código de cada capítulo está em `code/modulo6/capituloNN/`, cumulativo: cada pasta começa de onde a anterior terminou, e o Capítulo 20 parte do código do Capítulo 19. Para rodar os testes de um capítulo, entre na pasta e execute `pytest`. O Capítulo 22 tem também dois programas: `python -m ecommerce.entrada.cenario` e `python -m ecommerce.entrada.menu`.
+    O código de cada capítulo está em `code/modulo6/capituloNN/`, cumulativo: cada pasta começa de onde a anterior terminou, e o Capítulo 20 parte do código do Capítulo 19. Para rodar os testes de um capítulo, entre na pasta e execute `pytest`. O Capítulo 22 tem também um programa: na pasta do capítulo, `python main.py` roda os cenários e `python main.py menu` abre o menu de terminal.
 
 ---
 

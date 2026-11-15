@@ -24,7 +24,7 @@ Se algum desses itens ainda não existe, volte ao capítulo correspondente antes
 
 ## O que deve ser entregue
 
-1. **Código-fonte** organizado como pacote Python, com as três camadas visíveis (`dominio/`, `aplicacao/`, `infraestrutura/`) e a raiz de composição fora delas, mais **uma interface** para usar o sistema: cenário fixo, menu de terminal ou REST. A interface fica fora das camadas internas e só chama os casos de uso. O sistema precisa **persistir** os dados principais em SQLite, e isso deve ser possível de demonstrar rodando o programa duas vezes.
+1. **Código-fonte** organizado como pacote Python, com as três camadas visíveis (`dominio/`, `aplicacao/`, `infraestrutura/`) e a raiz de composição fora delas, mais **uma interface** para usar o sistema: cenário fixo, menu de terminal ou REST. Deve existir um `main.py` na raiz, de modo que `python main.py` (com os argumentos que você precisar) rode o sistema. A interface fica fora das camadas internas e só chama os casos de uso. O sistema precisa **persistir** os dados principais em SQLite, e isso deve ser possível de demonstrar rodando o programa duas vezes.
 2. **Testes automatizados** (`pytest`), todos passando, cobrindo casos de sucesso e de erro. Devem incluir:
     - testes das regras de domínio (invariantes, transições);
     - uma suíte de contrato de repositório que roda contra **todas** as implementações;

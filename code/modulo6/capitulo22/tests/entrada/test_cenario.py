@@ -1,7 +1,7 @@
 import pytest
 
 from ecommerce.composicao import montar_aplicacao
-from ecommerce.entrada.cenario import cenario_compra, cenario_ultima_unidade, main
+from ecommerce.entrada.cenario import cenario_compra, cenario_ultima_unidade
 
 
 @pytest.mark.parametrize("armazenamento", ["memoria", "sqlite"])
@@ -27,13 +27,3 @@ def test_cenario_ultima_unidade_mostra_a_falha_sem_derrubar_o_pagamento(
     assert "Pedido de Bia: pago" in linhas
     assert "  Notebook: 0" in linhas
     assert any(linha.startswith("  FALHA: DarBaixaNoEstoque") for linha in linhas)
-
-
-def test_main_roda_todos_os_cenarios(capsys: pytest.CaptureFixture[str]) -> None:
-    main(["--armazenamento", "memoria", "--cenario", "compra"])
-    assert "Cenario 1" in capsys.readouterr().out
-
-
-def test_main_recusa_armazenamento_desconhecido() -> None:
-    with pytest.raises(SystemExit):
-        main(["--armazenamento", "nuvem"])

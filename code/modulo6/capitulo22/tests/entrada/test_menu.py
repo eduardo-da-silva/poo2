@@ -2,16 +2,7 @@ import pytest
 
 from ecommerce.composicao import montar_aplicacao
 from ecommerce.entrada.menu import Menu, preparar_produtos
-
-
-class Roteiro:
-    """Uma sessao de terminal escrita de antemao: cada chamada devolve a proxima resposta."""
-
-    def __init__(self, *respostas: str) -> None:
-        self._respostas = iter([*respostas, "0"])
-
-    def __call__(self, pergunta: str) -> str:
-        return next(self._respostas)
+from tests.entrada.roteiro import Roteiro
 
 
 def _rodar(app, *respostas: str) -> list[str]:

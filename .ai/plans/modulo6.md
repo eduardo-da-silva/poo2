@@ -2,7 +2,7 @@
 
 > Documento de planejamento do Módulo 6. Consultar junto com `.ai/rules/` e
 > `.ai/plans/decisoes-pos-modulo5.md`. Descreve **o que** escrever e **em que ordem**;
-> não substitui as regras de estilo. **Status (2026-11-15): escrito.** Caps. 20–23 e snapshots em `code/modulo6/` (191 / 196 / 230 testes; `bonus-decorator` 204). A estrutura final difere do plano original (ver "Estrutura final" logo abaixo); as seções "Cap. 22" e "Cap. 23" mais adiante descrevem o plano **antigo** (Decorator e falhas como capítulos) e estão superadas.
+> não substitui as regras de estilo. **Status (2026-11-15): escrito.** Caps. 20–23 e snapshots em `code/modulo6/` (191 / 196 / 234 testes; `bonus-decorator` 204). A estrutura final difere do plano original (ver "Estrutura final" logo abaixo); as seções "Cap. 22" e "Cap. 23" mais adiante descrevem o plano **antigo** (Decorator e falhas como capítulos) e estão superadas.
 
 **Capítulos:** 20 a 23 (o Módulo 5 terminou no Capítulo 19)
 **Conceitos:** Observer (publisher/subscriber), eventos de domínio, Decorator, Command × evento, falha em reações
@@ -23,7 +23,7 @@ Decidida com o professor depois de rever o plano: o módulo **termina no `main`*
 - O antigo capítulo de **Decorator** virou um bloco do bônus; o código testado ficou como referência opcional em `code/modulo6/bonus-decorator/` (parte de `capitulo21`, 204 testes).
 - O antigo capítulo de **falhas** virou a última seção do Cap. 22.
 - **Entrega final:** exige persistência em SQLite, uma interface (cenário, menu ou REST) e **um padrão do catálogo do bônus** (15% da nota, 1,5 ponto, proposta). Pesos: domínio 0,5; variações e criação 1,0; persistência e camadas 1,5; eventos 1,5; testes 1,5; interface 1,0; padrão do bônus 1,5; documento 1,0; organização 0,5. Prazo em aberto.
-- **Testes verificados:** Cap. 20 = 191, Cap. 21 = 196, Cap. 22 = 230.
+- **Testes verificados:** Cap. 20 = 191, Cap. 21 = 196, Cap. 22 = 234.
 
 ## Histórico: revisão de 2026-11-15 (plano antes da decisão final)
 
